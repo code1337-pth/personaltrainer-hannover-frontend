@@ -3,6 +3,16 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --font-montserrat: 'Montserrat', sans-serif;
+  --font-open-sans: 'Open Sans', sans-serif;
+}
+
+.font-heading {
+  font-family: var(--font-montserrat);
+}
+
+.font-body {
+  font-family: var(--font-open-sans);
 }
 
 @theme inline {
