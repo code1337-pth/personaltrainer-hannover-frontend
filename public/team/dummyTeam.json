@@ -1,0 +1,12 @@
+[
+    { "src": "/team/markus.jpg", "alt": "Markus", "name": "Markus", "role": "Personal Training, Schmerztherapie" },
+    { "src": "/team/nicole.jpg", "alt": "Nicole", "name": "Nicole", "role": "Personal Training, Physiotherapie, Schmerztherapie" },
+    { "src": "/team/sonja.jpg", "alt": "Sonja", "name": "Sonja", "role": "Personal Training, Firmenfitness" },
+    { "src": "/team/christine.jpg", "alt": "Christine", "name": "Christine", "role": "Personal Training, Firmenfitness" },
+    { "src": "/team/stella.jpg", "alt": "Stella", "name": "Stella", "role": "Personal Training, Firmenfitness" },
+    { "src": "/team/jordan.jpg", "alt": "Jordan", "name": "Jordan", "role": "Personal Training" },
+    { "src": "/team/petra.jpg", "alt": "Petra", "name": "Petra", "role": "Firmenfitness, Organisation" },
+    { "src": "/team/elisabeth.jpg", "alt": "Elisabeth", "name": "Elisabeth", "role": "Personal Training für Triathlon" },
+    { "src": "/team/sandra.jpg", "alt": "Sandra", "name": "Sandra", "role": "Personal Training, Mama Workout" }
+  ]
+  

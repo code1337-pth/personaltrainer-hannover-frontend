@@ -6,6 +6,9 @@ import HeroSection from "./components/HeroSection";
 import TeamSection from "./components/TeamSection";
 import Footer from "./components/Footer";
 import { JSX } from "react";
+import ReviewsSection from "./components/ReviewsSection";
+import SealsSection from "./components/SealsSection";
+import ServicesSection from "./components/ServicesSection";
 
 const openSans = Open_Sans({
   subsets: ["latin"],
@@ -20,6 +23,9 @@ export default function Home(): JSX.Element {
         <Header />
         <HeroSection />
         <TeamSection />
+        <ReviewsSection />
+        <SealsSection />
+        <ServicesSection />
         <Footer />
       </main>
     </div>
