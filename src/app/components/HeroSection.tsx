@@ -1,5 +1,6 @@
 // components/HeroSection.tsx
 import { Montserrat } from "next/font/google";
+import { JSX } from "react";
 
 const montserrat = Montserrat({
   subsets: ["latin"],

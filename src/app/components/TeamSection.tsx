@@ -29,7 +29,7 @@ export default function TeamSection() {
   }, []);
 
   return (
-    <section id="team" className="container mx-auto px-6 py-16 text-center">
+    <section id="team" className="container-lg text-lg mx-auto px-6 py-12 text-center">
       <h2 className={`${montserrat.className} text-4xl font-bold text-gold`}>
         Unser Team
       </h2>

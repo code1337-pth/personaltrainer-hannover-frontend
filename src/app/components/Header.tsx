@@ -39,7 +39,7 @@ export default function Header(): JSX.Element {
             <h1
               className={`${montserrat.className} text-lg sm:text-xl md:text-1xl font-semibold text-black uppercase text-center`}
             >
-              Premium Personal Training Team
+              Premium Personal Training + Team
             </h1>
             <div className="flex items-center justify-center space-x-2 mt-2">
               <Star size={20} className="text-gold" fill="currentColor" stroke="none" />

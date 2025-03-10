@@ -9,6 +9,7 @@ import "swiper/css/pagination";
 import { Montserrat } from "next/font/google";
 import { Star, ChevronLeft, ChevronRight, Quote } from "lucide-react";
 import { Navigation, Pagination } from "swiper/modules";
+import SealsSection from "./SealsSection";
 
 const montserrat = Montserrat({
   subsets: ["latin"],

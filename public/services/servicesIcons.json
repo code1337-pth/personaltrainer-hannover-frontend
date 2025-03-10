@@ -1,0 +1,29 @@
+{
+  "servicesIcons": [
+    {
+      "title": "Personal Training",
+      "description": "Individuelles Training und Coaching für Ihre Fitness.",
+      "icon": "Dumbbell"
+    },
+    {
+      "title": "Rehabilitation & Therapie",
+      "description": "Therapie- und Reha-Programme zur Schmerzlinderung und Mobilitätsverbesserung.",
+      "icon": "LifeBuoy"
+    },
+    {
+      "title": "Ernährungsberatung",
+      "description": "Individuelle Ernährungspläne für ein gesundes Leben.",
+      "icon": "Apple"
+    },
+    {
+      "title": "Gruppentraining",
+      "description": "Motivierendes Training in der Gruppe für mehr Erfolg.",
+      "icon": "Users"
+    },
+    {
+      "title": "Firmenfitness",
+      "description": "Maßgeschneiderte Fitnessprogramme für Unternehmen.",
+      "icon": "Building"
+    }
+  ]
+}

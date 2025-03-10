@@ -1,0 +1,30 @@
+[
+  {
+    "title": "Qualitätssiegel 2024",
+    "src": "/seals/personal-fitness-kundenbewertungen.webp",
+    "link_url": "https://www.example.org",
+    "width": 150,
+    "height": 150
+  },
+  {
+    "title": "Personal Fitness Award 2023",
+    "src": "/seals/bundesverband-personal-training-logo.jpg",
+    "link_url": "https://www.personalfitness.de",
+    "width": 150,
+    "height": 150
+  },
+  {
+    "title": "Kundenzufriedenheitssiegel 2025",
+    "src": "/seals/google-bewertungen.png",
+    "link_url": "https://www.example.com",
+    "width": 150,
+    "height": 150
+  },
+  {
+    "title": "Qualitätssiegel 2024",
+    "src": "/seals/kundenzufriedenheit-20-jahre-siegel.jpg",
+    "link_url": "https://www.example.org",
+    "width": 150,
+    "height": 150
+  }
+]
