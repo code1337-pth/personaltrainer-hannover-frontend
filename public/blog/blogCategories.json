@@ -1,0 +1,20 @@
+{
+    "categories": [
+      {
+        "name": "Fitness",
+        "image_url": "/blog-images/fitness.jpg",
+        "description": "Trainingspläne, Workouts und Tipps für deine Fitness."
+      },
+      {
+        "name": "Ernährung",
+        "image_url": "/blog-images/ernaehrung.jpg",
+        "description": "Alles rund um gesunde Ernährung und Rezepte."
+      },
+      {
+        "name": "Mentaltraining",
+        "image_url": "/blog-images/mentaltraining.jpg",
+        "description": "Mentale Stärke, Motivation und Mindset."
+      }
+    ]
+  }
+  

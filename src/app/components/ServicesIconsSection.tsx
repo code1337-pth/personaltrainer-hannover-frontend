@@ -1,14 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Montserrat } from "next/font/google";
 import { Dumbbell, LifeBuoy, Apple, Users, Building } from "lucide-react";
-
-const montserrat = Montserrat({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-  variable: "--font-montserrat",
-});
 
 type ServiceIcon = {
   title: string;
@@ -38,12 +31,12 @@ export default function ServicesIconsSection() {
   };
 
   return (
-    <section className="py-12 bg-white text-center">
+    <section className="py-12 text-center">
       <div className="container mx-auto px-6">
-        <h2 className={`${montserrat.className} text-4xl font-bold text-gold mb-4`}>
+        <h2 className={`text-4xl font-bold mb-4`}>
           Unsere Leistungen
         </h2>
-        <p className="text-gray-600 max-w-xl mx-auto mb-12">
+        <p className="max-w-xl mx-auto mb-12">
           Entdecken Sie unser Angebot – von Personal Training über Ernährungsberatung bis zu Firmenfitness.
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8">
@@ -52,15 +45,15 @@ export default function ServicesIconsSection() {
             return (
               <div key={index} className="flex flex-col items-center">
                 {/* Kreisförmiger Icon-Hintergrund mit fixen Maßen */}
-                <div className="w-20 h-20 flex items-center justify-center bg-sky-100 rounded-full mb-6">
+                <div className="w-30 h-30 flex items-center justify-center rounded-full mb-6">
                   {IconComponent ? (
-                    <IconComponent size={40} className="text-gold" />
+                    <IconComponent size={85} className="text-gold" />
                   ) : null}
                 </div>
-                <h3 className="text-xl font-semibold text-black mb-2">
+                <h3 className="text-2xl font-semibold mb-2">
                   {item.title}
                 </h3>
-                <p className="text-gray-600 text-sm px-4">
+                <p className="text-base px-4">
                   {item.description}
                 </p>
               </div>

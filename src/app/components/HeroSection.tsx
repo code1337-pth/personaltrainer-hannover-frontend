@@ -1,43 +1,37 @@
 // components/HeroSection.tsx
-import { Montserrat } from "next/font/google";
-import { JSX } from "react";
 
-const montserrat = Montserrat({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-  variable: "--font-montserrat",
-});
+import { ArrowRight } from "lucide-react";
+import { JSX } from "react";
+import RotatingShape from "./RotatingShape";
+
 
 const HeroSection = (): JSX.Element => {
   return (
-    <section
-      className="relative h-[65vh] md:h-[1000px] flex items-center bg-center bg-cover bg-no-repeat mt-20"
-      style={{ backgroundImage: "url('/slider-coach.jpg')" }}
-    >
-      <div className="container relative z-10 mx-auto px-6 py-32">
-        <div className="max-w-4xl text-left">
-          <h2
-            className={`${montserrat.className} text-base sm:text-lg md:text-xl font-semibold text-black uppercase tracking-widest`}
-          >
-            Markus Kaluza - Premium Personal Training - Team
-          </h2>
-          <h2
-            className={`${montserrat.className} mt-2 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight`}
+    <section className="relative  border-b border-gray-300 bg-no-repeat bg-cover bg-top-50" style={{ backgroundImage: "var(--hero-image)"}}>
+      <div className="container mx-auto px-6 py-16 sm:py-24 md:py-32 flex flex-col md:flex-row items-center">
+        {/* RotatingShape: Auf kleinen Bildschirmen zuerst, auf größeren rechts */}
+        <div className="order-1 md:order-2 md:w-1/2 flex items-center justify-center mb-8 md:mb-0">
+          <RotatingShape />
+        </div>
+        {/* Text: Auf kleinen Bildschirmen als zweites, auf größeren links */}
+        <div className="order-2 md:order-1 md:w-1/2 mr-20">
+          <h2 className={`h2-hero`}
           >
             <span className="text-gold">Transformiere dich</span>
             <br />
-            <span className="text-black">
-              mit den Experten von Personal Trainer Hannover
-            </span>
+            <span className="black:text-white">mit unseren Experten</span>
           </h2>
-          <p className="mt-6 text-lg sm:text-xl md:text-2xl text-gray-700 max-w-xl">
-            Wir entwickeln für dich ein maßgeschneidertes Trainings- und Ernährungsprogramm, das dich deinem Ziel näherbringt – sei es Muskelaufbau, Gewichtsreduktion oder ein gesünderer Lebensstil.
+          <p className="mt-6 text-lg sm:text-xl md:text-2xl max-w-xl">
+            Wir entwickeln für dich ein maßgeschneidertes Trainings- und
+            Ernährungsprogramm, das dich deinem Ziel näherbringt – sei es
+            Muskelaufbau, Gewichtsreduktion oder ein gesünderer Lebensstil.
           </p>
-          <a
-            href="#contact"
-            className="mt-8 inline-block bg-black hover:bg-gray-800 text-white px-10 py-4 text-lg font-semibold rounded-lg shadow-md"
+          <a href="#contact" className="group action-button"
           >
-            Jetzt starten
+            <span>Jetzt starten</span>
+            <span className="ml-2 transition-transform duration-300 group-hover:translate-x-1">
+              &rarr;
+            </span>
           </a>
         </div>
       </div>

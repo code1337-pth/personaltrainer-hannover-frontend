@@ -1,27 +1,62 @@
-// components/DesktopNav.tsx
-import { Star } from "lucide-react";
-import { JSX } from "react";
+"use client";
 
-const DesktopNav = (): JSX.Element => {
+import { useEffect, useState } from "react";
+import { Star, ChevronDown, ChevronRight } from "lucide-react";
+
+type NavItem = {
+  name: string;
+  href: string;
+  children?: NavItem[];
+};
+
+const DesktopNav = () => {
+  const [navItems, setNavItems] = useState<NavItem[]>([]);
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  let timeout: NodeJS.Timeout | null = null;
+
+  useEffect(() => {
+    fetch("/nav/navigation.json")
+      .then((res) => res.json())
+      .then((data) => setNavItems(data))
+      .catch((err) => console.error("Fehler beim Laden der Navigation:", err));
+  }, []);
+
+  const handleMouseEnter = (name: string) => {
+    if (timeout) clearTimeout(timeout);
+    setOpenDropdown(name);
+  };
+
+  const handleMouseLeave = () => {
+    timeout = setTimeout(() => setOpenDropdown(null), 300); // Verzögerung von 300ms
+  };
+
   return (
     <nav className="hidden lg:flex">
-      <ul className="flex space-x-6 text-black text-lg font-semibold">
-        <li className="flex items-center space-x-2 hover:text-gray-600">
-          <a href="#about">Über uns</a>
-          <Star size={26} className="text-gold" fill="currentColor" stroke="none" />
-        </li>
-        <li className="flex items-center space-x-2 hover:text-gray-600">
-          <a href="#services">Leistungen</a>
-          <Star size={26} className="text-gold" fill="currentColor" stroke="none" />
-        </li>
-        <li className="flex items-center space-x-2 hover:text-gray-600">
-          <a href="#testimonials">Kundenstimmen</a>
-          <Star size={26} className="text-gold" fill="currentColor" stroke="none" />
-        </li>
-        <li className="flex items-center space-x-2 hover:text-gray-600">
-          <a href="#contact">Kontakt</a>
-          <Star size={26} className="text-gold" fill="currentColor" stroke="none" />
-        </li>
+      <ul className="flex space-x-6 font-semibold relative">
+        {navItems.map((item, index) => (
+          <li key={index} className="relative"
+              onMouseEnter={() => handleMouseEnter(item.name)}
+              onMouseLeave={handleMouseLeave}>
+            <div 
+              className="flex items-center space-x-2 cursor-pointer hover:text-[var(--color-gold)] transition-all duration-300">
+              <a href={item.href}>{item.name}</a>
+              {item.children && <ChevronDown size={16} className="transition-transform duration-300 group-hover:rotate-180 text-[var(--color-gold)]" />}
+            </div>
+
+            {item.children && (
+              <ul className={`absolute left-0 mt-2 bg-[var(--background)] shadow-lg rounded-lg py-2 w-48 transition-all duration-300 ease-in-out border border-[var(--border-thin-color)] ${openDropdown === item.name ? 'opacity-100 translate-y-0 visible' : 'opacity-0 translate-y-2 invisible'}`}
+                  onMouseEnter={() => handleMouseEnter(item.name)}
+                  onMouseLeave={handleMouseLeave}>
+                {item.children.map((child, i) => (
+                  <li key={i} className="px-4 py-2 flex justify-between items-center hover:bg-[var(--contact-bg-color)] transition-all duration-300 hover:text-[var(--color-gold)]">
+                    <a href={child.href} className="flex-grow">{child.name}</a>
+                    <ChevronRight size={16} className="opacity-0 transition-opacity duration-300 group-hover:opacity-100 text-[var(--color-gold)]" />
+                  </li>
+                ))}
+              </ul>
+            )}
+          </li>
+        ))}
       </ul>
     </nav>
   );

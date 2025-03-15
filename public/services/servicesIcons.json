@@ -6,11 +6,6 @@
       "icon": "Dumbbell"
     },
     {
-      "title": "Rehabilitation & Therapie",
-      "description": "Therapie- und Reha-Programme zur Schmerzlinderung und Mobilitätsverbesserung.",
-      "icon": "LifeBuoy"
-    },
-    {
       "title": "Ernährungsberatung",
       "description": "Individuelle Ernährungspläne für ein gesundes Leben.",
       "icon": "Apple"
@@ -24,6 +19,11 @@
       "title": "Firmenfitness",
       "description": "Maßgeschneiderte Fitnessprogramme für Unternehmen.",
       "icon": "Building"
+    },
+    {
+      "title": "Rehabilitation & Therapie",
+      "description": "Therapie- und Reha-Programme zur Schmerzlinderung und Mobilitätsverbesserung.",
+      "icon": "LifeBuoy"
     }
   ]
 }

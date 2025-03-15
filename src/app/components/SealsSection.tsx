@@ -23,7 +23,7 @@ export default function SealsSection() {
   }, []);
 
   return (
-    <section className="py-16 bg-white text-center" id="seals">
+    <section className="py-16 text-center" id="seals">
       <div className="container mx-auto px-6">
         {/* <h2 className="text-4xl font-bold text-gold mb-4">Unsere Auszeichnungen</h2>
         <p className="text-gray-600 mb-8 max-w-2xl mx-auto">
@@ -43,7 +43,7 @@ export default function SealsSection() {
                 Fester Container (z.B. 160×160) 
                 - flex items-center justify-center für zentrales Ausrichten
               */}
-              <div className="relative w-40 h-40 flex items-center justify-center bg-white">
+              <div className="relative w-40 h-40 flex items-center justify-center">
                 <Image
                   src={seal.src}
                   alt={seal.title}
@@ -53,7 +53,7 @@ export default function SealsSection() {
                 />
               </div>
 
-              <p className="mt-2 text-black font-semibold group-hover:text-gray-700">
+              <p className="mt-2 font-semibold">
                 {seal.title}
               </p>
             </a>

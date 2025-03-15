@@ -1,23 +1,30 @@
 "use client";
 
-export default function ContactHeroSection() {
+import PrinciplesSection from "./PrinciplesSection";
+
+interface ContactProps {
+  id?: string; // optional, da vielleicht nicht immer benötigt
+}
+
+const ContactSection: React.FC<ContactProps> = ({ id }) => {
+  // Berechne die Anzahl an Jahren seit 2001
+  const currentYear = new Date().getFullYear();
+  const experienceYears = currentYear - 2001;
+
   return (
     <section
-      className="relative h-[600px] flex items-center justify-center bg-center bg-cover bg-no-repeat"
+      id={id}
+      className="relative h-[760px] flex items-center justify-center bg-center bg-cover bg-no-repeat text-3xl"
       style={{ backgroundImage: "url('/contact.jpg')" }} // Pfad zum Bild anpassen
     >
-      {/* Optionales Overlay, damit das Formular sich abhebt */}
-      <div className="absolute inset-0 bg-black opacity-30"></div>
-
       {/* Der Formular-Container (z-index über Overlay) */}
-      <div className="relative z-10 bg-white p-8 rounded shadow max-w-lg w-full mx-4">
-        <h2 className="text-3xl font-bold mb-4 text-black">
+      <div className="relative z-10 p-8 rounded shadow max-w-lg w-full mx-4 bg-(--contact-bg-color)">
+        <h2 className="text-3xl font-bold mb-4">
           Starte dein Training jetzt
         </h2>
-        <p className="text-gray-700 mb-6">
+        <p className="mb-6">
           Sichere dir dein unverbindliches Erstgespräch – wir melden uns umgehend.
         </p>
-
         <form className="space-y-4">
           <div>
             <label className="block text-sm font-medium mb-1" htmlFor="name">
@@ -27,7 +34,7 @@ export default function ContactHeroSection() {
               id="name"
               type="text"
               placeholder="Dein Name"
-              className="w-full p-3 rounded bg-gray-100 focus:outline-none"
+              className="w-full p-3 rounded focus:outline-none"
             />
           </div>
           <div>
@@ -38,7 +45,7 @@ export default function ContactHeroSection() {
               id="phone"
               type="tel"
               placeholder="Deine Telefonnummer"
-              className="w-full p-3 rounded bg-gray-100 focus:outline-none"
+              className="w-full p-3 rounded focus:outline-none"
             />
           </div>
           <div>
@@ -49,17 +56,20 @@ export default function ContactHeroSection() {
               id="email"
               type="email"
               placeholder="Deine E-Mail"
-              className="w-full p-3 rounded bg-gray-100 focus:outline-none"
+              className="w-full p-3 rounded focus:outline-none"
             />
           </div>
           <button
             type="submit"
-            className="mt-4 w-full bg-black hover:bg-gray-800 text-white font-semibold py-3 rounded shadow"
+            className="contact-button"
           >
             Absenden
           </button>
         </form>
       </div>
+      <main className="flex h-screen items-center justify-center">
+      </main>
     </section>
   );
 }
+export default ContactSection;

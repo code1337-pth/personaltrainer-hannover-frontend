@@ -1,46 +1,101 @@
-// components/MobileNav.tsx
-import { X, Star } from "lucide-react";
+"use client";
+
+import { X, ChevronDown, ChevronUp, Star } from "lucide-react";
+import { useEffect, useState, useRef } from "react";
 
 interface MobileNavProps {
   menuOpen: boolean;
   setMenuOpen: (open: boolean) => void;
 }
 
-const MobileNav = ({ menuOpen, setMenuOpen }: MobileNavProps): JSX.Element => {
-  return (
-    <nav
-      className={`fixed inset-0 bg-white z-20 transform transition-transform duration-300 ease-in-out ${
-        menuOpen ? "translate-x-0" : "translate-x-full"
-      } lg:hidden`}
-    >
-      <button
-        className="absolute top-6 right-6 text-black"
-        onClick={() => setMenuOpen(false)}
-      >
-        <X size={32} />
-      </button>
+type NavItem = {
+  name: string;
+  href: string;
+  children?: NavItem[];
+};
 
-      <div className="flex flex-col h-full justify-center items-center">
-        <ul className="flex flex-col space-y-8 text-black text-2xl font-semibold">
-          <li onClick={() => setMenuOpen(false)} className="flex items-center space-x-2">
-            <a href="#about">Über uns</a>
-            <Star size={26} className="text-gold" fill="currentColor" stroke="none" />
-          </li>
-          <li onClick={() => setMenuOpen(false)} className="flex items-center space-x-2">
-            <a href="#services">Leistungen</a>
-            <Star size={26} className="text-gold" fill="currentColor" stroke="none" />
-          </li>
-          <li onClick={() => setMenuOpen(false)} className="flex items-center space-x-2">
-            <a href="#testimonials">Kundenstimmen</a>
-            <Star size={26} className="text-gold" fill="currentColor" stroke="none" />
-          </li>
-          <li onClick={() => setMenuOpen(false)} className="flex items-center space-x-2">
-            <a href="#contact">Kontakt</a>
-            <Star size={26} className="text-gold" fill="currentColor" stroke="none" />
-          </li>
-        </ul>
-      </div>
-    </nav>
+const MobileNav = ({ menuOpen, setMenuOpen }: MobileNavProps): JSX.Element => {
+  const [navItems, setNavItems] = useState<NavItem[]>([]);
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    fetch("/nav/navigation.json")
+      .then((res) => res.json())
+      .then((data) => setNavItems(data))
+      .catch((err) => console.error("Fehler beim Laden der Navigation:", err));
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setMenuOpen(false);
+      }
+    };
+
+    if (menuOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [menuOpen, setMenuOpen]);
+
+  if (!menuOpen) return <></>;
+
+  return (
+    <div className="fixed inset-0 z-30 flex">
+      <div
+        className="absolute inset-0 bg-black opacity-50"
+        onClick={() => setMenuOpen(false)}
+        aria-hidden="true"
+      />
+      <aside
+        ref={menuRef}
+        className="relative z-40 w-3/4 max-w-xs bg-[var(--nav-background)] h-full shadow-xl transition-transform duration-300 ease-in-out"
+        role="dialog"
+        aria-label="Mobile Navigation"
+      >
+        <div className="flex justify-end p-4">
+          <button onClick={() => setMenuOpen(false)} aria-label="Navigation schließen" className="text-[var(--foreground)] focus:outline-none">
+            <X size={28} />
+          </button>
+        </div>
+        <nav>
+          <ul className="flex flex-col space-y-4 px-4">
+            {navItems.map((item) => (
+              <li key={item.name}>
+                <div
+                  className="flex items-center justify-between text-lg font-medium cursor-pointer"
+                  onClick={() => setOpenDropdown(openDropdown === item.name ? null : item.name)}
+                >
+                  <span>{item.name}</span>
+                  {item.children ? (
+                    openDropdown === item.name ? <ChevronUp size={20} /> : <ChevronDown size={20} />
+                  ) : (
+                    <Star size={20} className="text-[var(--color-gold)]" fill="currentColor" stroke="none" />
+                  )}
+                </div>
+
+                {item.children && openDropdown === item.name && (
+                  <ul className="ml-4 mt-2 space-y-2">
+                    {item.children.map((child) => (
+                      <li key={child.name}>
+                        <a href={child.href} className="block py-2 text-[var(--tag-text-color)] hover:text-[var(--color-gold)]">
+                          {child.name}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </aside>
+    </div>
   );
 };
 

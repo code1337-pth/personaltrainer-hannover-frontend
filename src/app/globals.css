@@ -1,44 +1,153 @@
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  --background: #ffffff;
+  --background: #ffffffcc;
   --foreground: #171717;
-  --font-montserrat: 'Montserrat', sans-serif;
-  --font-open-sans: 'Open Sans', sans-serif;
+  --color-gold: #DECE58;
+  --hero-image: url('/hero.png');
+  --hero-profile-image: url('/markus-kaluza-tp.png');
+  --link-color: #171717;
+  --button-bg-color: var(--color-gold);
+  --button-text-color: #0a0a0a;
+  --border-thin-color: var(--color-gray-300);
+
+  --contact-bg-color: var(--background);
+  --contact-text-color: black;
+
+  --tag-color: var(--color-gray-200);
+  --tag-text-color: var(--foreground);
+
+  --nav-background: #fffffff8;
+
+  --swiper-pagination-bottom: -10px;
+  --swiper-navigation-color: var(--color-gold);
+
+  /* Typografische Variablen */
+  --font-size-b1: 20px;
+  --font-size-b2: 22px;
+  --font-size-b3: 26px;
+  --line-height-b1: 1.75;
+  --line-height-b2: 1.6;
+  --line-height-b3: 1.7;
+
+  /* Überschriften-Größen */
+  --h1: 60px;
+  --h2: 39px;
+  --h3: 30px;
+  --h4: 27px;
+  --h5: 23px;
+  --h6: 216px;
 }
 
-.font-heading {
-  font-family: var(--font-montserrat);
+.dark {
+  --background: #0a0a0ab4;
+  --foreground: #ededed;
+  --hero-image: url('/hero-dark.png');
+  --link-color: #ffffff;
+  --button-text-color: #212121;
+  --border-thin-color: var(--color-gray-800);
+  --contact-bg-color: var(--background);
+  --contact-text-color: white;
+  
+  --tag-color: var(--color-gray-800);
+  --tag-text-color: var(--foreground);
+
+  --nav-background: #0a0a0aec;
+
 }
 
-.font-body {
-  font-family: var(--font-open-sans);
+.h2-hero {
+  @apply mt-2 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+h2 {
+  font-size: var(--h2);
+  line-height: 1.14;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+h3 {
+  font-size: var(--h3);
+  line-height: 1.14;
+}
+h4 {
+  font-size: var(--h4);
+  line-height: 1.25;
+}
+h5 {
+  font-size: var(--h5);
+  line-height: 1.24;
+}
+h6 {
+  font-size: var(--h6);
+  line-height: 1.25;
 }
 
+
+.h1-header {
+  @apply text-base md:text-lg font-semibold uppercase text-center text-(--foreground);
+}
+
+.action-button {
+  @apply mt-8 inline-flex items-center px-10 py-4 text-lg font-semibold rounded-full shadow-md transition-colors duration-300 bg-(--button-bg-color) text-(--button-text-color);
+}
+
+.contact-button {
+  @apply mt-4 w-full font-semibold py-3 rounded bg-(--button-bg-color) text-(--button-text-color) shadow;
+}
+
+.team-member-box {
+  @apply p-6 shadow-md rounded-lg text-center border-solid border-1 border-(--border-thin-color) rounded-lg w-1206 sm:w-70 xl:w-80 duration-300 hover:-translate-y-2;
+}
+
+.section-border-b{
+  @apply border-b-5 border-gray-500 border-dotted
+}
+
+.section-border-t{
+  @apply border-t-5 border-gray-500 border-dotted
+}
+
+
+.swiper-pagination swiper-pagination-clickable swiper-pagination-bullets swiper-pagination-horizontal{
+  margin-top: 50px;
+}
+
+.swiper-pagination-bullet {
+  background-color: var(--foreground) !important;
+}
+
+.swiper-pagination-bullet-active {
+  background-color: var(--foreground) !important;
+}
+
+/* Basis-Stile für den Body */
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-size: var(--font-size-b1);
+  line-height: var(--line-height-b1);
+  font-family: var(--font-primary);
+}
+
+/* Globale Stile für Absätze */
+p {
+  font-size: var(--font-size-b2);
+  line-height: var(--line-height-b2);
 }
 
 .text-gold {
-  color: #DECE58 !important;
+  color: var(--color-gold) !important;
 }
 
 .hover\:text-gold:hover {
-  color: #DECE58 !important;
+  color: var(--color-gold) !important;
+}
+
+/* Globaler Header-Stil */
+header {
+  background: var(--background);
+  color: var(--foreground);
+  padding: 1rem rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }

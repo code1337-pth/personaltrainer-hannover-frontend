@@ -2,20 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";           // Basis-Styles
+import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-
-import { Montserrat } from "next/font/google";
-import { Star, ChevronLeft, ChevronRight, Quote } from "lucide-react";
 import { Navigation, Pagination } from "swiper/modules";
-import SealsSection from "./SealsSection";
-
-const montserrat = Montserrat({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-  variable: "--font-montserrat",
-});
+import { ChevronLeft, ChevronRight, Quote, Star } from "lucide-react";
 
 type Review = {
   author: string;
@@ -29,94 +20,62 @@ export default function ReviewsSection() {
   const [reviews, setReviews] = useState<Review[]>([]);
 
   useEffect(() => {
-    // Dummy-Daten aus /public/dev/dummyReviews.json abrufen
     fetch("/dev/google_reviews_extended.json")
       .then((res) => res.json())
       .then((data) => setReviews(data))
       .catch((error) => console.error("Error fetching reviews:", error));
   }, []);
 
-  // Sterne rendern
   const renderStars = (rating: number) => {
-    const stars = [];
-    for (let i = 0; i < rating; i++) {
-      stars.push(
-        <Star
-          key={i}
-          size={20}
-          className="text-gold"
-          fill="currentColor"
-          stroke="none"
-        />
-      );
-    }
-    return stars;
+    return Array.from({ length: rating }, (_, i) => (
+      <Star key={i} size={20} className="text-[var(--color-gold)]" fill="currentColor" stroke="none" />
+    ));
   };
 
   return (
-    <section className="py-16 bg-white text-center" id="testimonials">
+    <section className="py-16 text-center" id="testimonials">
       <div className="container mx-auto px-6">
-        <h2
-          className={`${montserrat.className} text-4xl font-bold text-gold mb-4`}
-        >
-          Was unsere Kunden sagen
-        </h2>
-        <p className="text-gray-600 mb-8 max-w-2xl mx-auto">
+        <h2 className="text-4xl font-bold mb-4">Was unsere Kunden sagen</h2>
+        <p className="mb-8 max-w-2xl mx-auto">
           Echtes Feedback von unseren zufriedenen Kundinnen und Kunden
         </p>
 
         <div className="relative">
-          {/* Swiper-Container */}
           <Swiper
+            className="m-5"
             modules={[Navigation, Pagination]}
             spaceBetween={50}
             slidesPerView={1}
             pagination={{ clickable: true }}
-            // Custom Navigation-Elemente definieren
             navigation={{
-              nextEl: ".swiper-button-next",
-              prevEl: ".swiper-button-prev",
+              nextEl: "#swiper-button-next-reviews",
+              prevEl: "#swiper-button-prev-reviews",
             }}
           >
             {reviews.map((review, idx) => (
               <SwiperSlide key={idx}>
-                <div className="max-w-3xl mx-auto p-6 bg-gray-50 shadow rounded-lg text-center flex flex-col items-center">
-                  {/* Icon (z. B. Zitat) */}
-                  <Quote size={40} className="text-gold mb-4" />
-
-                  {/* Bewertungstext */}
-                  <p className="italic text-lg text-gray-700 mb-4">
-                    "{review.review_text}"
-                  </p>
-
-                  {/* Sterne */}
-                  <div className="flex justify-center mb-4">
-                    {renderStars(review.rating)}
-                  </div>
-
-                  {/* Autor & Zeit */}
-                  <p className="text-sm text-gray-500 font-semibold">
+                <div className="max-w-3xl mx-auto p-6 shadow rounded-lg text-center flex flex-col items-center bg-[var(--background)]">
+                  <Quote size={40} className="mb-4 text-[var(--tag-text-color)]" />
+                  <p className="italic text-lg mb-4 text-[var(--tag-text-color)]">"{review.review_text}"</p>
+                  <div className="flex justify-center mb-4">{renderStars(review.rating)}</div>
+                  <p className="text-sm font-semibold text-[var(--tag-text-color)]">
                     {review.author}
-                    <span className="block text-xs text-gray-400">
-                      {review.timestamp}
-                    </span>
+                    <span className="block text-xs">{review.timestamp}</span>
                   </p>
                 </div>
               </SwiperSlide>
             ))}
           </Swiper>
 
-          {/* Navigation (Pfeile) */}
-          <div className="swiper-button-prev absolute top-1/2 left-4 -translate-y-1/2 p-2 bg-white rounded-full shadow cursor-pointer">
-            <ChevronLeft size={24} className="text-gold" />
+          <div id="swiper-button-prev-reviews" className="swiper-button-prev text-[var(--color-gold)] scale-150 absolute top-1/2 left-4 -translate-y-1/2 cursor-pointer">
+            <ChevronLeft size={24} />
           </div>
-          <div className="swiper-button-next absolute top-1/2 right-4 -translate-y-1/2 p-2 bg-white rounded-full shadow cursor-pointer">
-            <ChevronRight size={24} className="text-gold" />
+          <div id="swiper-button-next-reviews" className="swiper-button-next text-[var(--color-gold)] scale-150 absolute top-1/2 right-4 -translate-y-1/2 cursor-pointer">
+            <ChevronRight size={24} />
           </div>
         </div>
 
-        {/* Attribution / Hinweis */}
-        <p className="text-xs text-gray-400 mt-4">Bewertungen von Google</p>
+        <p className="text-xs mt-4 text-[var(--tag-text-color)]">Bewertungen von Google</p>
       </div>
     </section>
   );

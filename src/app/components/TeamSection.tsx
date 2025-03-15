@@ -2,26 +2,27 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { Montserrat } from "next/font/google";
+import { SocialIcon } from "react-social-icons";
 
-const montserrat = Montserrat({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-  variable: "--font-montserrat",
-});
+type SocialLinks = {
+  facebook?: string;
+  instagram?: string;
+  x?: string;
+  youtube?: string;
+};
 
-// Definiere den Typ für deine Team-Daten
 type TeamMember = {
   name: string;
-  role: string;
+  roles: string[]; // Rollen als Liste
   src: string;
+  alt?: string;
+  social?: SocialLinks; // Optionale Social-Media-Links
 };
 
 export default function TeamSection() {
   const [teamMembers, setTeamMembers] = useState<TeamMember[]>([]);
 
   useEffect(() => {
-    // JSON-Datei aus dem Public-Ordner abrufen
     fetch("/team/dummyTeam.json")
       .then((res) => res.json())
       .then((data) => setTeamMembers(data))
@@ -30,34 +31,47 @@ export default function TeamSection() {
 
   return (
     <section id="team" className="container-lg text-lg mx-auto px-6 py-12 text-center">
-      <h2 className={`${montserrat.className} text-4xl font-bold text-gold`}>
-        Unser Team
-      </h2>
-      <p className="mt-4 text-gray-700 max-w-2xl mx-auto">
-        Unser erfahrenes Team aus professionellen Personal Trainern steht dir
-        zur Seite, um deine individuellen Ziele zu erreichen. Wir bringen
-        langjährige Erfahrung in den Bereichen Fitness, Ernährung und Coaching
-        mit.
+      <h2 className="text-4xl font-bold">Unser Team</h2>
+      <p className="mt-4 max-w-3xl mx-auto">
+        Unser erfahrenes Team aus professionellen Personal Trainern steht dir zur Seite, um deine individuellen Ziele zu erreichen. Wir bringen langjährige Erfahrung in den Bereichen Fitness, Ernährung und Coaching mit.
       </p>
       <div className="mt-8 flex flex-wrap justify-center gap-6">
         {teamMembers.map((member, index) => (
-          <div
-            key={index}
-            className="p-6 bg-white shadow-md rounded-lg text-center w-64"
-          >
+          <div key={index} className="team-member-box">
             <Image
               src={member.src}
-              alt={member.name}
-              width={150}
-              height={150}
-              className="rounded-full mx-auto"
+              alt={member.alt || member.name}
+              width={175}
+              height={175}
+              className="rounded-full mx-auto transition-transform"
             />
-            <h3
-              className={`${montserrat.className} text-xl font-semibold text-black mt-4`}
-            >
-              {member.name}
-            </h3>
-            <p className="text-gray-600">{member.role}</p>
+            <h3 className="text-xl font-semibold mt-4">{member.name}</h3>
+            <div className="flex flex-wrap justify-center gap-2 mt-2">
+              {member.roles.map((role, idx) => (
+                <span
+                  key={idx}
+                  className="bg-(--tag-color) text-(--tag-text-color) px-2 py-1 rounded-full text-sm font-medium"
+                >
+                  {role}
+                </span>
+              ))}
+            </div>
+            {member.social && (
+              <div className="mt-4 flex justify-center gap-2">
+                {member.social.facebook && (
+                  <SocialIcon url={member.social.facebook} style={{ height: 35, width: 35 }} />
+                )}
+                {member.social.instagram && (
+                  <SocialIcon url={member.social.instagram} style={{ height: 35, width: 35 }} />
+                )}
+                {member.social.x && (
+                  <SocialIcon url={member.social.x} style={{ height: 35, width: 35 }} />
+                )}
+                {member.social.youtube && (
+                  <SocialIcon url={member.social.youtube} style={{ height: 35, width: 35 }} />
+                )}
+              </div>
+            )}
           </div>
         ))}
       </div>
