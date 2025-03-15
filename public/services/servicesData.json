@@ -1,142 +1,118 @@
 {
-  "categories": [
-    {
-      "name": "Personal Training",
-      "image_url": "/services/service-personal-training.jpg"
-    },
-    {
-      "name": "Rehabilitation & Therapie",
-      "image_url": "/services/service-rehabilitation-therapie.jpg"
-    },
-    {
-      "name": "Ernährungsberatung",
-      "image_url": "/services/service-ernaehrungsberatung.jpg"
-    },
-    {
-      "name": "Diagnostik & Therapie",
-      "image_url": "/services/service-koerperanalyse.jpg"
-    },
-    {
-      "name": "Gruppentraining",
-      "image_url": "/services/service-gruppentraining.jpg"
-    },
-    {
-      "name": "Firmenfitness",
-      "image_url": "/services/service-firmenfitness.jpg"
-    },
-    {
-      "name": "Varianten & Spezialisierungen",
-      "image_url": "/services/service-kick-boxen.jpg"
-    }
-  ],
-  "services": [
+  "title": "Unsere Dienstleistungen",
+  "description": "Wähle eine Kategorie, um unsere verschiedenen Services zu entdecken.",
+  "items": [
     {
       "category": "Personal Training",
       "name": "Personal Training",
       "description": "Individuelles Training für deine Gesundheit.",
-      "image_url": "/services/service-personal-training.jpg"
+      "image_url": "/services/service-personal-training.jpg",
+      "link": "/services/personal-training"
     },
     {
       "category": "Personal Training",
       "name": "Online Personal Training",
       "description": "Effektives Training und Coaching von überall.",
-      "image_url": "/services/service-personal-training-online.jpg"
+      "image_url": "/services/service-personal-training-online.jpg",
+      "link": "/services/online-personal-training"
     },
     {
       "category": "Personal Training",
-      "name": "Abnehmen mit Erfolgsgarantie",
-      "description": "Gezieltes Abnehmen mit Expertenbetreuung und Erfolgskonzept.",
-      "image_url": "/services/service-personal-training-abnehmen.jpg"
-    },
-    {
-      "category": "Personal Training",
-      "name": "Personal Training für Muskelaufbau",
-      "description": "Maßgeschneiderte Programme für maximalen Muskelaufbau.",
-      "image_url": "/services/service-personal-training-muskelaufbau.webp"
+      "name": "Personal Training für Gewichtsreduktion",
+      "description": "Gezieltes Abnehmen mit Expertenbetreuung",
+      "image_url": "/services/service-personal-training-abnehmen.jpg",
+      "link": "/services/abnehmen-mit-erfolgsgarantie"
     },
     {
       "category": "Rehabilitation & Therapie",
       "name": "Reha Sport Training",
       "description": "Sportliches Training zur Rehabilitation nach Verletzungen.",
-      "image_url": "/services/service-rehabilitation-therapie.jpg"
+      "image_url": "/services/service-rehabilitation-therapie.jpg",
+      "link": "/services/reha-sport-training"
     },
     {
       "category": "Rehabilitation & Therapie",
       "name": "Schmerztherapie",
       "description": "Ganzheitliche Therapieansätze zur Linderung von Schmerzen.",
-      "image_url": "/services/service-schmerztherapie.jpg"
+      "image_url": "/services/service-schmerztherapie.jpg",
+      "link": "/services/schmerztherapie"
     },
     {
       "category": "Ernährungsberatung",
       "name": "Ernährungsberatung",
       "description": "Individuelle Ernährungspläne für mehr Wohlbefinden.",
-      "image_url": "/services/service-ernaehrungsberatung.jpg"
+      "image_url": "/services/service-ernaehrungsberatung.jpg",
+      "link": "/services/ernaehrungsberatung"
     },
     {
       "category": "Diagnostik & Therapie",
       "name": "Körperanalyse",
       "description": "Präzise Analyse deines Körpers zur Optimierung deines Trainings.",
-      "image_url": "/services/service-koerperanalyse.jpg"
+      "image_url": "/services/service-koerperanalyse.jpg",
+      "link": "/services/koerperanalyse"
     },
     {
       "category": "Diagnostik & Therapie",
       "name": "Medical Flossing",
       "description": "Innovative Technik zur Mobilisierung und Schmerzlinderung.",
-      "image_url": "/services/service-medical-flossing.jpg"
+      "image_url": "/services/service-medical-flossing.jpg",
+      "link": "/services/medical-flossing"
     },
     {
       "category": "Diagnostik & Therapie",
       "name": "Functional Movement Systems",
       "description": "Bewertung und Verbesserung deiner Bewegungsmuster.",
-      "image_url": "/services/service-functional-movement-systems.jpg"
-    },
-    {
-      "category": "Diagnostik & Therapie",
-      "name": "Kinetisches Taping",
-      "description": "Unterstützung und Schmerzlinderung durch spezielles Tape.",
-      "image_url": "/services/service-kinetisches-taping.jpg"
+      "image_url": "/services/service-functional-movement-systems.jpg",
+      "link": "/services/functional-movement-systems"
     },
     {
       "category": "Gruppentraining",
       "name": "Gruppentraining",
       "description": "Motivierendes Training in der Gruppe für mehr Erfolg.",
-      "image_url": "/services/service-gruppentraining.jpg"
+      "image_url": "/services/service-gruppentraining.jpg",
+      "link": "/services/gruppentraining"
     },
     {
       "category": "Gruppentraining",
       "name": "Yoga",
       "description": "Entspannung, Flexibilität und Balance durch Yoga-Übungen.",
-      "image_url": "/services/service-gruppentraining-yoga.jpg"
+      "image_url": "/services/service-gruppentraining-yoga.jpg",
+      "link": "/services/yoga"
     },
     {
       "category": "Gruppentraining",
       "name": "Bootcamp",
       "description": "Intensives Training im Bootcamp-Stil für maximale Ergebnisse.",
-      "image_url": "/services/service-gruppentraining-bootcamp.jpg"
+      "image_url": "/services/service-gruppentraining-bootcamp.jpg",
+      "link": "/services/bootcamp"
     },
     {
       "category": "Firmenfitness",
       "name": "Firmenfitness",
       "description": "Maßgeschneiderte Fitnessprogramme für dein Unternehmen.",
-      "image_url": "/services/service-firmenfitness.jpg"
+      "image_url": "/services/service-firmenfitness.jpg",
+      "link": "/services/firmenfitness"
     },
     {
       "category": "Varianten & Spezialisierungen",
       "name": "CrossTraining",
       "description": "Abwechslungsreiches Training für alle Fitnesslevels.",
-      "image_url": "/services/service-cross-training.jpg"
+      "image_url": "/services/service-cross-training.jpg",
+      "link": "/services/cross-training"
     },
     {
       "category": "Varianten & Spezialisierungen",
       "name": "(Kick-)Boxen",
       "description": "Kampfsportliche Elemente für mehr Power und Selbstverteidigung.",
-      "image_url": "/services/service-kick-boxen.jpg"
+      "image_url": "/services/service-kick-boxen.jpg",
+      "link": "/services/kick-boxen"
     },
     {
       "category": "Varianten & Spezialisierungen",
       "name": "Herzfrequenz­gesteuertes Training",
       "description": "Trainiere basierend auf deinem individuellen Herzfrequenzbereich.",
-      "image_url": "/services/service-herzfrequenzgesteuertes-training.jpg"
+      "image_url": "/services/service-herzfrequezgesteuerteres-training.jpg",
+      "link": "/services/herzfrequenzgesteuertes-training"
     }
   ]
 }

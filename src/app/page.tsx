@@ -3,8 +3,6 @@
 import { JSX } from "react";
 import ContactSection from "./components/ContactSection";
 import ExperienceSection from "./components/ExperienceSection";
-import Footer from "./components/Footer";
-import Header from "./components/Header";
 import HeroSection from "./components/HeroSection";
 import ReviewsSection from "./components/ReviewsSection";
 import ServicesIconsSection from "./components/ServicesIconsSection";
@@ -17,7 +15,7 @@ export default function Home(): JSX.Element {
   return (
     <div >
       <main>
-        <HeroSection />
+        <HeroSection id="home" />
         <TeamSection />
         <ServicesIconsSection />
         <ContactSection id="contact" />

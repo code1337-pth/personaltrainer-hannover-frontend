@@ -1,20 +1,41 @@
 {
-    "categories": [
-      {
-        "name": "Fitness",
-        "image_url": "/blog-images/fitness.jpg",
-        "description": "Trainingspläne, Workouts und Tipps für deine Fitness."
-      },
-      {
-        "name": "Ernährung",
-        "image_url": "/blog-images/ernaehrung.jpg",
-        "description": "Alles rund um gesunde Ernährung und Rezepte."
-      },
-      {
-        "name": "Mentaltraining",
-        "image_url": "/blog-images/mentaltraining.jpg",
-        "description": "Mentale Stärke, Motivation und Mindset."
-      }
-    ]
-  }
-  
+  "title": "Blog Kategorien",
+  "description": "Entdecke spannende Artikel zu verschiedenen Gesundheitsthemen.",
+  "items": [
+    {
+      "category": "Gesundheit",
+      "name": "Gesundheit",
+      "description": "Alles rund um ein gesundes Leben, Prävention und Wohlbefinden.",
+      "image_url": "/blog/blog-gesundheit.jpg",
+      "link": "/blog/kategorie/gesundheit"
+    },
+    {
+      "category": "Abnehmen",
+      "name": "Abnehmen",
+      "description": "Effektive Strategien, Ernährungspläne und Workouts zum Abnehmen.",
+      "image_url": "/blog/blog-abnehmen.webp",
+      "link": "/blog/kategorie/abnehmen"
+    },
+    {
+      "category": "Mentale Stärke",
+      "name": "Mentale Stärke",
+      "description": "Tipps und Techniken für Motivation, Resilienz und ein starkes Mindset.",
+      "image_url": "/blog/blog-mentale-staerke.jpg",
+      "link": "/blog/kategorie/mentale-staerke"
+    },
+    {
+      "category": "Training",
+      "name": "Training",
+      "description": "Individuelle Trainingspläne, Workouts und Fitness-Tipps für jedes Level.",
+      "image_url": "/blog/blog-training.jpg",
+      "link": "/blog/kategorie/training"
+    },
+    {
+      "category": "Ernährung",
+      "name": "Ernährung",
+      "description": "Gesunde Rezepte, Ernährungsberatung und Infos zu Nährstoffen.",
+      "image_url": "/blog/blog-ernaehrung.webp",
+      "link": "/blog/kategorie/ernaehrung"
+    }
+  ]
+}

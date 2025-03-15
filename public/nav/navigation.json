@@ -1,15 +1,15 @@
 [
     {
         "name": "Home",
-        "href": "/"
+        "href": "/#home"
     },
     {
         "name": "Kontakt",
-        "href": "#contact"
+        "href": "/#contact"
     },
     {
         "name": "Leistungen",
-        "href": "#services"
+        "href": "/#services"
     },
     {
         "name": "Blog",

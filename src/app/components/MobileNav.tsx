@@ -59,7 +59,11 @@ const MobileNav = ({ menuOpen, setMenuOpen }: MobileNavProps): JSX.Element => {
         aria-label="Mobile Navigation"
       >
         <div className="flex justify-end p-4">
-          <button onClick={() => setMenuOpen(false)} aria-label="Navigation schließen" className="text-[var(--foreground)] focus:outline-none">
+          <button
+            onClick={() => setMenuOpen(false)}
+            aria-label="Navigation schließen"
+            className="text-[var(--foreground)] focus:outline-none"
+          >
             <X size={28} />
           </button>
         </div>
@@ -67,23 +71,38 @@ const MobileNav = ({ menuOpen, setMenuOpen }: MobileNavProps): JSX.Element => {
           <ul className="flex flex-col space-y-4 px-4">
             {navItems.map((item) => (
               <li key={item.name}>
-                <div
-                  className="flex items-center justify-between text-lg font-medium cursor-pointer"
-                  onClick={() => setOpenDropdown(openDropdown === item.name ? null : item.name)}
-                >
-                  <span>{item.name}</span>
+                <div className="flex items-center justify-between text-lg font-medium">
+                  {/* Link bleibt klickbar */}
+                  <a
+                    href={item.href}
+                    className="flex-1 block"
+                  >
+                    {item.name}
+                  </a>
+
+                  {/* Falls es ein Untermenü gibt, dann Icon als separater Button */}
                   {item.children ? (
-                    openDropdown === item.name ? <ChevronUp size={20} /> : <ChevronDown size={20} />
+                    <button
+                      onClick={() => setOpenDropdown(openDropdown === item.name ? null : item.name)}
+                      className="p-2"
+                      aria-label="Untermenü öffnen/schließen"
+                    >
+                      {openDropdown === item.name ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+                    </button>
                   ) : (
                     <Star size={20} className="text-[var(--color-gold)]" fill="currentColor" stroke="none" />
                   )}
                 </div>
 
+                {/* Dropdown-Menü */}
                 {item.children && openDropdown === item.name && (
                   <ul className="ml-4 mt-2 space-y-2">
                     {item.children.map((child) => (
                       <li key={child.name}>
-                        <a href={child.href} className="block py-2 text-[var(--tag-text-color)] hover:text-[var(--color-gold)]">
+                        <a
+                          href={child.href}
+                          className="block py-2 text-[var(--tag-text-color)] hover:text-[var(--color-gold)]"
+                        >
                           {child.name}
                         </a>
                       </li>

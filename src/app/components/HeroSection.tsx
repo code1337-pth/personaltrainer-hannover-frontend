@@ -1,13 +1,14 @@
 // components/HeroSection.tsx
 
-import { ArrowRight } from "lucide-react";
-import { JSX } from "react";
 import RotatingShape from "./RotatingShape";
 
+interface HeroProps {
+  id?: string; // optional, da vielleicht nicht immer benötigt
+}
 
-const HeroSection = (): JSX.Element => {
+const HeroSection: React.FC<HeroProps> = ({ id }) => {
   return (
-    <section className="relative  border-b border-gray-300 bg-no-repeat bg-cover bg-top-50" style={{ backgroundImage: "var(--hero-image)"}}>
+    <section id={id} className="relative  border-b border-gray-300 bg-no-repeat bg-cover bg-top-50" style={{ backgroundImage: "var(--hero-image)"}}>
       <div className="container mx-auto px-6 py-16 sm:py-24 md:py-32 flex flex-col md:flex-row items-center">
         {/* RotatingShape: Auf kleinen Bildschirmen zuerst, auf größeren rechts */}
         <div className="order-1 md:order-2 md:w-1/2 flex items-center justify-center mb-8 md:mb-0">

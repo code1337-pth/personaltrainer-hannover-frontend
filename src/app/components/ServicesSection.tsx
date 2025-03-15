@@ -1,15 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import CategorySlider, { CategoryItem } from "./CategorySlider";
+import CategorySlider, { Item } from "./CategorySlider";
 
 export default function ServicesSection() {
-  const [categories, setCategories] = useState<CategoryItem[]>([]);
+  const [items, setItems] = useState<Item[]>([]);
 
   useEffect(() => {
     fetch("/services/servicesData.json")
       .then((res) => res.json())
-      .then((data) => setCategories(data.categories)) // Jetzt nur die Kategorien laden
+      .then((data) => setItems(data.items)) // Jetzt "items" laden, nicht mehr "categories"
       .catch((error) => console.error("Fehler beim Laden der Services:", error));
   }, []);
 
@@ -17,7 +17,7 @@ export default function ServicesSection() {
     <CategorySlider
       title="Unsere Leistungen"
       description="Entdecken Sie unser umfangreiches Angebot, das individuell auf Ihre Fitness- und Gesundheitsziele zugeschnitten ist."
-      categories={categories}
+      items={items} // Anpassung des Props an die neue Struktur
     />
   );
 }

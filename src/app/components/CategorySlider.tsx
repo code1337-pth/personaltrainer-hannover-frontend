@@ -9,24 +9,30 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 
-// Typ für Kategorien
-export type CategoryItem = {
+// Typ für ein Item (z. B. Service oder Kategorie)
+export type Item = {
+  category: string;
   name: string;
   description?: string;
   image_url: string;
-  link?: string; // Falls du individuelle Links haben möchtest
+  link?: string;
 };
 
 interface CategorySliderProps {
   title: string;
   description: string;
-  categories: CategoryItem[];
+  items: Item[];
 }
 
-const CategorySlider = ({ title, description, categories }: CategorySliderProps) => {
+const CategorySlider = ({ title, description, items }: CategorySliderProps) => {
   const [selectedCategory, setSelectedCategory] = useState<string>("Alle");
 
-  const categoryNames = ["Alle", ...new Set(categories.map((c) => c.name))];
+  const categoryNames = ["Alle", ...new Set(items.map((item) => item.category))];
+
+  // Items nach Kategorie filtern
+  const displayedItems = selectedCategory === "Alle"
+    ? items
+    : items.filter(item => item.category === selectedCategory);
 
   return (
     <section>
@@ -68,31 +74,29 @@ const CategorySlider = ({ title, description, categories }: CategorySliderProps)
               1024: { slidesPerView: 4 },
             }}
           >
-            {categories
-              .filter((c) => selectedCategory === "Alle" || c.name === selectedCategory)
-              .map((category, idx) => (
-                <SwiperSlide key={idx}>
-                  <div className="relative group overflow-hidden rounded-xl h-[450px] shadow-lg transition-transform transform hover:scale-105">
-                    <div className="relative w-full h-2/3">
-                      <Image
-                        src={category.image_url}
-                        alt={category.name}
-                        fill
-                        className="object-cover object-center rounded-lg"
-                      />
-                    </div>
-                    <div className="p-4 h-1/3 flex flex-col justify-center bg-[var(--background)] group-hover:bg-[var(--contact-bg-color)] transition-colors duration-300">
-                      <h3 className="mt-1 text-xl font-bold">{category.name}</h3>
-                      {category.description && <p className="text-sm text-[var(--tag-text-color)]">{category.description}</p>}
-                    </div>
-                    {category.link && (
-                      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <Link href={category.link} className="text-xl font-bold text-[var(--button-text-color)] bg-[var(--button-bg-color)] px-4 py-2 rounded-lg">Mehr erfahren</Link>
-                      </div>
-                    )}
+            {displayedItems.map((item, idx) => (
+              <SwiperSlide key={idx}>
+                <div className="relative group overflow-hidden rounded-xl h-[450px] shadow-lg transition-transform transform hover:scale-105">
+                  <div className="relative w-full h-2/3">
+                    <Image
+                      src={item.image_url}
+                      alt={item.name}
+                      fill
+                      className="object-cover object-center rounded-lg"
+                    />
                   </div>
-                </SwiperSlide>
-              ))}
+                  <div className="p-4 h-1/3 flex flex-col justify-center bg-[var(--background)] group-hover:bg-[var(--contact-bg-color)] transition-colors duration-300">
+                    <h3 className="mt-1 text-xl font-bold">{item.name}</h3>
+                    {item.description && <p className="text-sm text-[var(--tag-text-color)]">{item.description}</p>}
+                  </div>
+                  {item.link && (
+                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <Link href={item.link} className="text-xl font-bold text-[var(--button-text-color)] bg-[var(--button-bg-color)] px-4 py-2 rounded-lg">Mehr erfahren</Link>
+                    </div>
+                  )}
+                </div>
+              </SwiperSlide>
+            ))}
           </Swiper>
         </div>
       </div>
