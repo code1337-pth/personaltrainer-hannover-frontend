@@ -43,7 +43,7 @@ const CategorySlider = ({ title, description, items }: CategorySliderProps) => {
         </div>
 
         {/* Kategorie-Navigation */}
-        <nav className="border-b mb-8">
+        <nav className="border-b mb-8 mt-6">
           <ul className="flex flex-wrap gap-4 justify-center">
             {categoryNames.map((cat, idx) => (
               <li
@@ -74,8 +74,8 @@ const CategorySlider = ({ title, description, items }: CategorySliderProps) => {
               1024: { slidesPerView: 4 },
             }}
           >
-            {displayedItems.map((item, idx) => (
-              <SwiperSlide key={idx}>
+            {displayedItems.map((item, idx) => {
+              const cardContent = (
                 <div className="relative group overflow-hidden rounded-xl h-[450px] shadow-lg transition-transform transform hover:scale-105">
                   <div className="relative w-full h-2/3">
                     <Image
@@ -87,16 +87,32 @@ const CategorySlider = ({ title, description, items }: CategorySliderProps) => {
                   </div>
                   <div className="p-4 h-1/3 flex flex-col justify-center bg-[var(--background)] group-hover:bg-[var(--contact-bg-color)] transition-colors duration-300">
                     <h3 className="mt-1 text-xl font-bold">{item.name}</h3>
-                    {item.description && <p className="text-sm text-[var(--tag-text-color)]">{item.description}</p>}
+                    {item.description && (
+                      <p className="text-sm text-[var(--tag-text-color)]">{item.description}</p>
+                    )}
                   </div>
                   {item.link && (
                     <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <Link href={item.link} className="text-xl font-bold text-[var(--button-text-color)] bg-[var(--button-bg-color)] px-4 py-2 rounded-lg">Mehr erfahren</Link>
+                      <span className="text-xl font-bold text-[var(--button-text-color)] bg-[var(--button-bg-color)] px-4 py-2 rounded-lg pointer-events-none">
+                        Mehr erfahren
+                      </span>
                     </div>
                   )}
                 </div>
-              </SwiperSlide>
-            ))}
+              );
+
+              return (
+                <SwiperSlide key={idx}>
+                  {item.link ? (
+                    <Link href={item.link} className="block h-full w-full">
+                      {cardContent}
+                    </Link>
+                  ) : (
+                    cardContent
+                  )}
+                </SwiperSlide>
+              );
+            })}
           </Swiper>
         </div>
       </div>

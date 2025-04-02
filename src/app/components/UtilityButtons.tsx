@@ -36,12 +36,13 @@ export function UtilityButtons() {
       />
 
       {/* Kontakt-Button */}
-      <button
+      <a
+        href="/#contact"
         className="p-2 bg-[var(--button-bg-color)] text-[var(--button-text-color)] rounded-full shadow-lg hover:scale-110 transition"
-        onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
       >
         <MessageCircle size={20} />
-      </button>
+      </a>
+
 
       {/* Theme Toggle */}
       <button

@@ -1,18 +1,13 @@
 "use client";
 
 import { X, ChevronDown, ChevronUp, Star } from "lucide-react";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, JSX } from "react";
+import { NavItem } from "../types/navigation";
 
 interface MobileNavProps {
   menuOpen: boolean;
   setMenuOpen: (open: boolean) => void;
 }
-
-type NavItem = {
-  name: string;
-  href: string;
-  children?: NavItem[];
-};
 
 const MobileNav = ({ menuOpen, setMenuOpen }: MobileNavProps): JSX.Element => {
   const [navItems, setNavItems] = useState<NavItem[]>([]);

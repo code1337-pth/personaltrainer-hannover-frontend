@@ -4,24 +4,31 @@
   "items": [
     {
       "category": "Personal Training",
-      "name": "Personal Training",
+      "name": "Personal Training - Individuell",
       "description": "Individuelles Training für deine Gesundheit.",
       "image_url": "/services/service-personal-training.jpg",
       "link": "/services/personal-training"
     },
     {
       "category": "Personal Training",
-      "name": "Online Personal Training",
+      "name": "Personal Training - Online",
       "description": "Effektives Training und Coaching von überall.",
       "image_url": "/services/service-personal-training-online.jpg",
       "link": "/services/online-personal-training"
     },
     {
       "category": "Personal Training",
-      "name": "Personal Training für Gewichtsreduktion",
+      "name": "Personal Training - Gewichtsreduktion",
       "description": "Gezieltes Abnehmen mit Expertenbetreuung",
       "image_url": "/services/service-personal-training-abnehmen.jpg",
       "link": "/services/abnehmen-mit-erfolgsgarantie"
+    },
+    {
+      "category": "Personal Training",
+      "name": "Personal Training - Muskelaufbau",
+      "description": "Gezieltes Abnehmen mit Expertenbetreuung",
+      "image_url": "/services/service-personal-training.jpg",
+      "link": "/services/personal-training-muskelaufbau"
     },
     {
       "category": "Rehabilitation & Therapie",

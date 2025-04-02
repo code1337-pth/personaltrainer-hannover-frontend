@@ -2,24 +2,15 @@
 
 import { useEffect, useState } from "react";
 import { Star, ChevronDown, ChevronRight } from "lucide-react";
+import { NavItem } from "../types/navigation";
 
-type NavItem = {
-  name: string;
-  href: string;
-  children?: NavItem[];
-};
+interface DesktopNavProps{
+  navItems: NavItem[]
+}
 
-const DesktopNav = () => {
-  const [navItems, setNavItems] = useState<NavItem[]>([]);
+const DesktopNav = ({ navItems }: DesktopNavProps) => {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   let timeout: NodeJS.Timeout | null = null;
-
-  useEffect(() => {
-    fetch("/nav/navigation.json")
-      .then((res) => res.json())
-      .then((data) => setNavItems(data))
-      .catch((err) => console.error("Fehler beim Laden der Navigation:", err));
-  }, []);
 
   const handleMouseEnter = (name: string) => {
     if (timeout) clearTimeout(timeout);

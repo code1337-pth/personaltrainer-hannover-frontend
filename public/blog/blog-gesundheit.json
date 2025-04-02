@@ -1,0 +1,20 @@
+{
+  "title": "Blog - Gesundheit",
+  "description": "Themen rund um Gesundheit",
+  "items": [
+    {
+      "category": "Gesundheit",
+      "name": "6 Kritikpunkte für Paleo Fanatiker",
+      "description": "• Paleo bietet ein leicht verständliches „Regelwerk“, das Menschen schlicht und einfach hilft, mehr echte und unverarbeitete Nahrungsmittel zu konsumieren.",
+      "image_url": "/blog/blog-gesundheit-paleo.png",
+      "link": "/blog/kategorie/gesundheit/6-kritikpunkte-fuer-paleo-fanatiker"
+    },
+    {
+      "category": "Gesundheit",
+      "name": "Test bblalba",
+      "description": "Weiteres",
+      "image_url": "/blog/blog-gesundheit.png",
+      "link": "/blog/kategorie/gesundheit/test"
+    }
+  ]
+}

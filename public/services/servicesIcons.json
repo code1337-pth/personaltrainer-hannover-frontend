@@ -24,6 +24,11 @@
       "title": "Rehabilitation & Therapie",
       "description": "Therapie- und Reha-Programme zur Schmerzlinderung und Mobilitätsverbesserung.",
       "icon": "LifeBuoy"
+    },
+    {
+      "title": "Mentales Coaching",
+      "description": "Strategien zur mentalen Stärke, Stressbewältigung und persönlichem Wachstum.",
+      "icon": "BrainCircuit"
     }
   ]
 }

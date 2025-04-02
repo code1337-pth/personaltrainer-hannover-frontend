@@ -1,9 +1,13 @@
-import "./globals.css";
-import { ThemeProvider } from "./components/theme-provider";
+import strapiCache, { CacheKey } from "@/app/lib/strapiCache";
 import { Rajdhani } from "next/font/google";
-import { UtilityButtons } from "./components/UtilityButtons";
-import Header from "./components/Header";
 import Footer from "./components/Footer";
+import Header from "./components/Header";
+import { ThemeProvider } from "./components/theme-provider";
+import { UtilityButtons } from "./components/UtilityButtons";
+import "./globals.css";
+import { Category } from "./types/strapi";
+import { categoriesToNavItems } from "./lib/convert";
+
 
 const rajdhani = Rajdhani({
   subsets: ["latin"],
@@ -14,7 +18,7 @@ const rajdhani = Rajdhani({
 export const metadata = {
   title: "Home | Markus Kaluza - Premium Personal Training + Team",
   description: "Erreiche deine Fitnessziele mit individuellem Training, Ernährungsberatung und persönlicher Betreuung.",
-  
+
   // OpenGraph (Facebook, LinkedIn, WhatsApp)
   openGraph: {
     title: "Home | Markus Kaluza - Premium Personal Training + Team",
@@ -47,7 +51,7 @@ export const metadata = {
     apple: "/apple-touch-icon.png", // Apple Touch Icon (empfohlen: 180x180)
   },
 
-  
+
   // Web App Manifest (für Android PWAs)
   manifest: "/site.webmanifest",
 
@@ -67,12 +71,38 @@ export const metadata = {
   },
 };
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const categories: Category[] = await strapiCache.fetchData("categories", CacheKey.Categories);
+  const navItems = [
+    {
+      "name": "Home",
+      "href": "/#home"
+    },
+    {
+      "name": "Kontakt",
+      "href": "/#contact"
+    },
+    {
+      "name": "Leistungen",
+      "href": "/services"
+    }
+  ]
+  
+  const blogCategoryNavItems = categoriesToNavItems(categories)
+
+  const blogNavItem = {
+    "name": "Blog",
+    "href": "/blog",
+    "children" : blogCategoryNavItems
+  }
+
+  navItems.push(blogNavItem)
+
   return (
     <html lang="de" className={rajdhani.className}>
       <body>
         <ThemeProvider>
-          <Header />
+          <Header navItems={navItems} />
           {children}
           <Footer />
           <UtilityButtons />
