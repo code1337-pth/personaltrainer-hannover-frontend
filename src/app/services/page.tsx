@@ -11,8 +11,12 @@ import { useState } from "react";
 export default async function BlogPage() {
   // Hole Kategorien serverseitig
   const [items, setItems] = useState<Item[]>([]);
+  function prependStrapiHostToImages(arg0: string): string | TrustedHTML {
+    throw new Error("Function not implemented.");
+  }
+
   // const categories = await strapiCache.fetchData<Category>("categories", CacheKey.Categories);
-  
+
 
   // Konvertiere die Kategorien in Slider-Items (entspricht z. B. dem CategorySliderItem-Interface)
   // const sliderItems = categories.map((cat) =>
@@ -25,11 +29,11 @@ export default async function BlogPage() {
         title="Übersicht unserer Leistungen"
         description="Entdecken Sie unser umfangreiches Angebot, das individuell auf Ihre Fitness- und Gesundheitsziele zugeschnitten ist."
       />
-    <CategorySlider
-      title="Unsere Leistungen"
-      description=""
-      items={items}
-    />
+      <CategorySlider
+        title="Unsere Leistungen"
+        description=""
+        items={items}
+      />
     </section>
   );
 }
