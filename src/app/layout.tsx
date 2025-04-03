@@ -5,9 +5,8 @@ import Header from "./components/Header";
 import { ThemeProvider } from "./components/theme-provider";
 import { UtilityButtons } from "./components/UtilityButtons";
 import "./globals.css";
-import { Category } from "./types/strapi";
+import { Article, Category } from "./types/strapi";
 import { categoriesToNavItems } from "./lib/convert";
-
 
 const rajdhani = Rajdhani({
   subsets: ["latin"],
@@ -18,8 +17,6 @@ const rajdhani = Rajdhani({
 export const metadata = {
   title: "Home | Markus Kaluza - Premium Personal Training + Team",
   description: "Erreiche deine Fitnessziele mit individuellem Training, Ernährungsberatung und persönlicher Betreuung.",
-
-  // OpenGraph (Facebook, LinkedIn, WhatsApp)
   openGraph: {
     title: "Home | Markus Kaluza - Premium Personal Training + Team",
     description: "Erreiche deine Fitnessziele mit individuellem Training, Ernährungsberatung und persönlicher Betreuung.",
@@ -35,68 +32,71 @@ export const metadata = {
       },
     ],
   },
-
-  // Twitter Cards (Optimierung für Twitter-Posts)
   twitter: {
     card: "summary_large_image",
     title: "Home | Markus Kaluza - Premium Personal Training + Team",
     description: "Individuelles Personal Training für deine Fitnessziele.",
     images: ["https://www.deinewebseite.de/og-image.jpg"],
   },
-
-  // Favicons & Icons
   icons: {
-    icon: "/favicon-32.png", // Standard PNG
-    shortcut: "/favicon.ico", // Fallback für alte Browser
-    apple: "/apple-touch-icon.png", // Apple Touch Icon (empfohlen: 180x180)
+    icon: "/favicon-32.png",
+    shortcut: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
   },
-
-
-  // Web App Manifest (für Android PWAs)
   manifest: "/site.webmanifest",
-
-  // Robots & Indexing für SEO
   robots: {
-    index: true,  // Suchmaschinen sollen die Seite indexieren
-    follow: true, // Links dürfen gecrawlt werden
+    index: true,
+    follow: true,
   },
-
-  // Alternativ-Tags für Mehrsprachigkeit (falls du das brauchst)
   alternates: {
     canonical: "https://www.deinewebseite.de",
     languages: {
-      "de": "https://www.deinewebseite.de",
-      "en": "https://www.deinewebseite.de/en",
+      de: "https://www.deinewebseite.de",
+      en: "https://www.deinewebseite.de/en",
     },
   },
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  // Artikel und Kategorien aus Strapi abrufen
+  const articles: Article[] = await strapiCache.fetchData("articles", CacheKey.Articles);
   const categories: Category[] = await strapiCache.fetchData("categories", CacheKey.Categories);
+
+  // Feste Nav-Items für Home und Kontakt
   const navItems = [
-    {
-      "name": "Home",
-      "href": "/#home"
-    },
-    {
-      "name": "Kontakt",
-      "href": "/#contact"
-    },
-    {
-      "name": "Leistungen",
-      "href": "/services"
-    }
-  ]
-  
-  const blogCategoryNavItems = categoriesToNavItems(categories)
+    { name: "Home", href: "/#home" },
+    { name: "Kontakt", href: "/#contact" },
+  ];
 
+  // Für den Menüpunkt "Leistungen" sollen alle Artikel angezeigt werden,
+  // die der Kategorie "services" bzw. "leistungen" zugeordnet sind.
+  const servicesArticles = articles.filter((article) => {
+    return article.category &&
+      (article.category.slug.toLowerCase() === "services" ||
+       article.category.slug.toLowerCase() === "leistungen");
+  });
+  const servicesNavItems = servicesArticles.map((article) => ({
+    name: article.title,
+    href: `/services/${article.slug}`,
+  }));
+  const servicesNavItem = {
+    name: "Leistungen",
+    href: "/services",
+    children: servicesNavItems,
+  };
+  navItems.push(servicesNavItem);
+
+  // Für den Blog-Nav-Item sollen alle Kategorien außer "services"/"leistungen" genutzt werden.
+  const filteredCategories = categories.filter((cat) => {
+    return cat.slug.toLowerCase() !== "services" && cat.slug.toLowerCase() !== "leistungen";
+  });
+  const blogCategoryNavItems = categoriesToNavItems(filteredCategories);
   const blogNavItem = {
-    "name": "Blog",
-    "href": "/blog",
-    "children" : blogCategoryNavItems
-  }
-
-  navItems.push(blogNavItem)
+    name: "Blog",
+    href: "/blog",
+    children: blogCategoryNavItems,
+  };
+  navItems.push(blogNavItem);
 
   return (
     <html lang="de" className={rajdhani.className}>
