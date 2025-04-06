@@ -1,8 +1,8 @@
 // src/app/blog/[category]/page.tsx – Server-Komponente
 import { notFound } from 'next/navigation';
-import BlogCategoryListing from "@/app/components/BlogCategoryListing";
-import StrapiCache, { CacheKey } from "@/app/lib/strapiCache";
+import CategoryListing, {CategoryType} from "@/app/components/CategoryListing";
 import { Article, Category } from "@/app/types/strapi";
+import StrapiCache, {CacheKey} from "@/lib/strapiCache";
 
 type BlogCategoryPageProps = {
   params: {
@@ -32,18 +32,12 @@ export default async function BlogCategoryPage(props: BlogCategoryPageProps) {
     (a) => a.category?.slug === category.slug
   );
 
-  // Bereite das Kategorie‑Image vor (mit Fallback)
-  const categoryImage =
-    category.featured_image?.url
-      ? `${process.env.NEXT_PUBLIC_STRAPI_API_URL}${category.featured_image.url}`
-      : "/default.jpg";
-
   return (
-    <BlogCategoryListing
+    <CategoryListing
       slug={category.slug}
       details={category.description}
       articles={filteredArticles}
-      image={categoryImage}
-    />
+      image={category.featured_image?.url}
+     caption={"asd"} categoryType={CategoryType.Blog} name={"affe"}/>
   );
 }

@@ -1,12 +1,21 @@
-import strapiCache, { CacheKey } from "@/app/lib/strapiCache";
-import { Rajdhani } from "next/font/google";
-import Footer from "./components/Footer";
-import Header from "./components/Header";
-import { ThemeProvider } from "./components/theme-provider";
-import { UtilityButtons } from "./components/UtilityButtons";
+// app/layout.tsx
+import {categoriesToNavItems} from "@/app/lib/convert";
+
+export const dynamic = 'force-static';
+
 import "./globals.css";
-import { Article, Category } from "./types/strapi";
-import { categoriesToNavItems } from "./lib/convert";
+
+import {Article, Category} from "@/app/types/strapi";
+import {NavItem} from "@/app/types/navigation";
+import strapiCache, {CacheKey} from '@/lib/strapiCache';
+
+import { Rajdhani } from "next/font/google";
+import {ThemeProvider} from "@/app/components/theme-provider";
+import {UtilityButtons} from "@/app/components/UtilityButtons";
+
+import Header from "@/app/components/Header";
+import Footer from "@/app/components/Footer";
+import {generateNavigation} from "@/lib/navigationBuilder";
 
 const rajdhani = Rajdhani({
   subsets: ["latin"],
@@ -16,16 +25,18 @@ const rajdhani = Rajdhani({
 
 export const metadata = {
   title: "Home | Markus Kaluza - Premium Personal Training + Team",
-  description: "Erreiche deine Fitnessziele mit individuellem Training, Ernährungsberatung und persönlicher Betreuung.",
+  description:
+    "Erreiche deine Fitnessziele mit individuellem Training, Ernährungsberatung und persönlicher Betreuung.",
   openGraph: {
     title: "Home | Markus Kaluza - Premium Personal Training + Team",
-    description: "Erreiche deine Fitnessziele mit individuellem Training, Ernährungsberatung und persönlicher Betreuung.",
+    description:
+      "Erreiche deine Fitnessziele mit individuellem Training, Ernährungsberatung und persönlicher Betreuung.",
     type: "website",
-    url: "https://www.deinewebseite.de",
+    url: "https://www.personaltrainer-hannover.de",
     siteName: "Deine Webseite",
     images: [
       {
-        url: "https://www.deinewebseite.de/og-image.jpg",
+        url: "https://www.personaltrainer-hannover.de/og-image.jpg",
         width: 1200,
         height: 630,
         alt: "Fitness Personal Trainer",
@@ -36,7 +47,7 @@ export const metadata = {
     card: "summary_large_image",
     title: "Home | Markus Kaluza - Premium Personal Training + Team",
     description: "Individuelles Personal Training für deine Fitnessziele.",
-    images: ["https://www.deinewebseite.de/og-image.jpg"],
+    images: ["https://www.personaltrainer-hannover.de/og-image.jpg"],
   },
   icons: {
     icon: "/favicon-32.png",
@@ -49,54 +60,32 @@ export const metadata = {
     follow: true,
   },
   alternates: {
-    canonical: "https://www.deinewebseite.de",
+    canonical: "https://www.personaltrainer-hannover.de",
     languages: {
-      de: "https://www.deinewebseite.de",
-      en: "https://www.deinewebseite.de/en",
+      de: "https://www.personaltrainer-hannover.de",
+      en: "https://www.personaltrainer-hannover.de/en",
     },
   },
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  // Artikel und Kategorien aus Strapi abrufen
-  const articles: Article[] = await strapiCache.fetchData("articles", CacheKey.Articles);
-  const categories: Category[] = await strapiCache.fetchData("categories", CacheKey.Categories);
+  await strapiCache.preload();
+
+  const allArticles = await strapiCache.fetchData<Article>('articles', CacheKey.Articles);
+  const allCategories = await strapiCache.fetchData<Category>('categories', CacheKey.Categories);
+
+  const { serviceNav, blogNav } = generateNavigation({
+    categories: allCategories,
+    articles: allArticles,
+  });
 
   // Feste Nav-Items für Home und Kontakt
-  const navItems = [
+  const navItems: NavItem[] = [
     { name: "Home", href: "/#home" },
     { name: "Kontakt", href: "/#contact" },
+    { name: "Leistungen", href: "/service", serviceNav },
+    { name: "Blog", href: "/blog", blogNav },
   ];
-
-  // Für den Menüpunkt "Leistungen" sollen alle Artikel angezeigt werden,
-  // die der Kategorie "services" bzw. "leistungen" zugeordnet sind.
-  const servicesArticles = articles.filter((article) => {
-    return article.category &&
-      (article.category.slug.toLowerCase() === "services" ||
-       article.category.slug.toLowerCase() === "leistungen");
-  });
-  const servicesNavItems = servicesArticles.map((article) => ({
-    name: article.title,
-    href: `/services/${article.slug}`,
-  }));
-  const servicesNavItem = {
-    name: "Leistungen",
-    href: "/services",
-    children: servicesNavItems,
-  };
-  navItems.push(servicesNavItem);
-
-  // Für den Blog-Nav-Item sollen alle Kategorien außer "services"/"leistungen" genutzt werden.
-  const filteredCategories = categories.filter((cat) => {
-    return cat.slug.toLowerCase() !== "services" && cat.slug.toLowerCase() !== "leistungen";
-  });
-  const blogCategoryNavItems = categoriesToNavItems(filteredCategories);
-  const blogNavItem = {
-    name: "Blog",
-    href: "/blog",
-    children: blogCategoryNavItems,
-  };
-  navItems.push(blogNavItem);
 
   return (
     <html lang="de" className={rajdhani.className}>

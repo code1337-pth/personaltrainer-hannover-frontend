@@ -53,6 +53,8 @@ export interface Seo {
     featured_image?: Media;
     description?: string;
     seo?: Seo;
+    blog_category?: boolean;
+    active?: boolean;
   }
   
   // Tag
@@ -77,5 +79,6 @@ export interface Seo {
     tags?: Tag[];
     seo?: Seo;
     optimized?: boolean;
+    blog_article?: boolean;
   }
   

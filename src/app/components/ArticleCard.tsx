@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-interface BlogItemProps {
+interface ArticleItemProps {
   item: {
     name: string;
     description: string;
@@ -11,7 +11,7 @@ interface BlogItemProps {
   };
 }
 
-const BlogCard = ({ item }: BlogItemProps) => {
+const ArticleCard = ({ item }: ArticleItemProps) => {
   return (
     <div className="border-1 p-5 border-solid border-(--border-thin-color) shadow-md rounded-lg overflow-hidden flex flex-col">
       <Link href={item.link}>
@@ -46,4 +46,4 @@ const BlogCard = ({ item }: BlogItemProps) => {
 };
 
 
-export default BlogCard;
+export default ArticleCard;

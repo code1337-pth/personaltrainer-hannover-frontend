@@ -1,8 +1,7 @@
-"use client";
-
 import { useEffect, useState } from "react";
 import { Star, ChevronDown, ChevronRight } from "lucide-react";
 import { NavItem } from "../types/navigation";
+import Link from "next/link";
 
 interface DesktopNavProps{
   navItems: NavItem[]
@@ -30,7 +29,7 @@ const DesktopNav = ({ navItems }: DesktopNavProps) => {
               onMouseLeave={handleMouseLeave}>
             <div 
               className="flex items-center space-x-2 cursor-pointer hover:text-[var(--color-gold)] transition-all duration-300">
-              <a href={item.href}>{item.name}</a>
+              <Link href={item.href}>{item.name}</Link>
               {item.children && <ChevronDown size={16} className="transition-transform duration-300 group-hover:rotate-180 text-[var(--color-gold)]" />}
             </div>
 
@@ -40,7 +39,7 @@ const DesktopNav = ({ navItems }: DesktopNavProps) => {
                   onMouseLeave={handleMouseLeave}>
                 {item.children.map((child, i) => (
                   <li key={i} className="px-4 py-2 flex justify-between items-center hover:bg-[var(--contact-bg-color)] transition-all duration-300 hover:text-[var(--color-gold)]">
-                    <a href={child.href} className="flex-grow">{child.name}</a>
+                    <Link href={child.href} className="flex-grow">{child.name}</Link>
                     <ChevronRight size={16} className="opacity-0 transition-opacity duration-300 group-hover:opacity-100 text-[var(--color-gold)]" />
                   </li>
                 ))}
