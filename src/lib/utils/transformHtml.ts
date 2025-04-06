@@ -29,7 +29,7 @@ export function transformHtmlContent(html: string): string {
         }
         const widthStr = hasWidth ? '' : ' width="600"';
         const heightStr = hasHeight ? '' : ' height="400"';
-        return `<Image src="${srcValue}"${widthStr}${heightStr}${newAttr} loading="lazy" decoding="async" />`;
+        return `<Image src="${srcValue}"${widthStr}${heightStr}${newAttr} loading="lazy" decoding="async"  />`;
     });
 
     // 3. Ersetze interne <a> Tags mit <Link> und sichere externe <a>

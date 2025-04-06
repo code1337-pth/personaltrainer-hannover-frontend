@@ -20,7 +20,7 @@ const ArticleCard = ({ item }: ArticleItemProps) => {
           alt={item.name}
           width={400}
           height={250}
-          className="w-full h-48 object-cover"
+          className="w-full h-85 object-cover"
         />
       </Link>
       {item.published_date && (

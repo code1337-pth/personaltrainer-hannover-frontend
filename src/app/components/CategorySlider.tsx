@@ -13,7 +13,7 @@ import {CategorySliderItem} from "@/app/types/slider";
 
 interface CategorySliderProps {
     title: string;
-    description: string;
+    description?: string;
     items: CategorySliderItem[];
 }
 
@@ -39,7 +39,9 @@ const CategorySlider = ({title, description, items}: CategorySliderProps) => {
             <div className="container mx-auto px-4 text-center">
                 <div className="text-center">
                     <h2 className="mt-2 text-4xl font-extrabold">{title}</h2>
-                    <p className="mt-4 text-lg">{description}</p>
+                    {description && (
+                        <p className="mt-4 text-lg">{description}</p>
+                    )}
                 </div>
 
                 {/* Kategorie-Navigation */}
@@ -76,12 +78,14 @@ const CategorySlider = ({title, description, items}: CategorySliderProps) => {
                                     <div
                                         className="relative group overflow-hidden rounded-xl h-[450px] shadow-lg transition-transform transform hover:scale-105">
                                         <div className="relative w-full h-2/3">
-                                            <Image
-                                                src={item.image_url}
-                                                alt={item.name}
-                                                fill
-                                                className="object-cover object-center rounded-lg"
-                                            />
+                                            {item.image_url ? (
+                                                <Image
+                                                    src={item.image_url}
+                                                    alt={item.name}
+                                                    fill
+                                                    className="object-cover object-center rounded-lg"
+                                                />
+                                            ) : null}
                                         </div>
                                         <div
                                             className="p-4 h-1/3 flex flex-col justify-center bg-[var(--background)] group-hover:bg-[var(--contact-bg-color)] transition-colors duration-300">

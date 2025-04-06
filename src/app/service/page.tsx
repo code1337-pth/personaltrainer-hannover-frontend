@@ -29,7 +29,6 @@ export default async function ServicePage() {
 
             <CategorySlider
                 title="Unsere Leistungen"
-                description=""
                 items={items}
             />
         </section>
