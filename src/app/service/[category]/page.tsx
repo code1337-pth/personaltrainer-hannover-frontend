@@ -1,18 +1,18 @@
 // src/app/blog/[category]/page.tsx – Server-Komponente
-import { notFound } from 'next/navigation';
+import {notFound} from 'next/navigation';
 import CategoryListing, {CategoryType} from "@/app/components/CategoryListing";
-import { Article, Category } from "@/app/types/strapi";
+import {Article, Category} from "@/app/types/strapi";
 import StrapiCache, {CacheKey} from "@/lib/strapiCache";
 
-type BlogCategoryPageProps = {
+type ServiceCategoryPageProps = {
   params: {
     category: string; // z. B. "mentale-staerke"
   };
 };
 
-export default async function BlogCategoryPage(props: BlogCategoryPageProps) {
+export default async function ServiceCategoryPage(props: ServiceCategoryPageProps) {
   // Workaround: Await the params before using its properties
-  const resolvedParams = await Promise.resolve(props.params);
+  const resolvedParams = await Promise.resolve(props.params);6
   const categorySlug = resolvedParams.category;
   
   // Hole alle Kategorien
@@ -34,10 +34,13 @@ export default async function BlogCategoryPage(props: BlogCategoryPageProps) {
 
   return (
     <CategoryListing
+      name={category.name}
       slug={category.slug}
       details={category.description}
       articles={filteredArticles}
       image={category.featured_image?.url}
-     caption={"Blog"} categoryType={CategoryType.Blog} name={category.name}/>
+      caption={"Leistungen"}
+      categoryType={CategoryType.Service}
+    />
   );
 }
