@@ -81,4 +81,46 @@ export interface Seo {
     optimized?: boolean;
     blog_article?: boolean;
   }
-  
+
+// Component: Social Link
+export interface SocialLink {
+  id: number;
+  platform: 'Instagram' | 'YouTube' | 'WhatsApp' | 'LinkedIn' | 'Facebook' | 'Website';
+  url: string;
+}
+
+// Component: Role
+export interface Role {
+  id: number;
+  title: string; // oder z.B. "label", je nachdem wie du `shared.role` aufgebaut hast
+}
+
+// Team Member
+export interface TeamMember {
+  id: number;
+  name: string;
+  slug: string;
+  alt: string;
+  image: Media;
+  roles: Role[];
+  social?: SocialLink[];
+  seo?: Seo;
+  active: boolean;
+  about?: string;
+}
+
+// Component: Reason
+export interface Reason {
+  id: number;
+  html_content: string;
+  tags?: string[]; // JSON-Feld (Array of Strings)
+}
+
+// Collection Type: Reason List
+export interface ReasonList {
+  id: number;
+  title: string;
+  description: string;
+  reasons: Reason[];
+  seo?: Seo; // Falls du in Zukunft SEO dazufügen willst
+}

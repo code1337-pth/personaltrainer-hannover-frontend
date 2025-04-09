@@ -12,7 +12,7 @@ type ServiceCategoryPageProps = {
 
 export default async function ServiceCategoryPage(props: ServiceCategoryPageProps) {
   // Workaround: Await the params before using its properties
-  const resolvedParams = await Promise.resolve(props.params);6
+  const resolvedParams = props.params;
   const categorySlug = resolvedParams.category;
   
   // Hole alle Kategorien

@@ -1,11 +1,11 @@
-// lib/strapiCache.ts
-
-import {transformHtmlContent, transformMediaUrl} from "@/lib/utils/transformHtml";
+import { transformHtmlContent, transformMediaUrl } from "@/lib/utils/transformHtml";
 
 export enum CacheKey {
     Articles = "articles",
     Categories = "categories",
     Tags = "tags",
+    TeamMembers = "team-members",
+    ReasonLists = "reason-lists", // ✅ NEU
 }
 
 type CacheEntry<T> = {
@@ -23,9 +23,6 @@ class StrapiCache {
         return !!entry && Date.now() - entry.timestamp < TTL;
     }
 
-    /**
-     * Ruft gepaginate Daten aus der Strapi API ab und cached sie
-     */
     public async fetchData<T>(endpoint: string, key: CacheKey): Promise<T[]> {
         if (this.isValid(key)) {
             return this.cache.get(key)!.data as T[];
@@ -53,7 +50,7 @@ class StrapiCache {
             const json = await res.json();
             fetchedItems = json.data as T[];
 
-            // Transformieren
+            // 🔁 Transformieren je nach Typ
             if (key === CacheKey.Articles) {
                 fetchedItems.forEach((article: any) => {
                     if (article.content) {
@@ -73,6 +70,25 @@ class StrapiCache {
                 });
             }
 
+            if (key === CacheKey.TeamMembers) {
+                fetchedItems.forEach((member: any) => {
+                    if (member.image?.url) {
+                        member.image.url = transformMediaUrl(member.image.url);
+                    }
+                });
+            }
+
+            if (key === CacheKey.ReasonLists) {
+                fetchedItems.forEach((list: any) => {
+                    // optionales Transforming von content oder tags
+                    list.reasons?.forEach((reason: any) => {
+                        if (reason.html_content) {
+                            reason.html_content = transformHtmlContent(reason.html_content);
+                        }
+                    });
+                });
+            }
+
             results = results.concat(fetchedItems);
             page++;
         } while (fetchedItems.length === pageSize);
@@ -81,17 +97,11 @@ class StrapiCache {
         return results;
     }
 
-    /**
-     * Gibt die gecachten Daten zurück (wenn vorhanden)
-     */
     public getCachedData<T>(key: CacheKey): T[] | undefined {
         const entry = this.cache.get(key);
         return entry?.data as T[] | undefined;
     }
 
-    /**
-     * Löscht einen bestimmten oder den gesamten Cache
-     */
     public clearCache(key?: CacheKey): void {
         if (key) {
             this.cache.delete(key);
@@ -100,13 +110,12 @@ class StrapiCache {
         }
     }
 
-    /**
-     * Preload für mehrere Keys – z. B. in layout.tsx
-     */
     public async preload(): Promise<void> {
         await Promise.all([
             this.fetchData('articles', CacheKey.Articles),
             this.fetchData('categories', CacheKey.Categories),
+            this.fetchData('team-members', CacheKey.TeamMembers),
+            this.fetchData('reason-lists', CacheKey.ReasonLists), // ✅ NEU
             // Optional: this.fetchData('tags', CacheKey.Tags),
         ]);
     }
