@@ -28,9 +28,9 @@ export default async function Home() {
                     </div>
                 </div>
                 <ContactSection id="contact"/>
-                <ExperienceSection/>
-                <ReviewsSection/>
-                <ServicesSection/>
+                 <ExperienceSection/>
+                 <ReviewsSection/>
+                 <ServicesSection/>
             </main>
         </div>
     );

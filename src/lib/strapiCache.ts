@@ -35,6 +35,7 @@ class StrapiCache {
 
         do {
             const url = `${process.env.STRAPI_API_URL}/api/${endpoint}?populate=*&pagination[pageSize]=${pageSize}&pagination[page]=${page}`;
+            console.log(url)
             const res = await fetch(url, {
                 headers: {
                     Authorization: `Bearer ${process.env.STRAPI_TOKEN}`,

@@ -1,71 +1,65 @@
-"use client";
-
-import React, { useState, useMemo, useEffect } from 'react';
-import Breadcrumb from './Breadcrumb';
-import CategoryHeroSection from './CategoryHeroSection';
-import SearchInput from './SearchInput';
-import ArticleCard from './ArticleCard';
-import PaginationControls from './PaginationControls';
+// src/app/components/CategoryListing.tsx – Server-Komponente
 import { Article } from '../types/strapi';
+import ArticleCard from './ArticleCard';
+import CategoryHeroSection from './CategoryHeroSection';
+import PaginationControls from './PaginationControls';
+import SearchInput from './SearchInput';
 
 export enum CategoryType {
     Blog = "/blog",
     Service = "/service",
 }
 
+export type BreadcrumbItem = {
+    id: string;
+    name: string;
+    href: string;
+};
+
 type CategoryListingProps = {
     name: string;
     slug: string;
     details?: string;
     image?: string;
-    articles: Article[]; // Alle Artikel sind bereits geladen und werden als Prop übergeben
+    articles: Article[]; // Alle Artikel wurden serverseitig geladen
     caption: string;
     categoryType: CategoryType;
+    /** searchParams aus der URL, z. B. ?query=...&page=... */
+    searchParams?: {
+        query?: string;
+        page?: string;
+    };
 };
 
 const PAGE_SIZE = 9; // Anzahl Artikel pro Seite
 
 const CategoryListing = ({
-                             name,
-                             slug,
-                             details,
-                             image,
-                             articles,
-                             categoryType = CategoryType.Blog,
-                             caption = "Blog",
-                         }: CategoryListingProps) => {
-    // State für die aktuelle Seite und Suchquery
-    const [page, setPage] = useState(1);
-    const [searchQuery, setSearchQuery] = useState('');
+    name,
+    slug,
+    details,
+    image,
+    articles,
+    categoryType = CategoryType.Blog,
+    caption = "Blog",
+    searchParams,
+}: CategoryListingProps) => {
+    // Lese Suchquery und Seitennummer aus den URL-Parametern; Standardwerte verwenden
+    const searchQuery = searchParams?.query || "";
+    const page = searchParams?.page ? parseInt(searchParams.page, 10) : 1;
 
-    // Ableitung der gefilterten Artikel aus den übergebenen Artikeln und dem Suchquery
-    const filteredArticles = useMemo(() => {
-        if (!searchQuery) return articles;
-        const lowerQuery = searchQuery.toLowerCase();
-        return articles.filter((a) =>
-            a.title.toLowerCase().includes(lowerQuery) ||
-            (a.content && a.content.toLowerCase().includes(lowerQuery))
-        );
-    }, [articles, searchQuery]);
+    // Serverseitiges Filtern der Artikel
+    const filteredArticles = searchQuery
+        ? articles.filter(
+            (a) =>
+                a.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                (a.content && a.content.toLowerCase().includes(searchQuery.toLowerCase()))
+        )
+        : articles;
 
-    // Setze die Seite zurück, wenn sich der Suchquery oder die Artikel ändern
-    useEffect(() => {
-        setPage(1);
-    }, [searchQuery, articles]);
-
-    // Berechne die Gesamtseitenzahl
+    // Berechne Gesamtseitenzahl und wähle die auf der aktuellen Seite anzuzeigenden Artikel
     const totalPages = Math.ceil(filteredArticles.length / PAGE_SIZE);
-
-    // Berechne die Artikel für die aktuelle Seite
-    const paginatedArticles = useMemo(() => {
-        const startIndex = (page - 1) * PAGE_SIZE;
-        return filteredArticles.slice(startIndex, startIndex + PAGE_SIZE);
-    }, [page, filteredArticles]);
-
-    // Handle für die Suchfunktion
-    const handleSearch = (query: string) => {
-        setSearchQuery(query);
-    };
+    const startIndex = (page - 1) * PAGE_SIZE;
+    const paginatedArticles = filteredArticles.slice(startIndex, startIndex + PAGE_SIZE);
 
     return (
         <section className="container-lg">
@@ -77,19 +71,23 @@ const CategoryListing = ({
                     { name: slug, href: `${categoryType}/${slug}` },
                 ]}
             />
-            <SearchInput onSearch={handleSearch} />
 
-            {/* Pagination direkt unter dem Suchfeld */}
+            {/* Clientseitige Suchkomponente */}
+            <SearchInput defaultQuery={searchQuery} />
+
+            {/* Pagination oberhalb der Artikelliste */}
             <PaginationControls
                 currentPage={page}
                 totalPages={totalPages}
-                onPageChange={setPage}
+                baseUrl={`${categoryType}/${slug}`}
+                currentQuery={searchQuery}
             />
 
             {paginatedArticles.length > 0 ? (
                 <div className="container-lg text-lg mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6 mt-6">
-                    {paginatedArticles.map((article) => (
+                    {paginatedArticles.map((article, index) => (
                         <ArticleCard
+                            key={article.slug || `${index}`}
                             item={{
                                 name: article.title || "Ohne Titel",
                                 description:
@@ -108,11 +106,12 @@ const CategoryListing = ({
                 </div>
             )}
 
-            {/* Pagination erneut am Ende */}
+            {/* Pagination erneut unterhalb der Artikelliste */}
             <PaginationControls
                 currentPage={page}
                 totalPages={totalPages}
-                onPageChange={setPage}
+                baseUrl={`${categoryType}/${slug}`}
+                currentQuery={searchQuery}
             />
         </section>
     );

@@ -10,8 +10,13 @@ export default async function ServicePage() {
     // on-demand (holt & cached nur falls nötig):
     const categories = await strapiCache.fetchData<Category>('categories', CacheKey.Categories);
     const serviceCategories = categories.filter((c) => !c.blog_category && c.active);
+    const sortedServiceCategories = serviceCategories.sort((a, b) => {
+        if (a.featured && !b.featured) return -1;
+        if (!a.featured && b.featured) return 1;
+        return (a.priority ?? 9999) - (b.priority ?? 9999);
+    });
 
-    const items: CategorySliderItem[] = serviceCategories.map((cat) => ({
+    const items: CategorySliderItem[] = sortedServiceCategories.map((cat) => ({
         id: cat.id,
         category: cat.slug,
         name: cat.name,

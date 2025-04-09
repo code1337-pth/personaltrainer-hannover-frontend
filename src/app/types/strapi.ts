@@ -55,6 +55,8 @@ export interface Seo {
     seo?: Seo;
     blog_category?: boolean;
     active?: boolean;
+    featured?: boolean;
+    priority?: number;
   }
   
   // Tag
@@ -92,6 +94,7 @@ export interface SocialLink {
 // Component: Role
 export interface Role {
   id: number;
+  name: string;
   title: string; // oder z.B. "label", je nachdem wie du `shared.role` aufgebaut hast
 }
 
@@ -123,4 +126,5 @@ export interface ReasonList {
   description: string;
   reasons: Reason[];
   seo?: Seo; // Falls du in Zukunft SEO dazufügen willst
+  name: string;
 }

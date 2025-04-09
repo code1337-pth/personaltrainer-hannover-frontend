@@ -1,17 +1,17 @@
 // src/app/blog/[category]/[slug]/page.tsx
 
-import {Article} from "@/app/types/strapi";
-import {notFound} from "next/navigation";
+import { Article } from "@/app/types/strapi";
+import { notFound } from "next/navigation";
 import Image from "next/image";
 import CategoryHeroSection from "@/app/components/CategoryHeroSection";
 import HtmlRenderer from "@/app/components/HtmlRenderer";
-import StrapiCache, {CacheKey} from "@/lib/strapiCache";
+import StrapiCache, { CacheKey } from "@/lib/strapiCache";
 import Script from "next/script";
 
-export default async function ArticlePage({params}: { params: { category: string; slug: string } }) {
+export default async function ArticlePage({ params }: { params: { category: string; slug: string } }) {
     // Await params before using its properties
     const resolvedParams = await Promise.resolve(params);
-    const {category, slug} = resolvedParams;
+    const { category, slug } = resolvedParams;
 
     const articles = await StrapiCache.fetchData<Article>("articles", CacheKey.Articles);
     const article = articles.find(
@@ -44,9 +44,10 @@ export default async function ArticlePage({params}: { params: { category: string
             <CategoryHeroSection
                 title={article.title}
                 breadcrumb={[
-                    {name: "Blog", href: "/blog"},
-                    {name: article.category?.name || "Unkategorisiert", href: `/blog/${category}`},
-                    {name: article.title},
+                    { id: "base", name: "Blog", href: "/blog" },
+                    { id: "category", name: article.category?.name || "Unkategorisiert", href: `/blog/${category}` },
+                    // Hier wird nun auch ein href vergeben (z. B. leerer String, wenn aktuell keine Navigation nötig ist)
+                    { id: "article", name: article.title, href: "" },
                 ]}
             />
 
@@ -54,7 +55,6 @@ export default async function ArticlePage({params}: { params: { category: string
             <Script id="structured-data" type="application/ld+json" strategy="afterInteractive">
                 {JSON.stringify(structuredData)}
             </Script>
-
 
             <article className="blog-article container mx-auto px-4 prose">
                 {article.featured_image?.url && (
@@ -77,7 +77,7 @@ export default async function ArticlePage({params}: { params: { category: string
                 )}
 
                 {article.content && (
-                    <HtmlRenderer html={article.content}/>
+                    <HtmlRenderer html={article.content} />
                 )}
 
                 {article.tags && article.tags.length > 0 && (

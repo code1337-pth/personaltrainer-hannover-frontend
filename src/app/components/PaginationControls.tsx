@@ -1,38 +1,59 @@
-"use client";
-
+// src/app/components/PaginationControls.tsx – Clientfreie (serverseitig renderbare) Komponente
+import Link from "next/link";
 import React from "react";
 
 type PaginationControlsProps = {
   currentPage: number;
   totalPages: number;
-  onPageChange: (newPage: number) => void;
+  baseUrl: string;
+  currentQuery: string;
 };
 
 const PaginationControls: React.FC<PaginationControlsProps> = ({
-  currentPage,
-  totalPages,
-  onPageChange,
-}) => {
+                                                                 currentPage,
+                                                                 totalPages,
+                                                                 baseUrl,
+                                                                 currentQuery,
+                                                               }) => {
+  // Erzeuge URL mit page- und query-Parametern
+  const createPageLink = (page: number) => {
+    let url = `${baseUrl}?page=${page}`;
+    if (currentQuery) {
+      url += `&query=${encodeURIComponent(currentQuery)}`;
+    }
+    return url;
+  };
+
   return (
-    <div className="flex justify-center items-center mt-6 space-x-4">
-      <button
-        onClick={() => onPageChange(Math.max(currentPage - 1, 1))}
-        disabled={currentPage === 1}
-        className="px-4 py-2 bg-(--button-bg-color) text-(--button-text-color) rounded disabled:opacity-50"
-      >
-        Vorherige
-      </button>
-      <span>
+      <div className="flex justify-center items-center mt-6 space-x-4">
+        {currentPage > 1 ? (
+            <Link
+                href={createPageLink(currentPage - 1)}
+                className="px-4 py-2 bg-(--button-bg-color) text-(--button-text-color) rounded"
+            >
+              Vorherige
+            </Link>
+        ) : (
+            <span className="px-4 py-2 bg-(--button-bg-color) text-(--button-text-color) rounded opacity-50">
+          Vorherige
+        </span>
+        )}
+        <span>
         Seite {currentPage} von {totalPages}
       </span>
-      <button
-        onClick={() => onPageChange(Math.min(currentPage + 1, totalPages))}
-        disabled={currentPage === totalPages}
-        className="px-4 py-2 bg-(--button-bg-color) text-(--button-text-color) rounded disabled:opacity-50"
-      >
-        Nächste
-      </button>
-    </div>
+        {currentPage < totalPages ? (
+            <Link
+                href={createPageLink(currentPage + 1)}
+                className="px-4 py-2 bg-(--button-bg-color) text-(--button-text-color) rounded"
+            >
+              Nächste
+            </Link>
+        ) : (
+            <span className="px-4 py-2 bg-(--button-bg-color) text-(--button-text-color) rounded opacity-50">
+          Nächste
+        </span>
+        )}
+      </div>
   );
 };
 

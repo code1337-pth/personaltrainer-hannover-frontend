@@ -1,4 +1,4 @@
-// src/app/blog/[category]/page.tsx – Server-Komponente
+// src/app/service/[category]/page.tsx – Server-Komponente
 import {notFound} from 'next/navigation';
 import CategoryListing, {CategoryType} from "@/app/components/CategoryListing";
 import {Article, Category} from "@/app/types/strapi";
