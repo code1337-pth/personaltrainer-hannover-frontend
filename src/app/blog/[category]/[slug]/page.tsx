@@ -44,10 +44,10 @@ export default async function ArticlePage({ params }: { params: { category: stri
             <CategoryHeroSection
                 title={article.title}
                 breadcrumb={[
-                    { id: "base", name: "Blog", href: "/blog" },
-                    { id: "category", name: article.category?.name || "Unkategorisiert", href: `/blog/${category}` },
+                    { name: "Blog", href: "/blog" },
+                    { name: article.category?.name || "Unkategorisiert", href: `/blog/${category}` },
                     // Hier wird nun auch ein href vergeben (z. B. leerer String, wenn aktuell keine Navigation nötig ist)
-                    { id: "article", name: article.title, href: "" },
+                    { name: article.title, href: "" },
                 ]}
             />
 

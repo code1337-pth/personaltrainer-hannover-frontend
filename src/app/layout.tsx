@@ -1,21 +1,16 @@
 // app/layout.tsx
-import {categoriesToNavItems} from "@/app/lib/convert";
-
-export const dynamic = 'force-static';
-
+import { categoriesToNavItems } from "@/app/lib/convert";
+export const dynamic = "force-static";
 import "./globals.css";
-
-import {Article, Category} from "@/app/types/strapi";
-import {NavItem} from "@/app/types/navigation";
-import strapiCache, {CacheKey} from '@/lib/strapiCache';
-
+import { Article, Category } from "@/app/types/strapi";
+import { NavItem } from "@/app/types/navigation";
+import strapiCache, { CacheKey } from "@/lib/strapiCache";
 import { Rajdhani } from "next/font/google";
-import {ThemeProvider} from "@/app/components/theme-provider";
-import {UtilityButtons} from "@/app/components/UtilityButtons";
-
+import { ThemeProvider } from "@/app/components/theme-provider";
+import { UtilityButtons } from "@/app/components/UtilityButtons";
 import Header from "@/app/components/Header";
 import Footer from "@/app/components/Footer";
-import {generateNavigation} from "@/lib/navigationBuilder";
+import { generateNavigation } from "@/lib/navigationBuilder";
 
 const rajdhani = Rajdhani({
   subsets: ["latin"],
@@ -26,11 +21,11 @@ const rajdhani = Rajdhani({
 export const metadata = {
   title: "Home | Markus Kaluza - Premium Personal Training + Team",
   description:
-    "Erreiche deine Fitnessziele mit individuellem Training, Ernährungsberatung und persönlicher Betreuung.",
+      "Erreiche deine Fitnessziele mit individuellem Training, Ernährungsberatung und persönlicher Betreuung.",
   openGraph: {
     title: "Home | Markus Kaluza - Premium Personal Training + Team",
     description:
-      "Erreiche deine Fitnessziele mit individuellem Training, Ernährungsberatung und persönlicher Betreuung.",
+        "Erreiche deine Fitnessziele mit individuellem Training, Ernährungsberatung und persönlicher Betreuung.",
     type: "website",
     url: "https://www.personaltrainer-hannover.de",
     siteName: "Deine Webseite",
@@ -70,33 +65,32 @@ export const metadata = {
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   await strapiCache.preload();
-
-  const allArticles = await strapiCache.fetchData<Article>('articles', CacheKey.Articles);
-  const allCategories = await strapiCache.fetchData<Category>('categories', CacheKey.Categories);
+  const allArticles = await strapiCache.fetchData<Article>("articles", CacheKey.Articles);
+  const allCategories = await strapiCache.fetchData<Category>("categories", CacheKey.Categories);
 
   const { serviceNav, blogNav } = generateNavigation({
     categories: allCategories,
     articles: allArticles,
   });
 
-  // Feste Nav-Items für Home und Kontakt
+  // Wichtig: Übergebe die Untermenüs über "children"
   const navItems: NavItem[] = [
     { name: "Home", href: "/#home" },
     { name: "Kontakt", href: "/#contact" },
-    { name: "Leistungen", href: "/service", serviceNav },
-    { name: "Blog", href: "/blog", blogNav },
+    { name: "Leistungen", href: "/service", children: serviceNav },
+    { name: "Blog", href: "/blog", children: blogNav },
   ];
 
   return (
-    <html lang="de" className={rajdhani.className}>
+      <html lang="de" className={rajdhani.className}>
       <body>
-        <ThemeProvider>
-          <Header navItems={navItems} />
-          {children}
-          <Footer />
-          <UtilityButtons />
-        </ThemeProvider>
+      <ThemeProvider>
+        <Header navItems={navItems} />
+        {children}
+        <Footer />
+        <UtilityButtons />
+      </ThemeProvider>
       </body>
-    </html>
+      </html>
   );
 }

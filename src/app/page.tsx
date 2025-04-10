@@ -1,11 +1,11 @@
 import ContactSection from "./components/ContactSection";
 import ExperienceSection from "./components/ExperienceSection";
 import HeroSection from "./components/HeroSection";
+import ReasonsSection from "./components/ReasonSection";
 import ReviewsSection from "./components/ReviewsSection";
 import ServicesIconsSection from "./components/ServicesIconsSection";
 import ServicesSection from "./components/ServicesSection";
 import TeamSection from "./components/TeamSection";
-import ReasonsSection from "./components/ReasonSection";
 
 
 export default async function Home() {
@@ -13,24 +13,24 @@ export default async function Home() {
     return (
         <div>
             <main>
-                <HeroSection id="home"/>
-                <TeamSection/>
+                <HeroSection id="home" />
+                <TeamSection />
                 <div className="container-lg mx-auto">
-                    <div className="flex flex-col md:flex-row gap-8 items-center justify-center m-10">
+                    <div className="flex flex-col lg:flex-row gap-8 items-center justify-center m-10">
                         {/* Linke Spalte */}
-                        <div className="w-full md:w-1/2">
-                            <ServicesIconsSection/>
+                        <div className="w-full lg:w-1/2">
+                            <ServicesIconsSection />
                         </div>
                         {/* Rechte Spalte */}
-                        <div className="w-full md:w-1/2">
-                            <ReasonsSection/>
+                        <div className="w-full lg:w-1/2">
+                            <ReasonsSection />
                         </div>
                     </div>
                 </div>
-                <ContactSection id="contact"/>
-                 <ExperienceSection/>
-                 <ReviewsSection/>
-                 <ServicesSection/>
+                <ContactSection id="contact" />
+                <ExperienceSection />
+                <ReviewsSection />
+                <ServicesSection />
             </main>
         </div>
     );
