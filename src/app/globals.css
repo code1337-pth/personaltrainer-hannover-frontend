@@ -9,12 +9,15 @@
   --blog-image: url('/blog.png');
   --hero-profile-image: url('/markus-kaluza-tp.png');
   --link-color: #171717;
+
   --button-bg-color: var(--color-gold);
   --button-text-color: #0a0a0a;
   --border-thin-color: var(--color-gray-300);
 
   --contact-bg-color: var(--background);
   --contact-text-color: black;
+
+  --alternative-bg-color: rgba(209, 209, 209, 0.38);
 
   --keyword-text-color: var(--foreground);
 

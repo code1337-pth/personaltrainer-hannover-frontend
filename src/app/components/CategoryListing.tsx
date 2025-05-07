@@ -1,120 +1,151 @@
-// src/app/components/CategoryListing.tsx – Server-Komponente
-import { Article } from '../types/strapi';
-import ArticleCard from './ArticleCard';
-import CategoryHeroSection from './CategoryHeroSection';
-import PaginationControls from './PaginationControls';
-import SearchInput from './SearchInput';
+// src/app/components/CategoryListing.tsx
+import Link from "next/link";
+import React from "react";
+import CategoryHeroSection from "./CategoryHeroSection";
+import ArticleCard from "./ArticleCard";
+import { Article } from "@/app/types/strapi";
+import SearchInput from "@/app/components/SearchInput";
 
 export enum CategoryType {
-    Blog = "/blog",
+    Blog    = "/blog",
     Service = "/service",
 }
 
-export type BreadcrumbItem = {
-    id: string;
-    name: string;
-    href: string;
-};
+interface CategoryListingProps {
+    name: string;               // z.B. "Fitness"
+    slug: string;               // z.B. "fitness"
+    details?: string;           // Beschreibungstext
+    caption: "Blog" | "Leistungen";
+    categoryType: CategoryType; // "/blog" oder "/service"
+    articles: Article[];        // Alle Artikel, die geladen wurden
+    query: string;              // Suchbegriff aus URL (?query=...)
+    page: number;               // Seitenzahl aus URL (?page=...)
+}
 
-type CategoryListingProps = {
-    name: string;
-    slug: string;
-    details?: string;
-    image?: string;
-    articles: Article[]; // Alle Artikel wurden serverseitig geladen
-    caption: string;
-    categoryType: CategoryType;
-    /** searchParams aus der URL, z. B. ?query=...&page=... */
-    searchParams?: {
-        query?: string;
-        page?: string;
-    };
-};
+const PAGE_SIZE = 9;
 
-const PAGE_SIZE = 9; // Anzahl Artikel pro Seite
+export default function CategoryListing({
+                                            name,
+                                            slug,
+                                            details,
+                                            caption,
+                                            categoryType,
+                                            articles,
+                                            query,
+                                            page,
+                                        }: CategoryListingProps) {
+    const basePath = `${categoryType}/${slug}`; // z.B. "/blog/fitness"
 
-const CategoryListing = ({
-    name,
-    slug,
-    details,
-    image,
-    articles,
-    categoryType = CategoryType.Blog,
-    caption = "Blog",
-    searchParams,
-}: CategoryListingProps) => {
-    // Lese Suchquery und Seitennummer aus den URL-Parametern; Standardwerte verwenden
-    const searchQuery = searchParams?.query || "";
-    const page = searchParams?.page ? parseInt(searchParams.page, 10) : 1;
-
-    // Serverseitiges Filtern der Artikel
-    const filteredArticles = searchQuery
-        ? articles.filter(
-            (a) =>
-                a.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                (a.content && a.content.toLowerCase().includes(searchQuery.toLowerCase()))
-        )
+    // ————— 1) Filter nach Suchbegriff —————
+    const filtered = query.trim() !== ""
+        ? articles.filter((a) => {
+            const text = (a.title + " " + (a.content || "")).toLowerCase();
+            return text.includes(query.toLowerCase());
+        })
         : articles;
 
-    // Berechne Gesamtseitenzahl und wähle die auf der aktuellen Seite anzuzeigenden Artikel
-    const totalPages = Math.ceil(filteredArticles.length / PAGE_SIZE);
+    // ————— 2) Pagination berechnen —————
+    const totalPages = Math.ceil(filtered.length / PAGE_SIZE);
     const startIndex = (page - 1) * PAGE_SIZE;
-    const paginatedArticles = filteredArticles.slice(startIndex, startIndex + PAGE_SIZE);
+    const paginated = filtered.slice(startIndex, startIndex + PAGE_SIZE);
 
     return (
         <section className="container-lg">
+            {/* Hero + Breadcrumb */}
             <CategoryHeroSection
                 title={`${caption} – ${name}`}
-                description={`Alle Beiträge zum Thema ${name}`}
+                description={details}
                 breadcrumb={[
-                    { name: caption.toLowerCase(), href: categoryType },
-                    { name: slug, href: `${categoryType}/${slug}` },
+                    { name: caption, href: categoryType },
+                    { name,        href: basePath },
                 ]}
             />
 
-            {/* Clientseitige Suchkomponente */}
-            <SearchInput defaultQuery={searchQuery} />
+            <SearchInput defaultQuery={query} basePath={`${categoryType}/${slug}`} />
 
-            {/* Pagination oberhalb der Artikelliste */}
-            <PaginationControls
-                currentPage={page}
-                totalPages={totalPages}
-                baseUrl={`${categoryType}/${slug}`}
-                currentQuery={searchQuery}
-            />
+            {/* 4) Pagination oben */}
+            <div className="flex justify-center items-center space-x-4 mb-6">
+                {page > 1 ? (
+                    <Link
+                        href={`${basePath}?query=${encodeURIComponent(query)}&page=${page - 1}`}
+                        className="px-4 py-2 bg-gray-200 rounded"
+                    >
+                        Vorherige
+                    </Link>
+                ) : (
+                    <span className="px-4 py-2 bg-gray-200 rounded opacity-50">
+            Vorherige
+          </span>
+                )}
+                <span>
+          Seite {page} von {totalPages}
+        </span>
+                {page < totalPages ? (
+                    <Link
+                        href={`${basePath}?query=${encodeURIComponent(query)}&page=${page + 1}`}
+                        className="px-4 py-2 bg-gray-200 rounded"
+                    >
+                        Nächste
+                    </Link>
+                ) : (
+                    <span className="px-4 py-2 bg-gray-200 rounded opacity-50">
+            Nächste
+          </span>
+                )}
+            </div>
 
-            {paginatedArticles.length > 0 ? (
-                <div className="container-lg text-lg mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6 mt-6">
-                    {paginatedArticles.map((article, index) => (
+            {/* 5) Artikel-Grid */}
+            {paginated.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {paginated.map((article) => (
                         <ArticleCard
-                            key={article.slug || `${index}`}
+                            key={article.slug}
                             item={{
-                                name: article.title || "Ohne Titel",
+                                name: article.title,
                                 description:
-                                    article.seo?.metaDescription ||
-                                    (article.content ? article.content.slice(0, 100) + "..." : ""),
-                                image_url: article.featured_image?.url || "/public/default.jpg",
-                                link: `${categoryType}/${slug}/${article.slug}`,
+                                    article.seo?.metaDescription ??
+                                    (article.content ? article.content.slice(0, 100) + "…" : ""),
+                                image_url: article.featured_image?.url ?? "/default.jpg",
+                                link: `${basePath}/${article.slug}`,
                                 published_date: article.published_date,
                             }}
                         />
                     ))}
                 </div>
             ) : (
-                <div className="text-center py-12">
-                    <p>Keine Artikel gefunden.</p>
-                </div>
+                <p className="text-center py-12">Keine Artikel gefunden.</p>
             )}
 
-            {/* Pagination erneut unterhalb der Artikelliste */}
-            <PaginationControls
-                currentPage={page}
-                totalPages={totalPages}
-                baseUrl={`${categoryType}/${slug}`}
-                currentQuery={searchQuery}
-            />
+            {/* 6) Pagination unten */}
+            <div className="flex justify-center items-center space-x-4 mt-6">
+                {page > 1 ? (
+                    <Link
+                        href={`${basePath}?query=${encodeURIComponent(query)}&page=${page - 1}`}
+                        className="px-4 py-2 bg-gray-200 rounded"
+                    >
+                        Vorherige
+                    </Link>
+                ) : (
+                    <span className="px-4 py-2 bg-gray-200 rounded opacity-50">
+            Vorherige
+          </span>
+                )}
+                <span>
+          Seite {page} von {totalPages}
+        </span>
+                {page < totalPages ? (
+                    <Link
+                        href={`${basePath}?query=${encodeURIComponent(query)}&page=${page + 1}`}
+                        className="px-4 py-2 bg-gray-200 rounded"
+                    >
+                        Nächste
+                    </Link>
+                ) : (
+                    <span className="px-4 py-2 bg-gray-200 rounded opacity-50">
+            Nächste
+          </span>
+                )}
+            </div>
         </section>
     );
-};
-
-export default CategoryListing;
+}

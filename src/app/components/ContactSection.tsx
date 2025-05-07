@@ -1,12 +1,13 @@
 "use client";
 
 import PrinciplesSection from "./PrinciplesSection";
+import {JSX} from "react";
 
 interface ContactProps {
   id?: string; // optional, da vielleicht nicht immer benötigt
 }
 
-const ContactSection: React.FC<ContactProps> = ({ id }) => {
+const ContactSection: ({id}: { id: any }) => JSX.Element = ({ id }) => {
   // Berechne die Anzahl an Jahren seit 2001
   const currentYear = new Date().getFullYear();
   const experienceYears = currentYear - 2001;

@@ -1,34 +1,30 @@
-// src/app/components/SearchInput.tsx – Client-Komponente
-'use client';
+// src/app/components/SearchInput.tsx
+"use client";
 
-import { useState, useEffect } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 interface SearchInputProps {
     defaultQuery?: string;
+    basePath: string;
 }
 
-const SearchInput = ({ defaultQuery = "" }: SearchInputProps) => {
-    const [query, setQuery] = useState(defaultQuery);
-    const pathname = usePathname();
+const SearchInput = ({ defaultQuery, basePath }: SearchInputProps) => {
+    // Initialisiere immer mit einem String
+    const [query, setQuery] = useState<string>(defaultQuery ?? "");
     const router = useRouter();
 
-    // Synchronisiere den internen State, wenn sich defaultQuery ändert
     useEffect(() => {
-        setQuery(defaultQuery);
+        // Erneut immer einen String setzen
+        setQuery(defaultQuery ?? "");
     }, [defaultQuery]);
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         const params = new URLSearchParams();
-        if (query) {
-            params.set("query", query);
-        }
-        // Setze immer die Seite auf 1, wenn gesucht wird
+        if (query) params.set("query", query);
         params.set("page", "1");
-
-        // Navigiere ohne vollständiges Neuladen der Seite, sodass ein neuer Server-Render erfolgt
-        router.replace(`${pathname}?${params.toString()}`);
+        router.push(`${basePath}?${params.toString()}`);
     };
 
     return (
@@ -40,7 +36,10 @@ const SearchInput = ({ defaultQuery = "" }: SearchInputProps) => {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
             />
-            <button type="submit" className="absolute right-0 top-0 mt-2 mr-2">
+            <button
+                type="submit"
+                className="absolute right-2 top-2 text-sm text-[var(--color-gold)]"
+            >
                 Suchen
             </button>
         </form>

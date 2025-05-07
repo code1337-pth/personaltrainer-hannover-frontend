@@ -1,16 +1,24 @@
 // app/service/page.tsx
-import strapiCache, { CacheKey } from '@/lib/strapiCache';
-import { CategorySliderItem } from '@/app/types/slider';
-
-import CategoryHeroSection from '../components/CategoryHeroSection';
-import CategorySlider from '../components/CategorySlider';
-import {Category} from "@/app/types/strapi";
-import { getSortedServiceCategories } from '../lib/sortService';
+import strapiCache, { CacheKey } from "@/lib/strapiCache";
+import { Category } from "@/app/types/strapi";
+import { Article } from "@/app/types/strapi";
+import { getServiceSliderItems } from "../lib/getServiceSliderItems";
+import CategoryHeroSection from "../components/CategoryHeroSection";
+import CategorySlider from "../components/CategorySlider";
 
 export default async function ServicePage() {
-    // on-demand (holt & cached nur falls nötig):
-    const categories = await strapiCache.fetchData<Category>('categories', CacheKey.Categories);
-    const items = getSortedServiceCategories(categories);
+    // erst Kategorien, dann Artikel laden
+    const categories = await strapiCache.fetchData<Category>(
+        "categories",
+        CacheKey.Categories
+    );
+    const articles = await strapiCache.fetchData<Article>(
+        "articles",
+        CacheKey.Articles
+    );
+
+    // erzeuge die Slider-Items in exakt der gewünschten Reihenfolge
+    const items = getServiceSliderItems(categories, articles);
 
     return (
         <section className="container-lg">
@@ -19,10 +27,7 @@ export default async function ServicePage() {
                 description="Entdecken Sie unser umfangreiches Angebot, das individuell auf Ihre Fitness- und Gesundheitsziele zugeschnitten ist."
             />
 
-            <CategorySlider
-                title="Unsere Leistungen"
-                items={items}
-            />
+            <CategorySlider title="Unsere Leistungen" items={items} />
         </section>
     );
 }

@@ -1,15 +1,14 @@
 "use client";
 
-import {JSX, useState} from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import {Swiper, SwiperSlide} from "swiper/react";
-import {Navigation, Pagination} from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import {CategorySliderItem} from "@/app/types/slider";
-
+import { CategorySliderItem } from "@/app/types/slider";
 
 interface CategorySliderProps {
     title: string;
@@ -17,114 +16,118 @@ interface CategorySliderProps {
     items: CategorySliderItem[];
 }
 
-const CategorySlider = ({title, description, items}: CategorySliderProps) => {
-    const [selectedCategory, setSelectedCategory] = useState<string>("Alle");
+const CategorySlider = ({ title, description, items }: CategorySliderProps) => {
+    const [selectedGroup, setSelectedGroup] = useState("Alle");
+    const [showNav, setShowNav] = useState(false);
 
-    const categoryNames = ["Alle", ...new Set(items.map((item) => item.name))];
-
-    // Items nach Kategorie filtern
-    const displayedItems: CategorySliderItem[] =
-        selectedCategory === "Alle"
-            ? items
-            : items.filter((item: CategorySliderItem) => item.name === selectedCategory);
-
-    const breakpoints: { [key: number]: { slidesPerView: number } } = {
-        640: {slidesPerView: 2},
-        768: {slidesPerView: 3},
-        1024: {slidesPerView: 4},
+    // eigene Funktion, um anhand der Breite slidesPerView zu bestimmen
+    const getSpv = () => {
+        const w = window.innerWidth;
+        if (w >= 1024) return 4;
+        if (w >= 768) return 3;
+        if (w >= 640) return 2;
+        return 1;
     };
 
-    return (
-        <section>
-            <div className="container mx-auto px-4 text-center">
-                <div className="text-center">
-                    <h2 className="mt-2 text-4xl font-extrabold">{title}</h2>
-                    {description && (
-                        <p className="mt-4 text-lg">{description}</p>
-                    )}
-                </div>
+    // prüfen, ob wir Navigation brauchen
+    useEffect(() => {
+        const check = () => {
+            setShowNav(displayed.length > getSpv());
+        };
+        // initial
+        check();
+        // bei resize nachprüfen
+        window.addEventListener("resize", check);
+        return () => window.removeEventListener("resize", check);
+    }, [selectedGroup, items]);
 
-                {/* Kategorie-Navigation */}
-                <nav className="border-b mb-8 mt-6">
-                    <ul className="flex flex-wrap gap-4 justify-center">
-                        {categoryNames.map((cat, idx) => (
+    const groupNames = ["Alle", ...Array.from(new Set(items.map(i => i.group)))];
+    const displayed = selectedGroup === "Alle"
+        ? items
+        : items.filter(i => i.group === selectedGroup);
+
+    return (
+        <section className="py-12 bg-[var(--background)]">
+            <div className="container mx-auto px-4 text-center">
+                <h2 className="text-4xl font-extrabold mb-2">{title}</h2>
+                {description && <p className="text-lg mb-6">{description}</p>}
+
+                {/* Tabs */}
+                <nav className="border-b mb-8">
+                    <ul className="flex flex-wrap justify-center gap-6">
+                        {groupNames.map(g => (
                             <li
-                                key={idx}
-                                className={`py-2 cursor-pointer transition-colors duration-300 ${
-                                    cat === selectedCategory ? "font-bold border-b-2" : "font-normal hover:underline"
+                                key={g}
+                                className={`pb-2 cursor-pointer transition-colors ${
+                                    g === selectedGroup ? "border-b-2 font-semibold" : "hover:text-gray-400"
                                 }`}
-                                onClick={() => setSelectedCategory(cat)}
+                                onClick={() => setSelectedGroup(g)}
                             >
-                                {cat}
+                                {g}
                             </li>
                         ))}
                     </ul>
                 </nav>
 
-                {/* Swiper-Slider */}
+                {/* Slider */}
                 <div className="relative">
                     <Swiper
-                        className="m-5"
                         modules={[Navigation, Pagination]}
-                        spaceBetween={20}
-                        slidesPerView={1}
-                        navigation
-                        pagination={{clickable: true}}
-                        breakpoints={breakpoints}
+                        spaceBetween={24}
+                        breakpoints={{
+                            0:   { slidesPerView: 1 },
+                            640: { slidesPerView: 2 },
+                            768: { slidesPerView: 3 },
+                            1024:{ slidesPerView: 4 },
+                        }}
+                        navigation={showNav}
+                        pagination={{ clickable: true }}
                     >
-                        <>
-                            {displayedItems.map((item, idx) => {
-                                const cardContent: JSX.Element = (
-                                    <div
-                                        className="relative group overflow-hidden rounded-xl h-[450px] shadow-lg transition-transform transform hover:scale-105">
-                                        <div className="relative w-full h-2/3">
-                                            {item.image_url ? (
+                        {displayed.map(item => (
+                            <SwiperSlide key={item.id}>
+                                <Link href={item.link ?? "#"}>
+                                    <div className="h-[450px] flex flex-col overflow-hidden rounded-lg shadow-lg">
+                                        <div className="relative w-full aspect-video">
+                                            {item.image_url && (
                                                 <Image
                                                     src={item.image_url}
                                                     alt={item.name}
                                                     fill
-                                                    className="object-cover object-center rounded-lg"
+                                                    className="object-cover object-center"
                                                 />
-                                            ) : null}
+                                            )}
                                         </div>
-                                        <div
-                                            className="p-4 h-1/3 flex flex-col justify-center bg-[var(--background)] group-hover:bg-[var(--contact-bg-color)] transition-colors duration-300">
-                                            <h3 className="mt-1 text-xl font-bold">{item.name}</h3>
+                                        <div className="p-4 bg-[var(--background)] flex flex-col space-y-2">
+                                            <h3 className="text-xl font-bold mb-2">{item.name}</h3>
                                             {item.description && (
-                                                <p className="text-sm text-[var(--tag-text-color)]">
+                                                <p className="text-sm text-[var(--tag-text-color)] line-clamp-3">
                                                     {item.description}
                                                 </p>
                                             )}
                                         </div>
-                                        {item.link && (
-                                            <div
-                                                className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                                  <span
-                                                      className="text-xl font-bold text-[var(--button-text-color)] bg-[var(--button-bg-color)] px-4 py-2 rounded-lg pointer-events-none">
-                                                    Mehr erfahren
-                                                  </span>
-                                            </div>
-                                        )}
                                     </div>
-                                );
-
-                                return (
-                                    <SwiperSlide key={idx}>
-                                        {item.link ? (
-                                            <Link href={item.link} className="block h-full w-full">
-                                                {cardContent}
-                                            </Link>
-                                        ) : (
-                                            cardContent
-                                        )}
-                                    </SwiperSlide>
-                                );
-                            })}
-                        </>
+                                </Link>
+                            </SwiperSlide>
+                        ))}
                     </Swiper>
-
                 </div>
             </div>
+
+            {/* Globale Styles für die Swiper-Nav-Buttons */}
+            <style jsx global>{`
+        .swiper-button-prev,
+        .swiper-button-next {
+          width: 2.5rem !important;
+          height: 2.5rem !important;
+          background: rgba(0,0,0,0.5);
+          border-radius: 9999px;
+        }
+        .swiper-button-prev::after,
+        .swiper-button-next::after {
+          font-size: 1.25rem;
+          color: white;
+        }
+      `}</style>
         </section>
     );
 };

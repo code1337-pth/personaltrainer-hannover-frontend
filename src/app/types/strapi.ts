@@ -1,104 +1,177 @@
+// src/app/types/strapi.ts
+
 // Shared Component: SEO
 export interface Seo {
-    metaTitle: string;
-    metaDescription: string;
-    canonicalUrl?: string;
-    metaKeywords?: string[];
-  }
-  
-  // Media (z. B. für Bilder)
-  export interface MediaFormat {
-    ext: string;
-    url: string;
-    hash: string;
-    mime: string;
-    name: string;
-    path: string | null;
-    size: number;
-    width: number;
-    height: number;
-  }
-  
-  export interface Media {
-    id: number;
-    name: string;
-    url: string;
-    alternativeText?: string | null;
-    caption?: string | null;
-    width?: number;
-    height?: number;
-    mime: string;
-    size: number;
-    formats?: {
-      thumbnail?: MediaFormat;
-      small?: MediaFormat;
-      medium?: MediaFormat;
-      large?: MediaFormat;
-    };
-  }
-  
-  // Author
-  export interface Author {
-    id: number;
-    name: string;
-    email: string;
-    avatar?: Media;
-  }
-  
-  // Category
-  export interface Category {
-    id: number;
-    name: string;
-    slug: string;
-    featured_image?: Media;
-    description?: string;
-    seo?: Seo;
-    blog_category?: boolean;
-    active?: boolean;
-    featured?: boolean;
-    priority?: number;
-  }
-  
-  // Tag
-  export interface Tag {
-    id: number;
-    name: string;
-    slug: string;
-  }
-  
-  // Article
-  export interface Article {
-    id: number;
-    title: string;
-    slug: string;
-    content?: string;
-    published_date?: string;
-    modified_date?: string;
-    status: "draft" | "published";
-    featured_image?: Media;
-    author?: Author;
-    category?: Category;
-    tags?: Tag[];
-    seo?: Seo;
-    optimized?: boolean;
-    blog_article?: boolean;
-  }
+  metaTitle: string;
+  metaDescription: string;
+  canonicalUrl?: string;
+  metaKeywords?: string[];
+}
 
-// Component: Social Link
+// Media (z. B. für Bilder)
+export interface MediaFormat {
+  ext: string;
+  url: string;
+  hash: string;
+  mime: string;
+  name: string;
+  path: string | null;
+  size: number;
+  width: number;
+  height: number;
+}
+
+export interface Media {
+  id: number;
+  name: string;
+  url: string;
+  alternativeText?: string | null;
+  caption?: string | null;
+  width?: number;
+  height?: number;
+  mime: string;
+  size: number;
+  formats?: {
+    thumbnail?: MediaFormat;
+    small?: MediaFormat;
+    medium?: MediaFormat;
+    large?: MediaFormat;
+  };
+}
+
+// Author
+export interface Author {
+  id: number;
+  name: string;
+  email: string;
+  avatar?: Media;
+}
+
+// Category
+export interface Category {
+  id: number;
+  name: string;
+  slug: string;
+  featured_image?: Media;
+  description?: string;
+  seo?: Seo;
+  blog_category?: boolean;
+  active?: boolean;
+  featured?: boolean;
+  priority?: number;
+}
+
+// Tag
+export interface Tag {
+  id: number;
+  name: string;
+  slug: string;
+}
+
+// -------------------- Dynamic Zone Blocks --------------------
+
+// Html Content Block
+export interface HtmlContentBlock {
+  __component: "shared.html-content";
+  content: string;
+}
+
+// Markdown Content Block
+export interface MarkdownContentBlock {
+  __component: "shared.markdown-content";
+  content: string;
+}
+
+// Content With Image Block
+export interface ContentWithImageBlock {
+  __component: "shared.content-with-image";
+  content: string;
+  image: Media[];
+  align_image_left: boolean;
+}
+
+// Slider Block
+export interface SliderBlock {
+  __component: "shared.slider";
+  items: Array<{
+    id: string;
+    image_url: string;
+    name: string;
+    description?: string;
+    link?: string;
+  }>;
+}
+
+// Quote Block
+export interface QuoteBlock {
+  __component: "shared.quote";
+  text: string;
+  author?: string;
+}
+
+// Media Block
+export interface MediaBlockType {
+  __component: "shared.media";
+  id: number;
+  /** Achtung: heißt jetzt `file`, kein `media[]` mehr */
+  file: Media;
+}
+
+// Contact Section Block
+export interface ContactSectionBlock {
+  __component: "shared.contact-section";
+  optional_text?: string;
+}
+
+// Union of all section blocks
+export type SectionBlock =
+    | HtmlContentBlock
+    | MarkdownContentBlock
+    | ContentWithImageBlock
+    | SliderBlock
+    | QuoteBlock
+    | MediaBlockType   // geändertes Interface
+    | ContactSectionBlock;
+
+// -------------------- Article --------------------
+
+// Article interface including dynamic sections
+export interface Article {
+  id: number;
+  documentId: string;
+  title: string;
+  slug: string;
+  content?: string;
+  published_date?: string;
+  modified_date?: string;
+  status: "draft" | "published";
+  featured_image?: Media;
+  author?: Author;
+  category?: Category;
+  tags?: Tag[];
+  seo?: Seo;
+  optimized?: boolean;
+  blog_article?: boolean;
+
+  /** Dynamic Zone content blocks */
+  sections?: SectionBlock[];
+}
+
+// -------------------- Social Link --------------------
 export interface SocialLink {
   id: number;
-  platform: 'Instagram' | 'YouTube' | 'WhatsApp' | 'LinkedIn' | 'Facebook' | 'Website';
+  platform: "Instagram" | "YouTube" | "WhatsApp" | "LinkedIn" | "Facebook" | "Website";
   url: string;
 }
 
-// Component: Role
+// -------------------- Role --------------------
 export interface Role {
   id: number;
   name: string;
-  title: string; // oder z.B. "label", je nachdem wie du `shared.role` aufgebaut hast
+  title: string;
 }
 
-// Team Member
+// -------------------- Team Member --------------------
 export interface TeamMember {
   id: number;
   name: string;
@@ -112,19 +185,18 @@ export interface TeamMember {
   about?: string;
 }
 
-// Component: Reason
+// -------------------- Reason List --------------------
 export interface Reason {
   id: number;
   html_content: string;
-  tags?: string[]; // JSON-Feld (Array of Strings)
+  tags?: string[];
 }
 
-// Collection Type: Reason List
 export interface ReasonList {
   id: number;
   title: string;
   description: string;
   reasons: Reason[];
-  seo?: Seo; // Falls du in Zukunft SEO dazufügen willst
+  seo?: Seo;
   name: string;
 }

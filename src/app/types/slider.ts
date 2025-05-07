@@ -1,7 +1,10 @@
-// types/slider.ts
+// nachher in app/types/slider.ts
 export interface CategorySliderItem {
-    id: number;
-    category: string; // hier kannst du z. B. den slug speichern
+    /** Eindeutige ID (Artikel-ID oder Kategorie-ID) */
+    id: number | string;
+    /** Gruppierungs-Feld (z. B. Kategorie-Name) */
+    group: string;
+    /** Label, das auf der Karte steht */
     name: string;
     description?: string;
     image_url?: string;

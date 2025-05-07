@@ -6,10 +6,11 @@ import { NavItem } from "../types/navigation";
 export function convertCategoryToSliderItem(category: Category): CategorySliderItem {
   return {
     id: category.id,
-    category: category.slug, // oder auch den Namen, je nach Bedarf
+    // group bestimmt den Tab-Namen
+    group: category.name,
     name: category.name,
     description: category.description,
-    image_url: `${category.featured_image?.url ?? "/uploads/default.webp"}`,
+    image_url: category.featured_image?.url ?? "/uploads/default.webp",
     link: `/blog/${category.slug}`,
   };
 }

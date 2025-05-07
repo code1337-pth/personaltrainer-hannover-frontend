@@ -1,3 +1,5 @@
+// src/lib/strapiCache.ts
+
 import { transformHtmlContent, transformMediaUrl } from "@/lib/utils/transformHtml";
 
 export enum CacheKey {
@@ -5,7 +7,7 @@ export enum CacheKey {
     Categories = "categories",
     Tags = "tags",
     TeamMembers = "team-members",
-    ReasonLists = "reason-lists", // ✅ NEU
+    ReasonLists = "reason-lists",
 }
 
 type CacheEntry<T> = {
@@ -13,7 +15,7 @@ type CacheEntry<T> = {
     timestamp: number;
 };
 
-const TTL = 1000 * 60 * 60; // Optional: 1 Stunde
+const TTL = 1000 * 60 * 60; // 1 Stunde
 
 class StrapiCache {
     private cache = new Map<CacheKey, CacheEntry<unknown>>();
@@ -31,38 +33,133 @@ class StrapiCache {
         let results: T[] = [];
         let page = 1;
         const pageSize = 100;
-        let fetchedItems: T[];
+        let fetchedItems: any[] = [];
 
         do {
-            const url = `${process.env.STRAPI_API_URL}/api/${endpoint}?populate=*&pagination[pageSize]=${pageSize}&pagination[page]=${page}`;
-            console.log(url)
-            const res = await fetch(url, {
-                headers: {
-                    Authorization: `Bearer ${process.env.STRAPI_TOKEN}`,
-                },
-                next: { revalidate: 0 },
-            });
+            if (key === CacheKey.Articles) {
+                // 1️⃣ Basis-Abfrage (flaches populate)
+                const baseParams = new URLSearchParams({
+                    "pagination[pageSize]": pageSize.toString(),
+                    "pagination[page]": page.toString(),
+                    populate: "*",
+                });
+                const baseUrl = `${process.env.STRAPI_API_URL}/api/${endpoint}?${baseParams.toString()}`;
 
-            if (!res.ok) {
-                const errorText = await res.text();
-                throw new Error(`❌ Fehler beim Laden von ${key} (Seite ${page}): ${errorText}`);
+                console.log(`📡 Fetching base articles from ${baseUrl}`);
+                const baseRes = await fetch(baseUrl, {
+                    headers: { Authorization: `Bearer ${process.env.STRAPI_TOKEN}` },
+                    next: { revalidate: 0 },
+                });
+                if (!baseRes.ok) {
+                    const txt = await baseRes.text();
+                    throw new Error(`❌ Fehler beim Laden von ${key} (Basis, Seite ${page}): ${txt}`);
+                }
+                const baseJson = await baseRes.json();
+                const baseData = baseJson.data as any[];
+
+                // 2️⃣ Deep-Abfrage nur für sections
+                let deepData: any[] = [];
+                try {
+                    const deepParams = new URLSearchParams({
+                        "pagination[pageSize]": pageSize.toString(),
+                        "pagination[page]": page.toString(),
+                        "populate[sections][populate]": "*",
+                    });
+                    const deepUrl = `${process.env.STRAPI_API_URL}/api/${endpoint}?${deepParams.toString()}`;
+                    console.log(`📡 Fetching deep sections from ${deepUrl}`);
+                    const deepRes = await fetch(deepUrl, {
+                        headers: { Authorization: `Bearer ${process.env.STRAPI_TOKEN}` },
+                        next: { revalidate: 0 },
+                    });
+                    if (deepRes.ok) {
+                        const deepJson = await deepRes.json();
+                        deepData = deepJson.data as any[];
+                    } else {
+                        console.warn(`⚠️ Deep fetch failed for ${deepUrl}, status ${deepRes.status}`);
+                    }
+                } catch (e) {
+                    console.warn(`⚠️ Deep fetch error, skipping sections merge: ${e}`);
+                }
+
+                // 3️⃣ Merge: falls deepData vorhanden, setze nur sections
+                fetchedItems = baseData.map(item => {
+                    if (deepData.length) {
+                        const deepItem = deepData.find(d => d.id === item.id);
+                        if (deepItem && Array.isArray(deepItem.sections)) {
+                            item.sections = deepItem.sections;
+                        }
+                    }
+                    return item;
+                });
+            } else {
+                // Normales Populate für andere Endpunkte
+                const url = `${process.env.STRAPI_API_URL}/api/${endpoint}` +
+                    `?populate=*&pagination[pageSize]=${pageSize}&pagination[page]=${page}`;
+                console.log(`📡 Fetching ${url}`);
+                const res = await fetch(url, {
+                    headers: { Authorization: `Bearer ${process.env.STRAPI_TOKEN}` },
+                    next: { revalidate: 0 },
+                });
+                if (!res.ok) {
+                    const txt = await res.text();
+                    throw new Error(`❌ Fehler beim Laden von ${key} (Seite ${page}): ${txt}`);
+                }
+                const json = await res.json();
+                fetchedItems = json.data as any[];
             }
 
-            const json = await res.json();
-            fetchedItems = json.data as T[];
-
-            // 🔁 Transformieren je nach Typ
+            // 🔁 Transformation nur für Articles
             if (key === CacheKey.Articles) {
                 fetchedItems.forEach((article: any) => {
+                    // alter HTML-Content
                     if (article.content) {
                         article.content = transformHtmlContent(article.content);
                     }
+                    // featured_image
                     if (article.featured_image?.url) {
                         article.featured_image.url = transformMediaUrl(article.featured_image.url);
+                    }
+                    // Dynamic Zone sections
+                    if (Array.isArray(article.sections)) {
+                        article.sections = article.sections.map((sec: any) => {
+                            switch (sec.__component) {
+                                case "shared.html-content":
+                                    if (sec.content) sec.content = transformHtmlContent(sec.content);
+                                    return sec;
+                                case "shared.markdown-content":
+                                    return sec;
+                                case "shared.content-with-image":
+                                    if (Array.isArray(sec.image)) {
+                                        sec.image = sec.image.map((img: any) => ({ ...img, url: transformMediaUrl(img.url) }));
+                                    }
+                                    return sec;
+                                case "shared.slider":
+                                    if (Array.isArray(sec.items)) {
+                                        sec.items = sec.items.map((it: any) => ({ ...it, image_url: transformMediaUrl(it.image_url) }));
+                                    }
+                                    return sec;
+                                case "shared.media":
+                                    if (sec.file) {
+                                        // 1) Haupt‑URL des Bildes
+                                        sec.file.url = transformMediaUrl(sec.file.url);
+
+                                        // 2) alle formats URLs ebenfalls umwandeln
+                                        if (sec.file.formats) {
+                                            Object.values(sec.file.formats).forEach((fmt: any) => {
+                                                fmt.url = transformMediaUrl(fmt.url);
+                                            });
+                                        }
+                                    }
+                                    return sec;
+                                default:
+                                    return sec;
+                            }
+                        });
                     }
                 });
             }
 
+            // Medien-URL-Transformation für Categories, TeamMembers, ReasonLists
             if (key === CacheKey.Categories) {
                 fetchedItems.forEach((cat: any) => {
                     if (cat.featured_image?.url) {
@@ -70,32 +167,25 @@ class StrapiCache {
                     }
                 });
             }
-
             if (key === CacheKey.TeamMembers) {
-                fetchedItems.forEach((member: any) => {
-                    if (member.image?.url) {
-                        member.image.url = transformMediaUrl(member.image.url);
-                    }
+                fetchedItems.forEach((m: any) => {
+                    if (m.image?.url) m.image.url = transformMediaUrl(m.image.url);
                 });
             }
-
             if (key === CacheKey.ReasonLists) {
                 fetchedItems.forEach((list: any) => {
-                    // optionales Transforming von content oder tags
-                    list.reasons?.forEach((reason: any) => {
-                        if (reason.html_content) {
-                            reason.html_content = transformHtmlContent(reason.html_content);
-                        }
+                    list.reasons?.forEach((r: any) => {
+                        if (r.html_content) r.html_content = transformHtmlContent(r.html_content);
                     });
                 });
             }
 
-            results = results.concat(fetchedItems);
+            results = results.concat(fetchedItems as T[]);
             page++;
         } while (fetchedItems.length === pageSize);
 
         this.cache.set(key, { data: results, timestamp: Date.now() });
-        return results;
+        return results as T[];
     }
 
     public getCachedData<T>(key: CacheKey): T[] | undefined {
@@ -104,20 +194,16 @@ class StrapiCache {
     }
 
     public clearCache(key?: CacheKey): void {
-        if (key) {
-            this.cache.delete(key);
-        } else {
-            this.cache.clear();
-        }
+        if (key) this.cache.delete(key);
+        else this.cache.clear();
     }
 
     public async preload(): Promise<void> {
         await Promise.all([
-            this.fetchData('articles', CacheKey.Articles),
-            this.fetchData('categories', CacheKey.Categories),
-            this.fetchData('team-members', CacheKey.TeamMembers),
-            this.fetchData('reason-lists', CacheKey.ReasonLists), // ✅ NEU
-            // Optional: this.fetchData('tags', CacheKey.Tags),
+            this.fetchData("articles", CacheKey.Articles),
+            this.fetchData("categories", CacheKey.Categories),
+            this.fetchData("team-members", CacheKey.TeamMembers),
+            this.fetchData("reason-lists", CacheKey.ReasonLists),
         ]);
     }
 }
