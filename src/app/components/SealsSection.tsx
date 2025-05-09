@@ -1,65 +1,57 @@
-"use client";
-
-import { useEffect, useState } from "react";
+// app/components/SealsSection.tsx
 import Image from "next/image";
+import strapiCache, { CacheKey } from "@/lib/strapiCache";
+import { Seal } from "@/app/types/strapi";
 
-// Typ für dein Siegel
-type Seal = {
-  title: string;
-  src: string;
-  link_url: string;
-  width: number;
-  height: number;
-};
+export default async function SealsSection() {
+    const seals = await strapiCache.fetchData<Seal>("seals", CacheKey.Seals);
+    const maxHeight = 150;
 
-export default function SealsSection() {
-  const [seals, setSeals] = useState<Seal[]>([]);
+    return (
+        <section id="seals" className="py-16 text-center">
+            <div className="container mx-auto px-6">
+                <div className="flex flex-wrap justify-center gap-8">
+                    {seals.map((seal) => {
+                        const img = Array.isArray(seal.image) && seal.image[0];
+                        if (!img) return null;
 
-  useEffect(() => {
-    fetch("/seals/dummySeals.json")
-      .then((res) => res.json())
-      .then((data) => setSeals(data))
-      .catch((err) => console.error("Fehler beim Laden der Siegel:", err));
-  }, []);
+                        // Breite proportional zur festen Höhe berechnen
+                        const scaledWidth = Math.round((img.width / img.height) * maxHeight);
 
-  return (
-    <section className="py-16 text-center" id="seals">
-      <div className="container mx-auto px-6">
-        {/* <h2 className="text-4xl font-bold text-gold mb-4">Unsere Auszeichnungen</h2>
-        <p className="text-gray-600 mb-8 max-w-2xl mx-auto">
-          Zertifikate, Awards und Siegel, die unsere Qualität belegen
-        </p> */}
-
-        <div className="flex flex-wrap justify-center gap-8">
-          {seals.map((seal, index) => (
-            <a
-              href={seal.link_url}
-              target="_blank"
-              rel="noreferrer"
-              key={index}
-              className="group hover:opacity-80 transition-opacity flex flex-col items-center"
-            >
-              {/* 
-                Fester Container (z.B. 160×160) 
-                - flex items-center justify-center für zentrales Ausrichten
-              */}
-              <div className="relative w-40 h-40 flex items-center justify-center">
-                <Image
-                  src={seal.src}
-                  alt={seal.title}
-                  width={seal.width}
-                  height={seal.height}
-                  className="object-contain"
-                />
-              </div>
-
-              <p className="mt-2 font-semibold">
-                {seal.title}
-              </p>
-            </a>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
+                        return (
+                            <a
+                                key={seal.title}
+                                href={seal.link}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="
+                  group
+                  flex flex-col items-center justify-between
+                  h-60                /* alle Elemente gleich hoch (15rem = 240px) */
+                  p-4
+                  overflow-hidden
+                  rounded-lg
+                  shadow
+                  transition-opacity hover:opacity-80
+                "
+                            >
+                                <div
+                                    className="flex items-center justify-center"
+                                    style={{ height: maxHeight }}
+                                >
+                                    <Image
+                                        src={img.url}
+                                        alt={img.alternativeText ?? seal.title}
+                                        width={scaledWidth}
+                                        height={maxHeight}
+                                        className="object-contain"
+                                    />
+                                </div>
+                            </a>
+                        );
+                    })}
+                </div>
+            </div>
+        </section>
+    );
 }

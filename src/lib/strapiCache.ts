@@ -10,6 +10,7 @@ export enum CacheKey {
     TeamMembers = "team-members",
     ReasonLists = "reason-lists",
     Partners = "partners",
+    Seals = "seals",
 }
 
 type CacheEntry<T> = {
@@ -204,6 +205,23 @@ class StrapiCache {
                     }
                 });
             }
+            if (key === CacheKey.Seals) {
+                fetchedItems.forEach((seal: any) => {
+                    // partner.logo ist hier ein Array von Media-Objekten
+                    if (Array.isArray(seal.image)) {
+                        seal.image.forEach((media: any) => {
+                            // URL des Originals
+                            media.url = transformMediaUrl(media.url);
+                            // alle Formate umlinken
+                            if (media.formats) {
+                                Object.values(media.formats).forEach((fmt: any) => {
+                                    fmt.url = transformMediaUrl(fmt.url);
+                                });
+                            }
+                        });
+                    }
+                });
+            }
 
             results = results.concat(fetchedItems as T[]);
             page++;
@@ -230,6 +248,7 @@ class StrapiCache {
             this.fetchData("team-members", CacheKey.TeamMembers),
             this.fetchData("reason-lists", CacheKey.ReasonLists),
             this.fetchData("partners", CacheKey.Partners),
+            this.fetchData("seals", CacheKey.Seals),
         ]);
     }
 }

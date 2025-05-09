@@ -40,7 +40,7 @@ export default async function HeroSection(props: HeroSectionProps) {
                     <p className="mt-4 text-lg sm:text-xl md:text-2xl max-w-xl">
                         Starte jetzt und entdecke dein volles Potenzial!
                     </p>
-                    <a href="#contact" className="group action-button mt-6">
+                    <a href="/#contact" className="group action-button mt-6">
                         <span>Termin sichern</span>
                         <span className="ml-2 transition-transform duration-300 group-hover:translate-x-1">
               &rarr;

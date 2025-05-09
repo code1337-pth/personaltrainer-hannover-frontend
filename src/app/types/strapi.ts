@@ -215,3 +215,9 @@ export interface Partner {
     link: string;
     logo: Media;
 }
+
+export interface Seal {
+    title: number;
+    image: Media;
+    link: string;
+}
