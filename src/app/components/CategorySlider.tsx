@@ -1,14 +1,14 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, {useEffect, useState} from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination } from "swiper/modules";
+import {Swiper, SwiperSlide} from "swiper/react";
+import {Navigation, Pagination} from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import { CategorySliderItem } from "@/app/types/slider";
+import {CategorySliderItem} from "@/app/types/slider";
 
 interface CategorySliderProps {
     title: string;
@@ -16,7 +16,7 @@ interface CategorySliderProps {
     items: CategorySliderItem[];
 }
 
-const CategorySlider = ({ title, description, items }: CategorySliderProps) => {
+const CategorySlider = ({title, description, items}: CategorySliderProps) => {
     const [selectedGroup, setSelectedGroup] = useState("Alle");
     const [showNav, setShowNav] = useState(false);
 
@@ -75,13 +75,13 @@ const CategorySlider = ({ title, description, items }: CategorySliderProps) => {
                         modules={[Navigation, Pagination]}
                         spaceBetween={24}
                         breakpoints={{
-                            0:   { slidesPerView: 1 },
-                            640: { slidesPerView: 2 },
-                            768: { slidesPerView: 3 },
-                            1024:{ slidesPerView: 4 },
+                            0: {slidesPerView: 1},
+                            640: {slidesPerView: 2},
+                            768: {slidesPerView: 3},
+                            1024: {slidesPerView: 4},
                         }}
                         navigation={showNav}
-                        pagination={{ clickable: true }}
+                        pagination={{clickable: true}}
                     >
                         {displayed.map(item => (
                             <SwiperSlide key={item.id}>
@@ -112,22 +112,6 @@ const CategorySlider = ({ title, description, items }: CategorySliderProps) => {
                     </Swiper>
                 </div>
             </div>
-
-            {/* Globale Styles für die Swiper-Nav-Buttons */}
-            <style jsx global>{`
-        .swiper-button-prev,
-        .swiper-button-next {
-          width: 2.5rem !important;
-          height: 2.5rem !important;
-          background: rgba(0,0,0,0.5);
-          border-radius: 9999px;
-        }
-        .swiper-button-prev::after,
-        .swiper-button-next::after {
-          font-size: 1.25rem;
-          color: white;
-        }
-      `}</style>
         </section>
     );
 };

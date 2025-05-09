@@ -2,49 +2,57 @@ import Image from "next/image";
 import {SocialIcon} from "react-social-icons";
 import strapiCache, {CacheKey} from "@/lib/strapiCache";
 import {TeamMember} from "@/app/types/strapi";
+import PrinciplesSection from "@/app/components/PrinciplesSection";
+import React from "react";
+import TeamMemberCard from "@/app/components/TeamMemberCard";
 
 export default async function TeamSection() {
     const teamMembers = await strapiCache.fetchData<TeamMember>('team-members', CacheKey.TeamMembers);
+    // Berechne die Anzahl an Jahren seit 2001
+    const currentYear = new Date().getFullYear();
+    const experienceYears = currentYear - 2001;
 
     return (
         <section id="team" className="container-lg text-lg mx-auto px-6 py-12 text-center">
             <h2 className="text-4xl font-bold">Unser Team</h2>
-            <p className="mt-4 max-w-3xl mx-auto">
-                Unser erfahrenes Team aus professionellen Personal Trainern steht dir zur Seite, um deine individuellen
-                Ziele zu erreichen. Wir bringen langjährige Erfahrung in den Bereichen Fitness, Ernährung und Coaching
-                mit.
-            </p>
-            <div className="mt-8 flex flex-wrap justify-center gap-6">
-                {teamMembers.map((member, index) => (
-                    <div key={index} className="team-member-box">
-                        <Image
-                            src={member.image.url}
-                            alt={member.alt || member.name}
-                            width={175}
-                            height={175}
-                            className="rounded-full mx-auto transition-transform"
-                        />
-                        <h3 className="text-xl font-semibold mt-4">{member.name}</h3>
-                        <div className="flex flex-wrap justify-center gap-2 mt-2">
-                            {member.roles.map((role, idx) => (
-                                <span key={idx}
-                                      className="bg-(--tag-color) text-(--tag-text-color) px-2 py-1 rounded-full text-sm font-medium">
-                                  {role.name}
-                                </span>
-                            ))}
-                        </div>
-                        <div className="mt-4 flex justify-center gap-2">
-                            {member.social?.map((link) => (
-                                <SocialIcon
-                                    key={link.id}
-                                    url={link.url}
-                                    style={{height: 35, width: 35}}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                />
-                            ))}
+
+            <div className="container-lg mx-auto px-6 ">
+                <div className="flex flex-col 2xl:flex-row items-center gap-8">
+
+                    {/* Linke Spalte */}
+                    <div className="2xl:w-1/3 relative flex flex-col items-center">
+                        <div className="relative flex flex-col items-center text-center 2xl:text-left">
+                            {/* Erfahrung (10+ Years) */}
+                            <div className="text-6xl font-bold">{experienceYears}+</div>
+                            <div className="mt-2 text-xl">Jahre Trainer Erfahrung</div>
                         </div>
                     </div>
+
+                    {/* Mittlere Spalte */}
+                    <div className="2xl:w-1/3 relative flex flex-col  m-2">
+                        <p className="mt-4 max-w-3xl mx-auto">
+                            Unser erfahrenes Team aus professionellen Personal Trainern steht dir zur Seite, um
+                            deine individuellen
+                            Ziele zu erreichen. Wir bringen langjährige Erfahrung in den Bereichen Fitness,
+                            Ernährung und Coaching
+                            mit.
+                        </p>
+                    </div>
+
+                    {/* Rechte Spalte */}
+                    <div className="2xl:w-1/3 relative flex flex-col items-center">
+                        <div className="relative flex flex-col items-center text-center 2xl:text-left">
+                            {/* Erfahrung (10+ Years) */}
+                            <div className="text-6xl font-bold">2001</div>
+                            <div className="mt-2 text-xl">Gründungsjahr</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div className="mt-8 flex flex-wrap justify-center gap-6">
+                {teamMembers.map((member, index) => (
+                    <TeamMemberCard key={member.id} member={member} />
                 ))}
             </div>
         </section>

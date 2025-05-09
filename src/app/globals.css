@@ -17,7 +17,7 @@
   --contact-bg-color: var(--background);
   --contact-text-color: black;
 
-  --alternative-bg-color: rgba(209, 209, 209, 0.38);
+  --alternative-bg-color: rgba(209, 209, 209, 0.24);
 
   --keyword-text-color: var(--foreground);
 
@@ -26,8 +26,7 @@
 
   --nav-background: #fffffff8;
 
-  --swiper-pagination-bottom: -10px;
-  --swiper-navigation-color: var(--color-gold);
+  --hover-bg: rgba(209, 209, 209, 0.24); /* sehr dezentes Hell-Grau */
 
   /* Typografische Variablen */
   --font-size-b1: 20px;
@@ -44,7 +43,21 @@
   --h4: 27px;
   --h5: 23px;
   --h6: 216px;
+
+  --swiper-pagination-bottom: -10px;
+  --swiper-navigation-color: var(--color-gold);
 }
+
+.swiper {
+  /* Größe der Buttons (standard 44px) */
+  --swiper-navigation-size: 50px;
+  /* Pfeil-Farbe */
+  --swiper-navigation-color: #D4AF37;
+  /* Abstand vom Rand */
+  --swiper-navigation-top-offset: 90%;
+}
+
+
 
 .dark {
   --background: #0a0a0ab4;
@@ -64,6 +77,7 @@
 
   --nav-background: #0a0a0aec;
 
+  --hover-bg: rgba(222, 206, 88, 0.1);
 }
 
 .h1-hero {
@@ -92,7 +106,38 @@ h6 {
   line-height: 1.25;
 }
 
-/* Überschriften */
+/* Toast */
+.react-hot-toast {
+  @apply bg-yellow-100 text-gray-800 font-semibold shadow-lg rounded-lg;
+}
+.react-hot-toast .Toastify__toast-body {
+  @apply px-4 py-2;
+}
+/* Bilder (inkl. Zoom-Effekt) */
+.zoom-effect,
+.blog-article img {
+  display: block;
+  margin: 1em auto;
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+  transition: transform 0.3s ease;
+}
+.zoom-effect:hover,
+.blog-article img:hover {
+  transform: scale(1.05);
+}
+
+/* Callout-Box für wichtige Hinweise */
+.callout-info {
+  border-left: 4px solid var(--color-gold);
+  background-color: rgba(222,206,88,0.1);
+  padding: 1em;
+  border-radius: 0.25rem;
+  margin: 1.5em 0;
+}
+
+/* Überschriftenabstände */
 .blog-article h2,
 .blog-article h3,
 .blog-article h4,
@@ -100,31 +145,28 @@ h6 {
 .blog-article h6 {
   margin-top: 1em;
   margin-bottom: 0.75em;
-  line-height: 1em;
+  line-height: 1.2;
 }
 
-/* Absätze */
+/* Drop Cap im ersten Absatz */
+.blog-article p:first-of-type::first-letter {
+  font-size: 1.7rem;
+  font-weight:bold;
+}
 .blog-article p {
   margin-bottom: 1em;
+  line-height: 1.6;
+  transition: background-color 0.3s ease;
 }
-
-/* Bilder (inkl. Zoom-Effekt) */
-.zoom-effect {
-  transition: transform 0.3s ease;
+.blog-article p:hover {
+  background-color: var(--hover-bg);
 }
-.zoom-effect:hover {
-  transform: scale(1.05);
-}
-
-.blog-article img {
-  transition: transform 0.3s ease;
+/* Sektionen hervorheben */
+.blog-article section {
+  margin: 2em 0;
+  padding: 1.5em;
+  background-color: var(--alternative-bg-color);
   border-radius: 0.5rem;
-  max-width: 100%;
-  height: auto;
-}
-
-.blog-article img:hover {
-  transform: scale(1.05);
 }
 
 /* Tabellen */
@@ -145,15 +187,58 @@ h6 {
   font-weight: 600;
 }
 
-/* Listen */
+/* Listen-Grundstyling */
 .blog-article ul,
 .blog-article ol {
-  margin: 1em 0 1em 1.5em;
-  padding-left: 0.5em;
+  margin: 1.5em 0 1.5em 1.5em;
+  padding-left: 0;
+  list-style-position: inside;
+  line-height: 1.6;
+  counter-reset: list-counter;
 }
 
+/* Aufzählungszeichen in Gold */
+.blog-article ul li {
+  position: relative;
+  padding-left: 1.5em;
+  margin-bottom: 0.75em;
+}
+.blog-article ul li::marker {
+  color: var(--color-gold);
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+/* Nummerierte Listen mit eigenem Counter */
+.blog-article ol li {
+  position: relative;
+  padding-left: 2.5em;
+  margin-bottom: 0.75em;
+  counter-increment: list-counter;
+}
+.blog-article ol li::before {
+  content: counter(list-counter) ".";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 2em;
+  text-align: right;
+  font-weight: bold;
+  color: var(--color-gold);
+}
+
+/* Sanfter Hover-Effekt für Listenelemente (kein Reflow) */
 .blog-article li {
-  margin-bottom: 0.2em;
+  transition: background-color 0.3s ease;
+}
+.blog-article li:hover {
+  background-color: var(--hover-bg);
+  transform: translateX(4px);
+}
+.blog-article li:focus-visible,
+.blog-article p:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 2px;
 }
 
 /* Blockquotes */
@@ -189,9 +274,6 @@ h6 {
   margin: 2em 0;
 }
 
-.blog-article img{
-  margin: 15px
-}
 
 .h1-header {
   @apply text-base md:text-lg font-semibold uppercase text-center text-(--foreground);
@@ -207,6 +289,10 @@ h6 {
 
 .team-member-box {
   @apply p-6 shadow-md rounded-lg text-center border-solid border-1 border-(--border-thin-color) rounded-lg w-1206 sm:w-70 xl:w-80 duration-300 hover:-translate-y-2;
+}
+
+.info-card-box {
+  @apply h-48 p-6 shadow-md rounded-lg text-center border-solid border-1 border-(--border-thin-color) rounded-xl w-1206 sm:w-70 xl:w-80 duration-300 hover:-translate-y-2 flex flex-col items-center justify-center text-center space-y-2 shadow-xl;
 }
 
 .section-border-b{

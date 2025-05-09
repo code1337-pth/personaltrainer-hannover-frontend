@@ -1,6 +1,7 @@
 // src/lib/strapiCache.ts
 
-import { transformHtmlContent, transformMediaUrl } from "@/lib/utils/transformHtml";
+import {transformHtmlContent, transformMediaUrl} from "@/lib/utils/transformHtml";
+import {Partner} from "@/app/types/strapi";
 
 export enum CacheKey {
     Articles = "articles",
@@ -8,6 +9,7 @@ export enum CacheKey {
     Tags = "tags",
     TeamMembers = "team-members",
     ReasonLists = "reason-lists",
+    Partners = "partners",
 }
 
 type CacheEntry<T> = {
@@ -47,8 +49,8 @@ class StrapiCache {
 
                 console.log(`📡 Fetching base articles from ${baseUrl}`);
                 const baseRes = await fetch(baseUrl, {
-                    headers: { Authorization: `Bearer ${process.env.STRAPI_TOKEN}` },
-                    next: { revalidate: 0 },
+                    headers: {Authorization: `Bearer ${process.env.STRAPI_TOKEN}`},
+                    next: {revalidate: 0},
                 });
                 if (!baseRes.ok) {
                     const txt = await baseRes.text();
@@ -68,8 +70,8 @@ class StrapiCache {
                     const deepUrl = `${process.env.STRAPI_API_URL}/api/${endpoint}?${deepParams.toString()}`;
                     console.log(`📡 Fetching deep sections from ${deepUrl}`);
                     const deepRes = await fetch(deepUrl, {
-                        headers: { Authorization: `Bearer ${process.env.STRAPI_TOKEN}` },
-                        next: { revalidate: 0 },
+                        headers: {Authorization: `Bearer ${process.env.STRAPI_TOKEN}`},
+                        next: {revalidate: 0},
                     });
                     if (deepRes.ok) {
                         const deepJson = await deepRes.json();
@@ -97,8 +99,8 @@ class StrapiCache {
                     `?populate=*&pagination[pageSize]=${pageSize}&pagination[page]=${page}`;
                 console.log(`📡 Fetching ${url}`);
                 const res = await fetch(url, {
-                    headers: { Authorization: `Bearer ${process.env.STRAPI_TOKEN}` },
-                    next: { revalidate: 0 },
+                    headers: {Authorization: `Bearer ${process.env.STRAPI_TOKEN}`},
+                    next: {revalidate: 0},
                 });
                 if (!res.ok) {
                     const txt = await res.text();
@@ -130,12 +132,18 @@ class StrapiCache {
                                     return sec;
                                 case "shared.content-with-image":
                                     if (Array.isArray(sec.image)) {
-                                        sec.image = sec.image.map((img: any) => ({ ...img, url: transformMediaUrl(img.url) }));
+                                        sec.image = sec.image.map((img: any) => ({
+                                            ...img,
+                                            url: transformMediaUrl(img.url)
+                                        }));
                                     }
                                     return sec;
                                 case "shared.slider":
                                     if (Array.isArray(sec.items)) {
-                                        sec.items = sec.items.map((it: any) => ({ ...it, image_url: transformMediaUrl(it.image_url) }));
+                                        sec.items = sec.items.map((it: any) => ({
+                                            ...it,
+                                            image_url: transformMediaUrl(it.image_url)
+                                        }));
                                     }
                                     return sec;
                                 case "shared.media":
@@ -159,7 +167,7 @@ class StrapiCache {
                 });
             }
 
-            // Medien-URL-Transformation für Categories, TeamMembers, ReasonLists
+            // Medien-URL-Transformation pro CacheKey
             if (key === CacheKey.Categories) {
                 fetchedItems.forEach((cat: any) => {
                     if (cat.featured_image?.url) {
@@ -179,12 +187,29 @@ class StrapiCache {
                     });
                 });
             }
+            if (key === CacheKey.Partners) {
+                fetchedItems.forEach((partner: any) => {
+                    // partner.logo ist hier ein Array von Media-Objekten
+                    if (Array.isArray(partner.logo)) {
+                        partner.logo.forEach((media: any) => {
+                            // URL des Originals
+                            media.url = transformMediaUrl(media.url);
+                            // alle Formate umlinken
+                            if (media.formats) {
+                                Object.values(media.formats).forEach((fmt: any) => {
+                                    fmt.url = transformMediaUrl(fmt.url);
+                                });
+                            }
+                        });
+                    }
+                });
+            }
 
             results = results.concat(fetchedItems as T[]);
             page++;
         } while (fetchedItems.length === pageSize);
 
-        this.cache.set(key, { data: results, timestamp: Date.now() });
+        this.cache.set(key, {data: results, timestamp: Date.now()});
         return results as T[];
     }
 
@@ -204,6 +229,7 @@ class StrapiCache {
             this.fetchData("categories", CacheKey.Categories),
             this.fetchData("team-members", CacheKey.TeamMembers),
             this.fetchData("reason-lists", CacheKey.ReasonLists),
+            this.fetchData("partners", CacheKey.Partners),
         ]);
     }
 }

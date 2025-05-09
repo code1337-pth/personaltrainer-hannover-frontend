@@ -85,19 +85,22 @@ const MultiLevelMenu = ({ navItems }: DesktopNavProps) => {
               onMouseEnter={() => handleMouseEnterAtLevel(item.name, level)}
               onMouseLeave={handleMouseLeaveAtLevel}
             >
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between rounded-md">
                 <Link
                   href={item.href}
                   className="
                     block
-                    whitespace-normal 
+                    text-base
+                    whitespace-normal
                     break-words
-                    transition-all 
-                    duration-300 
-                    px-2 
-                    py-1 
-                    hover:bg-[var(--contact-bg-color)]
-                    hover:text-[var(--color-gold)]
+                    transition-all
+                    duration-300
+                    px-2
+                    py-1
+                    rounded-md
+                    hover:bg-[var(--alternative-bg-color)]
+                    hover:text-[var(--contact-text-color)]
+                    hover:font-bold
                   "
                 >
                   {item.name}

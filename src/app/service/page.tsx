@@ -1,33 +1,21 @@
 // app/service/page.tsx
-import strapiCache, { CacheKey } from "@/lib/strapiCache";
-import { Category } from "@/app/types/strapi";
-import { Article } from "@/app/types/strapi";
-import { getServiceSliderItems } from "../lib/getServiceSliderItems";
 import CategoryHeroSection from "../components/CategoryHeroSection";
-import CategorySlider from "../components/CategorySlider";
+import ServicesSection from "@/app/components/ServicesSection";
 
 export default async function ServicePage() {
-    // erst Kategorien, dann Artikel laden
-    const categories = await strapiCache.fetchData<Category>(
-        "categories",
-        CacheKey.Categories
-    );
-    const articles = await strapiCache.fetchData<Article>(
-        "articles",
-        CacheKey.Articles
-    );
-
-    // erzeuge die Slider-Items in exakt der gewünschten Reihenfolge
-    const items = getServiceSliderItems(categories, articles);
-
     return (
-        <section className="container-lg">
+        <>
+            {/* Hero-Block als Header */}
             <CategoryHeroSection
                 title="Übersicht unserer Leistungen"
-                description="Entdecken Sie unser umfangreiches Angebot, das individuell auf Ihre Fitness- und Gesundheitsziele zugeschnitten ist."
+                description="Hier findest du eine Übersicht all unserer Leistungen ..."
             />
 
-            <CategorySlider title="Unsere Leistungen" items={items} />
-        </section>
+            {/* Layout-Wrapper für den Slider */}
+            <div className="container-lg mx-auto">
+                {/* BlogSection rendert selbst eine <section> für den Slider */}
+                <ServicesSection/>
+            </div>
+        </>
     );
 }

@@ -6,6 +6,7 @@ import MobileNav from "./MobileNav";
 import {NavItem} from "../types/navigation";
 import {Menu, X} from "lucide-react";
 import {useState} from "react";
+import Link from "next/link";
 
 export default function Header({navItems}: { navItems: NavItem[] }) {
     const [menuOpen, setMenuOpen] = useState<boolean>(false);
@@ -13,7 +14,14 @@ export default function Header({navItems}: { navItems: NavItem[] }) {
         <header className="py-2 fixed top-0 left-0 w-full z-30">
             <div className="max-w-screen-xl mx-auto px-4 flex items-center justify-between">
                 <div className="flex items-center space-x-4">
-                    <Image src="/personaltrainer-hannover-figure.svg" alt="Logo" width={65} height={65}/>
+                    <Link href="/#home" scroll={false}>
+                        <Image
+                            src="/personaltrainer-hannover-figure.svg"
+                            alt="Logo"
+                            width={65}
+                            height={65}
+                        />
+                    </Link>
                     <div className="flex flex-col items-center">
                         <div className="h1-header text-3xl font-bold">Premium Personal Training + Team</div>
                         <div className="flex items-center justify-center space-x-2">

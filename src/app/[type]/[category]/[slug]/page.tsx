@@ -156,6 +156,7 @@ export default async function ArticlePage({params, searchParams}: Props) {
                     </div>
                 )}
             </article>
+            <ContactSectionBlock/>
         </>
     );
 }

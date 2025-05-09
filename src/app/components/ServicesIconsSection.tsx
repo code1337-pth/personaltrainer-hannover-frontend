@@ -33,8 +33,7 @@ export default function ServicesIconsSection() {
 
   return (
     <section className="py-8 text-center">
-      <div className="container mx-auto px-6">
-        <div className="grid grid-cols-1 sm:grid-cols-2 2xl:grid-cols-3 gap-5">
+      <div className="container mx-auto px-6 grid grid-cols-1 sm:grid-cols-2 2xl:grid-cols-3 gap-5">
           {iconsData.map((item, index) => {
             const IconComponent = iconsMap[item.icon];
             return (
@@ -54,7 +53,6 @@ export default function ServicesIconsSection() {
               </div>
             );
           })}
-        </div>
       </div>
     </section>
   );

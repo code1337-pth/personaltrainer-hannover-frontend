@@ -1,8 +1,6 @@
 import strapiCache, {CacheKey} from "@/lib/strapiCache";
 import {Article, Category} from "@/app/types/strapi";
-import {CategorySliderItem} from "@/app/types/slider";
 import CategorySlider from "@/app/components/CategorySlider";
-import { getSortedServiceCategories } from "../lib/sortService";
 import {getServiceSliderItems} from "@/app/lib/getServiceSliderItems";
 
 export default async function ServicesSection() {
@@ -21,7 +19,7 @@ export default async function ServicesSection() {
     return (
         <CategorySlider
             title="Unsere Leistungen"
-            description="Entdecken Sie unser umfangreiches Angebot, das individuell auf Ihre Fitness- und Gesundheitsziele zugeschnitten ist."
+            description="Entdecke unser umfangreiches Angebot, das individuell auf deine Fitness- und Gesundheitsziele zugeschnitten ist."
             items={items}
         />
     );

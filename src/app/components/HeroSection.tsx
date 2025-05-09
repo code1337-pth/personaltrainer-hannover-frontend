@@ -41,7 +41,7 @@ export default async function HeroSection(props: HeroSectionProps) {
                         Starte jetzt und entdecke dein volles Potenzial!
                     </p>
                     <a href="#contact" className="group action-button mt-6">
-                        <span>Termin sichern – Jetzt kostenfrei und unverbindlich</span>
+                        <span>Termin sichern</span>
                         <span className="ml-2 transition-transform duration-300 group-hover:translate-x-1">
               &rarr;
             </span>

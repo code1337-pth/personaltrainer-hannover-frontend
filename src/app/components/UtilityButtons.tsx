@@ -30,6 +30,7 @@ export function UtilityButtons() {
       <SocialIcon
         network="whatsapp"
         url="https://api.whatsapp.com/send?phone=%2B491744010440"
+        target="_blank"
         className="!w-10 !h-10 rounded-full shadow-lg hover:scale-110 transition"
         fgColor="white"
         bgColor="green"

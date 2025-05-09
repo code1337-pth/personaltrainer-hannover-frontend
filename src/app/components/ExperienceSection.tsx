@@ -2,6 +2,8 @@
 import React from "react";
 import ReviewsSection from "./ReviewsSection";
 import PrinciplesSection from "./PrinciplesSection";
+import {HeartPulse, Moon, Scale, Target} from "lucide-react";
+import InfoCard from "@/app/components/InfoCard";
 
 const ExperienceSection = () => {
   // Berechne die Anzahl an Jahren seit 2001
@@ -15,10 +17,13 @@ const ExperienceSection = () => {
 
           {/* Linke Spalte */}
           <div className="2xl:w-1/3 relative flex flex-col items-center">
-            <div className="relative flex flex-col items-center text-center 2xl:text-left">
-              {/* Erfahrung (10+ Years) */}
-              <div className="text-6xl font-bold">{experienceYears}+</div>
-              <div className="mt-2 text-xl">Jahre Trainer Erfahrung</div>
+            <div className="space-y-6 ">
+              <InfoCard icon={Target}>
+                Werde fokussiert und leistungsfähig
+              </InfoCard>
+              <InfoCard icon={Scale}>
+                Erreiche dein Zielgewicht
+              </InfoCard>
             </div>
           </div>
 
@@ -56,15 +61,18 @@ const ExperienceSection = () => {
 
           {/* Rechte Spalte */}
           <div className="2xl:w-1/3 relative flex flex-col items-center">
-            <div className="relative flex flex-col items-center text-center 2xl:text-left">
-              {/* Erfahrung (10+ Years) */}
-              <div className="text-6xl font-bold">2001</div>
-              <div className="mt-2 text-xl">Gründungsjahr</div>
+            <div className="space-y-6">
+              <InfoCard icon={HeartPulse}>
+                Lebe ein fittes und gesundes Leben
+              </InfoCard>
+              <InfoCard icon={Moon}>
+                Verbessere deine Schlafeigenschaften
+              </InfoCard>
             </div>
           </div>
         </div>
       </div>
-      <PrinciplesSection />
+      <PrinciplesSection/>
 
     </section>
   );

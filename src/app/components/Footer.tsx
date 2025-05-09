@@ -30,35 +30,41 @@ const Footer = () => {
             <h4 className="text-lg font-semibold mb-4">Unternehmen</h4>
             <ul className="space-y-2 text-sm ">
               <li>
-                <a href="#" className="hover:text-blue-600">Über uns</a>
+                <a href="/#home" className="hover:text-[var(--color-gold)]">Über uns</a>
               </li>
               <li>
-                <a href="#" className="hover:text-blue-600">Team</a>
+                <a href="/#team" className="hover:text-[var(--color-gold)]">Team</a>
               </li>
               <li>
-                <a href="#" className="hover:text-blue-600">Karriere</a>
+                <a href="/service" className="hover:text-[var(--color-gold)]">Leistungen</a>
               </li>
               <li>
-                <a href="#" className="hover:text-blue-600">Blog</a>
+                <a href="/blog" className="hover:text-[var(--color-gold)]">Blog</a>
+              </li>
+              <li>
+                <a href="/partner" className="hover:text-[var(--color-gold)]">Partner</a>
+              </li>
+              <li>
+                <a href="/#contact" className="hover:text-[var(--color-gold)]">Kontakt</a>
               </li>
             </ul>
           </div>
 
           {/* Support */}
           <div>
-            <h4 className="text-lg font-semibold mb-4">Support</h4>
+            <h4 className="text-lg font-semibold mb-4">Rechtliches</h4>
             <ul className="space-y-2 text-sm">
               <li>
-                <a href="#" className="hover:text-blue-600">FAQ</a>
+                <a href="/impressum" className="hover:text-[var(--color-gold)]">Impressum</a>
               </li>
               <li>
-                <a href="#" className="hover:text-blue-600">Kontakt</a>
+                <a href="/datenschutz" className="hover:text-[var(--color-gold)]">Datenschutz</a>
               </li>
               <li>
-                <a href="#" className="hover:text-blue-600">Hilfe-Center</a>
+                <a href="/agb" className="hover:text-[var(--color-gold)]">AGB</a>
               </li>
               <li>
-                <a href="#" className="hover:text-blue-600">Dokumentation</a>
+                <a href="/widerruf" className="hover:text-[var(--color-gold)]">Widerruf</a>
               </li>
             </ul>
           </div>
