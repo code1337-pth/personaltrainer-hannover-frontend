@@ -9,9 +9,9 @@ export interface QuoteBlockProps {
 export default function QuoteBlock({ quoteText, author }: QuoteBlockProps) {
     return (
         <blockquote className="my-8 border-l-4 border-gray-300 pl-4 italic">
-            <p>"{quoteText}"</p>
+            <p>&quot;{quoteText}&quot;</p>
             {author && (
-                <footer className="mt-2 text-right font-semibold">— {author}</footer>
+                <footer className="mt-2 text-right font-semibold">- {author}</footer>
             )}
         </blockquote>
     );

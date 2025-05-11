@@ -1,13 +1,9 @@
-import Image from "next/image";
-import {SocialIcon} from "react-social-icons";
 import strapiCache, {CacheKey} from "@/lib/strapiCache";
-import {TeamMember} from "@/app/types/strapi";
-import PrinciplesSection from "@/app/components/PrinciplesSection";
 import React from "react";
 import TeamMemberCard from "@/app/components/TeamMemberCard";
 
 export default async function TeamSection() {
-    const teamMembers = await strapiCache.fetchData<TeamMember>('team-members', CacheKey.TeamMembers);
+    const teamMembers = await strapiCache.fetchData('team-members', CacheKey.TeamMembers);
     // Berechne die Anzahl an Jahren seit 2001
     const currentYear = new Date().getFullYear();
     const experienceYears = currentYear - 2001;
@@ -52,7 +48,7 @@ export default async function TeamSection() {
 
             <div className="mt-8 flex flex-wrap justify-center gap-6">
                 {teamMembers.map((member, index) => (
-                    <TeamMemberCard key={member.id} member={member} />
+                    <TeamMemberCard member={member} key={index}/>
                 ))}
             </div>
         </section>

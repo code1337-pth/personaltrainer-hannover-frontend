@@ -1,5 +1,6 @@
 // src/app/impressum/page.tsx
 import CategoryHeroSection from "@/app/components/CategoryHeroSection";
+import Link from "next/link";
 
 export const metadata = {
     title: "AGB | Personal Training Kaluza + Team",
@@ -89,7 +90,7 @@ export default function TermsPage() {
                         Personenbezogene Daten des Klienten werden nur zum Zwecke der
                         Vertragserfüllung gespeichert und nicht an Dritte weitergegeben.
                         Weitere Informationen entnehmen Sie unserer
-                        <a href="/datenschutz" className="underline">Datenschutzerklärung</a>.
+                        <Link href={"/datenschutz"} className="underline">Datenschutzerklärung</Link>.
                     </p>
                 </section>
 

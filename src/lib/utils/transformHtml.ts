@@ -34,7 +34,7 @@ export function transformHtmlContent(html: string): string {
 
     // 3. Ersetze interne <a> Tags mit <Link> und sichere externe <a>
     return imageReplaced.replace(
-        /<a\b([^>]*)href\s*=\s*"([^"]+)"([^>]*)>(.*?)<\/a>/gis,
+        /<a\b([^>]*)href\s*=\s*"([^"]+)"([^>]*)>(.*?)<\/a>/gi,
         (_match, pre, href, post, inner) => {
             if (href.startsWith('/')) {
                 return `<Link href="${href}"${pre}${post}>${inner}</Link>`;

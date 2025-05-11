@@ -1,5 +1,6 @@
 // src/app/components/ContactSectionBlock.tsx
 import React from "react";
+import Link from "next/link";
 
 export interface ContactSectionBlockProps {
     text?: string;
@@ -16,12 +17,12 @@ export default function ContactSectionBlock({ text }: ContactSectionBlockProps) 
             ) : (
                 <p className="p-4">Kontaktiere uns für weitere Informationen!</p>
             )}
-            <a
+            <Link
                 href="/#contact"
                 className="contact-button p-2"
             >
                 Jetzt kontaktieren
-            </a>
+            </Link>
         </div>
     );
 }

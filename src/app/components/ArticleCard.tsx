@@ -29,11 +29,8 @@ const ArticleCard = ({ item }: ArticleItemProps) => {
           </p>
         )}
       <div className="p-4 flex flex-col flex-grow">
-        <h3 className="text-lg font-semibold">{item.name}</h3>
-
-        <p className="text-gray-600">{item.description}</p>
-
-
+        <h3 className="text-lg font-semibold mb-4">{item.name}</h3>
+        <p>{item.description}</p>
         <Link
           href={item.link}
           className="text-[var(--foreground)] font-semibold text-lg mt-auto pt-4"

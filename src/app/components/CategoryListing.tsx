@@ -3,11 +3,11 @@ import Link from "next/link";
 import React from "react";
 import CategoryHeroSection from "./CategoryHeroSection";
 import ArticleCard from "./ArticleCard";
-import { Article } from "@/app/types/strapi";
+import {Article} from "@/app/types/strapi";
 import SearchInput from "@/app/components/SearchInput";
 
 export enum CategoryType {
-    Blog    = "/blog",
+    Blog = "/blog",
     Service = "/service",
 }
 
@@ -37,9 +37,9 @@ export default function CategoryListing({
                 .includes(query.toLowerCase())
         )
         : articles;
-    const totalPages  = Math.ceil(filtered.length / PAGE_SIZE);
-    const startIndex  = (page - 1) * PAGE_SIZE;
-    const paginated   = filtered.slice(startIndex, startIndex + PAGE_SIZE);
+    const totalPages = Math.ceil(filtered.length / PAGE_SIZE);
+    const startIndex = (page - 1) * PAGE_SIZE;
+    const paginated = filtered.slice(startIndex, startIndex + PAGE_SIZE);
 
     // Hilfs-Komponente für Prev/Next Buttons:
     const Pager = () => (
@@ -113,16 +113,16 @@ export default function CategoryListing({
                 title={`${caption} – ${name}`}
                 description={details}
                 breadcrumb={[
-                    { name: caption, href: categoryType },
-                    { name,        href: basePath },
+                    {name: caption, href: categoryType},
+                    {name, href: basePath},
                 ]}
             />
 
             {/* Search Input */}
-            <SearchInput defaultQuery={query} basePath={basePath} />
+            <SearchInput defaultQuery={query} basePath={basePath}/>
 
             {/* Pager oben */}
-            <div className="mb-6"><Pager /></div>
+            <div className="mb-6"><Pager/></div>
 
             {/* Artikel-Grid */}
             {paginated.length > 0 ? (
@@ -151,7 +151,7 @@ export default function CategoryListing({
             )}
 
             {/* Pager unten */}
-            <div className="mt-6"><Pager /></div>
+            <div className="mt-6"><Pager/></div>
         </section>
     );
 }

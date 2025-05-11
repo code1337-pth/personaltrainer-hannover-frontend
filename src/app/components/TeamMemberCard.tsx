@@ -7,10 +7,9 @@ import {TeamMember} from "@/app/types/strapi";
 
 export interface TeamMemberCardProps {
     member: TeamMember,
-    key?: number
 }
 
-export default function TeamMemberCard({member, key}: TeamMemberCardProps) {
+export default function TeamMemberCard({member}: TeamMemberCardProps) {
     return (
         <div className="team-member-box">
             <Image
@@ -31,7 +30,7 @@ export default function TeamMemberCard({member, key}: TeamMemberCardProps) {
           </span>
                 ))}
             </div>
-            {member.social?.length > 0 && (
+            {member.social && member.social.length > 0 && (
                 <div className="mt-4 flex justify-center gap-2">
                     {member.social?.map((link) => (
                         <SocialIcon

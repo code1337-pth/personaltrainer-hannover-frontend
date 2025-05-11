@@ -1,9 +1,10 @@
 "use client";
 
 import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
-import { Sun, Moon, ArrowUp, MessageCircle } from "lucide-react";
+import React, { useEffect, useState } from "react";
+import {Sun, Moon, ArrowUp, MessageCircle, MapPin} from "lucide-react";
 import { SocialIcon } from "react-social-icons";
+import Link from "next/link";
 
 export function UtilityButtons() {
   const { setTheme, resolvedTheme } = useTheme();
@@ -37,13 +38,22 @@ export function UtilityButtons() {
       />
 
       {/* Kontakt-Button */}
-      <a
+      <Link
         href="/#contact"
         className="p-2 bg-[var(--button-bg-color)] text-[var(--button-text-color)] rounded-full shadow-lg hover:scale-110 transition"
       >
         <MessageCircle size={20} />
-      </a>
+      </Link>
 
+     {/* Google Maps Button */}
+     <Link
+       href="https://maps.app.goo.gl/uBx5VCkFviVtSafK6"
+       target="_blank"
+       rel="noopener noreferrer"
+       className="p-2 bg-red-500 text-white rounded-full shadow-lg hover:scale-110 transition"
+     >
+       <MapPin size={20} />
+     </Link>
 
       {/* Theme Toggle */}
       <button

@@ -1,7 +1,6 @@
 // src/app/impressum/page.tsx
 import CategoryHeroSection from "@/app/components/CategoryHeroSection";
 import strapiCache, {CacheKey} from "@/lib/strapiCache";
-import {Partner} from "@/app/types/strapi";
 import React from "react";
 import PartnerSlider from "@/app/components/PartnerSlider";
 
@@ -11,7 +10,7 @@ export const metadata = {
 };
 
 export default async function PartnerPage() {
-    const partners = await strapiCache.fetchData<Partner>(CacheKey.Partners, CacheKey.Partners);
+    const partners = await strapiCache.fetchData(CacheKey.Partners, CacheKey.Partners);
     console.log("fixed image?", partners[0].logo[0])
     console.log("fixed image?", partners[0].logo[0]["url"])
     console.log("fixed image?", partners[0].logo[0].url)

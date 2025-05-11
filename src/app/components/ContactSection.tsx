@@ -44,7 +44,8 @@ export default function ContactSection({ id }: { id?: string }) {
             toast.success('Nachricht erfolgreich gesendet')
             reset()
         } catch (err) {
-            toast.error('Es ist ein Fehler aufgetreten')
+            console.error("ContactForm Fehler:", err);
+            toast.error("Es ist ein Fehler aufgetreten. Bitte versuche es später noch einmal.");
         }
     }
 

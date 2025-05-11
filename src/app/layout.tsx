@@ -1,6 +1,5 @@
 // app/layout.tsx
 import "./globals.css";
-import {Article, Category} from "@/app/types/strapi";
 import {NavItem} from "@/app/types/navigation";
 import strapiCache, {CacheKey} from "@/lib/strapiCache";
 import {Rajdhani} from "next/font/google";
@@ -67,8 +66,8 @@ export const metadata = {
 
 export default async function RootLayout({children}: { children: React.ReactNode }) {
     await strapiCache.preload();
-    const allArticles = await strapiCache.fetchData<Article>("articles", CacheKey.Articles);
-    const allCategories = await strapiCache.fetchData<Category>("categories", CacheKey.Categories);
+    const allArticles = await strapiCache.fetchData("articles", CacheKey.Articles);
+    const allCategories = await strapiCache.fetchData("categories", CacheKey.Categories);
 
     const {serviceNav, blogNav} = generateNavigation({
         categories: allCategories,

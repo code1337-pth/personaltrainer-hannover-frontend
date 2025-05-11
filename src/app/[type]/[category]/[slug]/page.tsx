@@ -1,38 +1,38 @@
 // src/app/[type]/[category]/[slug]/page.tsx
-import {notFound} from "next/navigation";
-import Script from "next/script";
-import Image from "next/image";
-import CategoryHeroSection from "@/app/components/CategoryHeroSection";
-import HtmlContentBlock from "@/app/components/HtmlContentBlock";
-import MarkdownContentBlock from "@/app/components/MarkdownContentBlock";
-import ContentWithImageBlock from "@/app/components/ContentWithImageBlock";
-import SliderBlock from "@/app/components/SliderBlock";
-import QuoteBlock from "@/app/components/QuoteBlock";
-import MediaBlock from "@/app/components/MediaBlock";
-import ContactSectionBlock from "@/app/components/ContactSectionBlock";
-import {getStructuredData} from "@/lib/metadata";
-import StrapiCache, {CacheKey} from "@/lib/strapiCache";
-import {Article, Category, MediaBlockType} from "@/app/types/strapi";
-
+import {notFound} from 'next/navigation';
+import Script from 'next/script';
+import Image from 'next/image';
+import CategoryHeroSection from '@/app/components/CategoryHeroSection';
+import HtmlContentBlock from '@/app/components/HtmlContentBlock';
+import MarkdownContentBlock from '@/app/components/MarkdownContentBlock';
+import ContentWithImageBlock from '@/app/components/ContentWithImageBlock';
+import SliderBlock from '@/app/components/SliderBlock';
+import QuoteBlock from '@/app/components/QuoteBlock';
+import MediaBlock from '@/app/components/MediaBlock';
+import ContactSectionBlock from '@/app/components/ContactSectionBlock';
+import {getStructuredData} from '@/lib/metadata';
+import StrapiCache, {CacheKey} from '@/lib/strapiCache';
+import {MediaBlockType, SectionBlock} from '@/app/types/strapi';
 
 type Props = {
-    params: Promise<{ type: "blog" | "service"; category: string; slug: string }>;
-    searchParams?: Record<string, string>;
+    params: Promise<{
+        type: 'blog' | 'service';
+        category: string;
+        slug: string;
+    }>;
 };
 
-export default async function ArticlePage({params, searchParams}: Props) {
-    // Erst Promise auflösen…
+export default async function ArticlePage({params}: Props) {
     const {type, category, slug} = await params;
+    const basePath = type === 'blog' ? '/blog' : '/service';
+    const caption = type === 'blog' ? 'Blog' : 'Leistungen';
 
-    const basePath = type === "blog" ? "/blog" : "/service";
-    const caption = type === "blog" ? "Blog" : "Leistungen";
-
-    // 1) Kategorie validieren
-    const allCategories = await StrapiCache.fetchData<Category>(
-        "categories",
+    // Kategorie validieren
+    const allCategories = await StrapiCache.fetchData(
+        'categories',
         CacheKey.Categories
     );
-    const isBlog = type === "blog";
+    const isBlog = type === 'blog';
     const categoryObj = allCategories.find(c =>
         isBlog
             ? c.slug === category && c.blog_category
@@ -40,25 +40,19 @@ export default async function ArticlePage({params, searchParams}: Props) {
     );
     if (!categoryObj) return notFound();
 
-    // 2) Artikel laden & filtern
-    const allArticles = await StrapiCache.fetchData<Article>(
-        "articles",
+    // Artikel laden & filtern
+    const allArticles = await StrapiCache.fetchData(
+        'articles',
         CacheKey.Articles
     );
-    const filtered = allArticles.find(a =>
+    const article = allArticles.find(a =>
         a.slug === slug &&
         a.category?.slug === category &&
-        a.status === "published" &&
-        (isBlog
-            // für Blog: nur nach Kategorie & Status filtern – ohne blog_article
-            ? true
-            // für Service: nach !blog_article filtern
-            : !a.blog_article)
+        a.status === 'published' &&
+        (isBlog ? true : !a.blog_article)
     );
+    if (!article) return notFound();
 
-    if (!filtered) return notFound();
-
-    const article = filtered;
     const structuredData = getStructuredData(article);
 
     return (
@@ -67,11 +61,8 @@ export default async function ArticlePage({params, searchParams}: Props) {
                 title={article.title}
                 breadcrumb={[
                     {name: caption, href: basePath},
-                    {
-                        name: article.category?.name || "Unkategorisiert",
-                        href: `${basePath}/${category}`,
-                    },
-                    {name: article.title, href: ""},
+                    {name: article.category?.name ?? 'Unkategorisiert', href: `${basePath}/${category}`},
+                    {name: article.title, href: ''}
                 ]}
             />
 
@@ -94,56 +85,52 @@ export default async function ArticlePage({params, searchParams}: Props) {
 
                 {isBlog && article.published_date && (
                     <p className="text-sm text-gray-500 mb-2">
-                        Veröffentlicht am{" "}
-                        {new Date(article.published_date).toLocaleDateString("de-DE")}
+                        Veröffentlicht am {new Date(article.published_date).toLocaleDateString('de-DE')}
                     </p>
                 )}
 
                 {/* Dynamic Zone */}
-                {article.sections?.length
-                    ? article.sections.map((sec, i) => {
+                {article.sections && article.sections.length > 0 ? (
+                    article.sections.map((sec: SectionBlock, i) => {
                         switch (sec.__component) {
-                            case "shared.html-content":
-                                return <HtmlContentBlock key={i} content={(sec as any).content}/>;
-                            case "shared.markdown-content":
-                                return <MarkdownContentBlock key={i} content={(sec as any).content}/>;
-                            case "shared.content-with-image":
+                            case 'shared.html-content':
+                                return <HtmlContentBlock key={i} content={sec.content}/>;
+                            case 'shared.markdown-content':
+                                return <MarkdownContentBlock key={i} content={sec.content}/>;
+                            case 'shared.content-with-image':
                                 return (
                                     <ContentWithImageBlock
                                         key={i}
-                                        content={(sec as any).content}
-                                        images={(sec as any).image}
-                                        alignLeft={(sec as any).align_image_left}
+                                        content={sec.content}
+                                        images={sec.image}
+                                        alignLeft={sec.align_image_left}
                                     />
                                 );
-                            case "shared.slider":
-                                return <SliderBlock key={i} items={(sec as any).items}/>;
-                            case "shared.quote":
-                                return (
-                                    <QuoteBlock
-                                        key={i}
-                                        quoteText={(sec as any).text}
-                                        author={(sec as any).author}
-                                    />
-                                );
-                            case "shared.media":
-                                return <MediaBlock key={i} block={sec as MediaBlockType} />;
-                            case "shared.contact-section":
-                                return <ContactSectionBlock key={i} text={(sec as any).optional_text}/>;
+                            case 'shared.slider':
+                                return <SliderBlock key={i} items={sec.items}/>;
+                            case 'shared.quote':
+                                return <QuoteBlock key={i} quoteText={sec.text} author={sec.author}/>;
+                            case 'shared.media': {
+                                const mediaSection = sec as MediaBlockType;
+                                return <MediaBlock key={i} file={mediaSection.file}/>;
+                            }
+                            case 'shared.contact-section':
+                                return <ContactSectionBlock key={i} text={sec.optional_text}/>;
                             default:
                                 return null;
                         }
                     })
-                    : // Fallback auf altes HTML-Feld
+                ) : (
+                    // Fallback, wenn keine Sections da sind:
                     article.content && <HtmlContentBlock content={article.content}/>
-                }
+                )}
 
                 {/* Tags */}
-                {article.tags?.length > 0 && (
+                {article.tags?.length ? (
                     <div className="tags mt-8">
                         <h3 className="text-lg font-semibold mb-2">Tags:</h3>
                         <div className="flex flex-wrap gap-2">
-                            {article.tags?.map(tag => (
+                            {article.tags.map(tag => (
                                 <a
                                     key={tag.slug}
                                     href={`${basePath}/tag/${tag.slug}`}
@@ -154,8 +141,9 @@ export default async function ArticlePage({params, searchParams}: Props) {
                             ))}
                         </div>
                     </div>
-                )}
+                ) : null}
             </article>
+
             <ContactSectionBlock/>
         </>
     );

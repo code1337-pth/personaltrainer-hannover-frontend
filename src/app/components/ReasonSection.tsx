@@ -1,9 +1,8 @@
 import strapiCache, {CacheKey} from "@/lib/strapiCache";
-import {ReasonList} from "../types/strapi";
 import ReasonsSlider from "./ReasonsSlider";
 
 export default async function ReasonSection() {
-    const reasonLists = await strapiCache.fetchData<ReasonList>(CacheKey.ReasonLists, CacheKey.ReasonLists);
+    const reasonLists = await strapiCache.fetchData(CacheKey.ReasonLists, CacheKey.ReasonLists);
     const reasonsPth = reasonLists.find(value => value.name === "reasons-pth");
 
     if (!reasonsPth) {

@@ -17,7 +17,7 @@ export interface ArticleMetadata {
 }
 
 export function getArticleMetadata(article: Article): ArticleMetadata {
-    const imageUrl = article.featured_image?.url
+    const imageUrl = article.featured_image?.url;
 
     return {
         title: article.seo?.metaTitle || article.title,
@@ -30,12 +30,43 @@ export function getArticleMetadata(article: Article): ArticleMetadata {
             title: article.seo?.metaTitle || article.title,
             description: article.seo?.metaDescription || "",
             url: article.seo?.canonicalUrl || "",
-            images: imageUrl ? [{ url: imageUrl, alt: article.title }] : undefined,
+            images: imageUrl
+                ? [
+                    {
+                        url: imageUrl,
+                        alt: article.title,
+                    },
+                ]
+                : undefined,
         },
     };
 }
 
-export function getStructuredData(article: Article): any {
+// Structured Data Interface
+export interface ArticleStructuredData {
+    "@context": "https://schema.org";
+    "@type": "Article";
+    headline: string;
+    image?: string;
+    author: {
+        "@type": "Person";
+        name: string;
+    };
+    publisher: {
+        "@type": "Organization";
+        name: string;
+    };
+    datePublished?: string;
+    dateModified: string;
+    description: string;
+}
+
+export function getStructuredData(
+    article: Article
+): ArticleStructuredData {
+    const datePublished = article.published_date;
+    const dateModified = article.modified_date || datePublished || "";
+
     return {
         "@context": "https://schema.org",
         "@type": "Article",
@@ -43,14 +74,14 @@ export function getStructuredData(article: Article): any {
         image: article.featured_image?.url,
         author: {
             "@type": "Person",
-            "name": article.author?.name || "",
+            name: article.author?.name || "",
         },
         publisher: {
             "@type": "Organization",
-            "name": "Markus Kaluza",
+            name: "Markus Kaluza",
         },
-        datePublished: article.published_date,
-        dateModified: article.modified_date || article.published_date,
+        datePublished,
+        dateModified,
         description: article.seo?.metaDescription || "",
     };
 }

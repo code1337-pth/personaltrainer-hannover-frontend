@@ -29,6 +29,11 @@ const CategorySlider = ({title, description, items}: CategorySliderProps) => {
         return 1;
     };
 
+    const groupNames = ["Alle", ...Array.from(new Set(items.map(i => i.group)))];
+    const displayed = selectedGroup === "Alle"
+        ? items
+        : items.filter(i => i.group === selectedGroup);
+
     // prüfen, ob wir Navigation brauchen
     useEffect(() => {
         const check = () => {
@@ -39,12 +44,7 @@ const CategorySlider = ({title, description, items}: CategorySliderProps) => {
         // bei resize nachprüfen
         window.addEventListener("resize", check);
         return () => window.removeEventListener("resize", check);
-    }, [selectedGroup, items]);
-
-    const groupNames = ["Alle", ...Array.from(new Set(items.map(i => i.group)))];
-    const displayed = selectedGroup === "Alle"
-        ? items
-        : items.filter(i => i.group === selectedGroup);
+    }, [selectedGroup, items, displayed]);
 
     return (
         <section className="py-12 bg-[var(--background)]">

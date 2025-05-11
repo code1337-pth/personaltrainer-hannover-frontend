@@ -3,6 +3,7 @@ import React from 'react'
 import { Mail, Phone, MapPin } from 'lucide-react'
 import { SocialIcon } from 'react-social-icons'
 import SealsSection from './SealsSection'
+import Link from "next/link";
 
 const Footer = () => {
   return (
@@ -30,22 +31,22 @@ const Footer = () => {
             <h4 className="text-lg font-semibold mb-4">Unternehmen</h4>
             <ul className="space-y-2 text-sm ">
               <li>
-                <a href="/#home" className="hover:text-[var(--color-gold)]">Über uns</a>
+                <Link href="/#home" className="hover:text-[var(--color-gold)]">Über uns</Link>
               </li>
               <li>
-                <a href="/#team" className="hover:text-[var(--color-gold)]">Team</a>
+                <Link href="/#team" className="hover:text-[var(--color-gold)]">Team</Link>
               </li>
               <li>
-                <a href="/service" className="hover:text-[var(--color-gold)]">Leistungen</a>
+                <Link href="/service" className="hover:text-[var(--color-gold)]">Leistungen</Link>
               </li>
               <li>
-                <a href="/blog" className="hover:text-[var(--color-gold)]">Blog</a>
+                <Link href="/blog" className="hover:text-[var(--color-gold)]">Blog</Link>
               </li>
               <li>
-                <a href="/partner" className="hover:text-[var(--color-gold)]">Partner</a>
+                <Link href="/partner" className="hover:text-[var(--color-gold)]">Partner</Link>
               </li>
               <li>
-                <a href="/#contact" className="hover:text-[var(--color-gold)]">Kontakt</a>
+                <Link href="/#contact" className="hover:text-[var(--color-gold)]">Kontakt</Link>
               </li>
             </ul>
           </div>
@@ -55,16 +56,16 @@ const Footer = () => {
             <h4 className="text-lg font-semibold mb-4">Rechtliches</h4>
             <ul className="space-y-2 text-sm">
               <li>
-                <a href="/impressum" className="hover:text-[var(--color-gold)]">Impressum</a>
+                <Link href="/impressum" className="hover:text-[var(--color-gold)]">Impressum</Link>
               </li>
               <li>
-                <a href="/datenschutz" className="hover:text-[var(--color-gold)]">Datenschutz</a>
+                <Link href="/datenschutz" className="hover:text-[var(--color-gold)]">Datenschutz</Link>
               </li>
               <li>
-                <a href="/agb" className="hover:text-[var(--color-gold)]">AGB</a>
+                <Link href="/agb" className="hover:text-[var(--color-gold)]">AGB</Link>
               </li>
               <li>
-                <a href="/widerruf" className="hover:text-[var(--color-gold)]">Widerruf</a>
+                <Link href="/widerruf" className="hover:text-[var(--color-gold)]">Widerruf</Link>
               </li>
             </ul>
           </div>

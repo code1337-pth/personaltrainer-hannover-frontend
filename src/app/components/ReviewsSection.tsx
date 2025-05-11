@@ -60,7 +60,7 @@ export default function ReviewsSection() {
                                 <SwiperSlide key={idx}>
                                     <div className="max-w-3xl mx-auto p-6 shadow rounded-lg text-center flex flex-col items-center">
                                         <Quote size={40} className="mb-4 text-[var(--tag-text-color)]"/>
-                                        <p className="italic text-lg mb-4 text-[var(--tag-text-color)]">"{review.review_text}"</p>
+                                        <p className="italic text-lg mb-4 text-[var(--tag-text-color)]">&quot;{review.review_text}&quot;</p>
                                         <div className="flex justify-center mb-4">{renderStars(review.rating)}</div>
                                         <p className="text-sm font-semibold text-[var(--tag-text-color)]">
                                             {review.author}

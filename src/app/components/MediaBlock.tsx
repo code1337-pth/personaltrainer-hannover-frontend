@@ -1,12 +1,12 @@
 // src/app/components/MediaBlock.tsx
 import Image from "next/image";
-import {Media, MediaBlockType} from "@/app/types/strapi";
+import {Media} from "@/app/types/strapi";
 
 interface MediaBlockProps {
     file: Media;
 }
 
-export default function MediaBlock({ file }: MediaBlockProps) {
+export default function MediaBlock({file}: MediaBlockProps) {
     if (!file?.url) return null;
 
     return (

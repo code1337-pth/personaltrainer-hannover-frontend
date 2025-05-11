@@ -1,5 +1,17 @@
 // src/app/types/strapi.ts
 
+import {CacheKey} from "@/lib/strapiCache";
+
+export type StrapiEntityMap = {
+    [CacheKey.Articles]: Article;
+    [CacheKey.Categories]: Category;
+    [CacheKey.Tags]: Tag;
+    [CacheKey.TeamMembers]: TeamMember;
+    [CacheKey.ReasonLists]: ReasonList;
+    [CacheKey.Partners]: Partner;
+    [CacheKey.Seals]: Seal;
+};
+
 // Shared Component: SEO
 export interface Seo {
     metaTitle: string;
@@ -144,7 +156,7 @@ export type SectionBlock =
 
 // -------------------- Article --------------------
 
-// Article interface including dynamic sections
+// Artikel-Interface inklusive Dynamic Zone
 export interface Article {
     id: number;
     documentId: string;
@@ -162,9 +174,17 @@ export interface Article {
     optimized?: boolean;
     blog_article?: boolean;
 
-    /** Dynamic Zone content blocks */
+    /** Strapi-internes Erstellungs-Datum */
+    createdAt?: string;
+    /** Strapi-internes Änderungs-Datum */
+    updatedAt?: string;
+    /** Strapi-interne Veröffentlichungs-Zeit (bei draftAndPublish) */
+    publishedAt?: string;
+
+    /** Dynamic-Zone-Blöcke */
     sections?: SectionBlock[];
 }
+
 
 // -------------------- Social Link --------------------
 export interface SocialLink {
@@ -211,13 +231,15 @@ export interface ReasonList {
 }
 
 export interface Partner {
-    name: number;
+    id: number;
+    name: string;
     link: string;
-    logo: Media;
+    logo: Media[];      // ← Array von Media
 }
 
 export interface Seal {
-    title: number;
-    image: Media;
+    id: number;
+    title: string;
     link: string;
+    image: Media[];    // ← Array von Media
 }

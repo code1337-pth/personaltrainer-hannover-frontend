@@ -1,6 +1,8 @@
 // components/HeroSection.tsx
 
 import RotatingShape from "./RotatingShape";
+import Link from "next/link";
+import React from "react";
 
 type HeroSectionProps = {
     id?: string;
@@ -11,7 +13,7 @@ export default async function HeroSection(props: HeroSectionProps) {
 
     return (
         <section
-            {...(resolvedParams.id ? { id: resolvedParams.id } : {})}
+            {...(resolvedParams.id ? {id: resolvedParams.id} : {})}
             className="relative border-b border-gray-300 bg-no-repeat bg-cover bg-top-50"
             style={{backgroundImage: "var(--hero-image)"}}
         >
@@ -40,12 +42,12 @@ export default async function HeroSection(props: HeroSectionProps) {
                     <p className="mt-4 text-lg sm:text-xl md:text-2xl max-w-xl">
                         Starte jetzt und entdecke dein volles Potenzial!
                     </p>
-                    <a href="/#contact" className="group action-button mt-6">
+                    <Link href="/#contact" className="group action-button mt-6">
                         <span>Termin sichern</span>
                         <span className="ml-2 transition-transform duration-300 group-hover:translate-x-1">
               &rarr;
             </span>
-                    </a>
+                    </Link>
                 </div>
             </div>
         </section>

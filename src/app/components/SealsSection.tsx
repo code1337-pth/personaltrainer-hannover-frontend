@@ -1,10 +1,11 @@
 // app/components/SealsSection.tsx
 import Image from "next/image";
-import strapiCache, { CacheKey } from "@/lib/strapiCache";
-import { Seal } from "@/app/types/strapi";
+import strapiCache, {CacheKey} from "@/lib/strapiCache";
 
 export default async function SealsSection() {
-    const seals = await strapiCache.fetchData<Seal>("seals", CacheKey.Seals);
+    const seals = await strapiCache.fetchData("seals", CacheKey.Seals);
+    const defaultWidth = 150;
+    const defaultHeight = 150;
     const maxHeight = 150;
 
     return (
@@ -15,8 +16,12 @@ export default async function SealsSection() {
                         const img = Array.isArray(seal.image) && seal.image[0];
                         if (!img) return null;
 
-                        // Breite proportional zur festen Höhe berechnen
-                        const scaledWidth = Math.round((img.width / img.height) * maxHeight);
+                        // sichere Destrukturierung mit Fallbacks
+                        const {width = defaultWidth, height = defaultHeight} = img;
+                        // Verhältnis Breite/Höhe
+                        const aspectRatio = height > 0 ? width / height : 1;
+                        // jetzt mit maxHeight skalieren
+                        const scaledWidth = Math.round(aspectRatio * maxHeight);
 
                         return (
                             <a
@@ -25,19 +30,19 @@ export default async function SealsSection() {
                                 target="_blank"
                                 rel="noreferrer"
                                 className="
-                  group
-                  flex flex-col items-center justify-between
-                  h-60                /* alle Elemente gleich hoch (15rem = 240px) */
-                  p-4
-                  overflow-hidden
-                  rounded-lg
-                  shadow
-                  transition-opacity hover:opacity-80
-                "
+        group
+        flex flex-col items-center justify-between
+        h-60                /* alle Elemente gleich hoch (15rem = 240px) */
+        p-4
+        overflow-hidden
+        rounded-lg
+        shadow
+        transition-opacity hover:opacity-80
+      "
                             >
                                 <div
                                     className="flex items-center justify-center"
-                                    style={{ height: maxHeight }}
+                                    style={{height: maxHeight}}
                                 >
                                     <Image
                                         src={img.url}
@@ -47,6 +52,7 @@ export default async function SealsSection() {
                                         className="object-contain"
                                     />
                                 </div>
+                                <p className="mt-2 font-semibold text-sm">{seal.title}</p>
                             </a>
                         );
                     })}

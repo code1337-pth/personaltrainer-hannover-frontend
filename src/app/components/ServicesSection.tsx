@@ -1,15 +1,14 @@
 import strapiCache, {CacheKey} from "@/lib/strapiCache";
-import {Article, Category} from "@/app/types/strapi";
 import CategorySlider from "@/app/components/CategorySlider";
 import {getServiceSliderItems} from "@/app/lib/getServiceSliderItems";
 
 export default async function ServicesSection() {
     // erst Kategorien, dann Artikel laden
-    const categories = await strapiCache.fetchData<Category>(
+    const categories = await strapiCache.fetchData(
         "categories",
         CacheKey.Categories
     );
-    const articles = await strapiCache.fetchData<Article>(
+    const articles = await strapiCache.fetchData(
         "articles",
         CacheKey.Articles
     );
