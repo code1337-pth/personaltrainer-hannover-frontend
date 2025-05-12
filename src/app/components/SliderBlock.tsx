@@ -63,6 +63,7 @@ export default function SliderBlock({ items }: SliderBlockProps) {
                                         <Image
                                             src={item.image_url}
                                             alt={item.name}
+                                            loading="lazy"
                                             fill
                                             className="object-cover object-center"
                                         />

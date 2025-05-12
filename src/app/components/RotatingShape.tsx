@@ -10,12 +10,14 @@ const RotatingShape = () => {
                 <Image
                     src="/hero-profile-shape.png"
                     alt="Rotating shape"
+                    loading={"lazy"}
                     fill
                     className="absolute inset-0 w-full h-full object-contain hidden lg:flex [animation:spin_30s_linear_infinite]"
                 />
                 <Image
                     src="/markus-kaluza-tp.png"
                     alt="Person"
+                    loading={"lazy"}
                     fill
                     className="absolute inset-0 w-[400px] h-[400px] m-auto rounded-full object-cover border-1 border-gray-800 border-dashed"
                 />

@@ -18,6 +18,7 @@ export default function Header({navItems}: { navItems: NavItem[] }) {
                         <Image
                             src="/personaltrainer-hannover-figure.svg"
                             alt="Logo"
+                            loading={"lazy"}
                             width={65}
                             height={65}
                         />

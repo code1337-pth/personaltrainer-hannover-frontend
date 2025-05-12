@@ -15,6 +15,7 @@ export default function TeamMemberCard({member}: TeamMemberCardProps) {
             <Image
                 src={member.image.url}
                 alt={member.alt || member.name}
+                loading="lazy"
                 width={175}
                 height={175}
                 className="rounded-full mx-auto transition-transform"

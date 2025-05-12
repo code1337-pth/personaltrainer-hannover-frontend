@@ -44,6 +44,7 @@ export default function PartnerSlider({partners}: PartnerSliderProps) {
                                 <Image
                                     src={logo.url}
                                     alt={logo.alternativeText ?? partner.name}
+                                    loading="lazy"
                                     fill
                                     className="object-contain"
                                 />

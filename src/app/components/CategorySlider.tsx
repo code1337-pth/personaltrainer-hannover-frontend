@@ -92,6 +92,7 @@ const CategorySlider = ({title, description, items}: CategorySliderProps) => {
                                                 <Image
                                                     src={item.image_url}
                                                     alt={item.name}
+                                                    loading={"lazy"}
                                                     fill
                                                     className="object-cover object-center"
                                                 />

@@ -78,6 +78,7 @@ export default async function ArticlePage({params}: Props) {
                             alt={article.title}
                             width={800}
                             height={500}
+                            loading={"lazy"}
                             className="zoom-effect max-h-[500px] w-auto object-contain"
                         />
                     </div>

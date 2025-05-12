@@ -15,6 +15,7 @@ export default function MediaBlock({file}: MediaBlockProps) {
                 <Image
                     src={file.url}
                     alt={file.alternativeText ?? file.name}
+                    loading="lazy"
                     width={file.width ?? 800}
                     height={file.height ?? 600}
                     className="object-cover"

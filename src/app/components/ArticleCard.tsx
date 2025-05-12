@@ -18,6 +18,7 @@ const ArticleCard = ({ item }: ArticleItemProps) => {
         <Image
           src={item.image_url}
           alt={item.name}
+          loading={"lazy"}
           width={400}
           height={250}
           className="w-full h-85 object-cover"

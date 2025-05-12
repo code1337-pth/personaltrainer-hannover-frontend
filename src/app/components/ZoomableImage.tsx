@@ -15,7 +15,7 @@ export default function ZoomableImage({alt, ...rest}: ZoomableImageProps): JSX.E
     return (
         <>
             <div onClick={handleOpen} className="cursor-zoom-in inline-block">
-                <Image alt={alt} {...rest} />
+                <Image alt={alt} loading="lazy" {...rest} />
             </div>
             {isOpen && (
                 <div
@@ -23,7 +23,7 @@ export default function ZoomableImage({alt, ...rest}: ZoomableImageProps): JSX.E
                     onClick={handleClose}
                 >
                     <div className="relative">
-                        <Image alt={alt} {...rest} className="rounded-lg"/>
+                        <Image alt={alt} loading="lazy" {...rest} className="rounded-lg"/>
                         <button
                             onClick={handleClose}
                             className="absolute top-2 right-2 text-white text-2xl"

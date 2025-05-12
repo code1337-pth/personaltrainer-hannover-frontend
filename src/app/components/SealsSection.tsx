@@ -47,6 +47,7 @@ export default async function SealsSection() {
                                     <Image
                                         src={img.url}
                                         alt={img.alternativeText ?? seal.title}
+                                        loading="lazy"
                                         width={scaledWidth}
                                         height={maxHeight}
                                         className="object-contain"
