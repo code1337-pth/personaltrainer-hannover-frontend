@@ -44,7 +44,7 @@ export default function PostsSection({
                                 description:
                                     post.seo?.metaDescription ??
                                     (post.content ? post.content.slice(0, 100) + '…' : ''),
-                                image_url: post.featured_image?.url ?? '/default.jpg',
+                                img: post.featured_image,
                                 link: buildLink(post),
                                 published_date: post.published_date,
                             }}

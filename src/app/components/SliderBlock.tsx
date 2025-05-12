@@ -9,10 +9,12 @@ import { Navigation, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import FeaturedImage from "@/app/components/FeaturedImage";
+import {Media} from "@/app/types/strapi";
 
 export interface SliderItem {
     id: string;
-    image_url: string;
+    img: Media;
     name: string;
     description?: string;
     link?: string;
@@ -58,17 +60,15 @@ export default function SliderBlock({ items }: SliderBlockProps) {
                     <SwiperSlide key={item.id}>
                         <Link href={item.link ?? "#"} className="block h-full group">
                             <div className="h-[450px] flex flex-col overflow-hidden rounded-lg shadow-lg">
-                                <div className="relative w-full aspect-video">
-                                    {item.image_url && (
-                                        <Image
-                                            src={item.image_url}
-                                            alt={item.name}
-                                            loading="lazy"
-                                            fill
-                                            className="object-cover object-center"
-                                        />
-                                    )}
-                                </div>
+                                {item.img && (
+                                    <FeaturedImage
+                                        img={item.img}
+                                        alt={item.img.alternativeText ?? item.name}
+                                        quality={75}
+                                        containerClassName={"relative w-full aspect-video"}
+                                        className="object-cover object-center"
+                                    />
+                                )}
                                 <div className="p-4 bg-[var(--background)] flex flex-col space-y-2">
                                     <h3 className="text-xl font-bold mb-2">{item.name}</h3>
                                     {item.description && (
@@ -83,20 +83,6 @@ export default function SliderBlock({ items }: SliderBlockProps) {
                 ))}
             </Swiper>
 
-            <style jsx global>{`
-        .swiper-button-prev,
-        .swiper-button-next {
-          width: 2.5rem !important;
-          height: 2.5rem !important;
-          background: rgba(0, 0, 0, 0.5);
-          border-radius: 9999px;
-        }
-        .swiper-button-prev::after,
-        .swiper-button-next::after {
-          font-size: 1.25rem;
-          color: white;
-        }
-      `}</style>
         </div>
     );
 }

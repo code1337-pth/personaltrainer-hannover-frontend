@@ -1,13 +1,18 @@
 // src/lib/metadata.ts
-import type { Article } from "@/app/types/strapi";
+import type { Metadata } from 'next';
+import StrapiCache, { CacheKey } from './strapiCache';
+import type { Article } from '@/app/types/strapi';
+
+// Basis-URL für alle OpenGraph-/Twitter-Images
+export const metadataBase = new URL(
+    process.env.NEXT_PUBLIC_SITE_URL || 'https://personaltrainer-hannover.de'
+);
 
 export interface ArticleMetadata {
     title: string;
     description: string;
     keywords: string;
-    alternates: {
-        canonical: string;
-    };
+    alternates: { canonical: string };
     openGraph: {
         title: string;
         description: string;
@@ -16,72 +21,91 @@ export interface ArticleMetadata {
     };
 }
 
+/** SEO-/OG-Grunddaten aus dem Artikel holen */
 export function getArticleMetadata(article: Article): ArticleMetadata {
     const imageUrl = article.featured_image?.url;
-
     return {
         title: article.seo?.metaTitle || article.title,
-        description: article.seo?.metaDescription || "",
-        keywords: article.seo?.metaKeywords?.join(", ") || "",
+        description: article.seo?.metaDescription || '',
+        keywords: article.seo?.metaKeywords?.join(', ') || '',
         alternates: {
-            canonical: article.seo?.canonicalUrl || "",
+            canonical: article.seo?.canonicalUrl || '',
         },
         openGraph: {
             title: article.seo?.metaTitle || article.title,
-            description: article.seo?.metaDescription || "",
-            url: article.seo?.canonicalUrl || "",
-            images: imageUrl
-                ? [
-                    {
-                        url: imageUrl,
-                        alt: article.title,
-                    },
-                ]
-                : undefined,
+            description: article.seo?.metaDescription || '',
+            url: article.seo?.canonicalUrl || '',
+            images: imageUrl ? [{ url: imageUrl, alt: article.title }] : undefined,
         },
     };
 }
 
-// Structured Data Interface
 export interface ArticleStructuredData {
-    "@context": "https://schema.org";
-    "@type": "Article";
+    '@context': 'https://schema.org';
+    '@type': 'Article';
     headline: string;
     image?: string;
-    author: {
-        "@type": "Person";
-        name: string;
-    };
-    publisher: {
-        "@type": "Organization";
-        name: string;
-    };
+    author: { '@type': 'Person'; name: string };
+    publisher: { '@type': 'Organization'; name: string };
     datePublished?: string;
     dateModified: string;
     description: string;
 }
 
-export function getStructuredData(
-    article: Article
-): ArticleStructuredData {
+/** JSON-LD für Artikel erzeugen */
+export function getStructuredData(article: Article): ArticleStructuredData {
     const datePublished = article.published_date;
-    const dateModified = article.modified_date || datePublished || "";
-
+    const dateModified = article.modified_date || datePublished || '';
     return {
-        "@context": "https://schema.org",
-        "@type": "Article",
+        '@context': 'https://schema.org',
+        '@type': 'Article',
         headline: article.title,
         image: article.featured_image?.url,
-        author: {
-            "@type": "Person",
-            name: article.author?.name || "",
-        },
-        publisher: {
-            "@type": "Organization",
-            name: "Markus Kaluza",
-        },
+        author: { '@type': 'Person', name: article.author?.name || '' },
+        publisher: { '@type': 'Organization', name: 'Markus Kaluza' },
         datePublished,
         dateModified,
-        description: article.seo?.metaDescription || "",
+        description: article.seo?.metaDescription || '',
+    };
+}
+
+/**
+ * Next.js 15: params kommen als Promise, daher hier awaiten.
+ * Dieser Export wird als `generateMetadata` von Next.js erkannt.
+ */
+export async function generateMetadata({
+                                           params,
+                                       }: {
+    params: Promise<{
+        type: 'blog' | 'service';
+        category: string;
+        slug: string;
+    }>;
+}): Promise<Metadata> {
+    const { type, category, slug } = await params;
+
+    const all = await StrapiCache.fetchData<Article>('articles', CacheKey.Articles);
+    const article = all.find(a =>
+        a.slug === slug &&
+        a.category?.slug === category &&
+        a.status === 'published' &&
+        (type === 'blog' ? true : !a.blog_article)
+    );
+    if (!article) return {};
+
+    const meta = getArticleMetadata(article);
+    return {
+        metadataBase,
+        title: meta.title,
+        description: meta.description,
+        keywords: meta.keywords,
+        alternates: { canonical: meta.alternates.canonical },
+        openGraph: { ...meta.openGraph, type: 'article' },
+        twitter: {
+            card: 'summary_large_image',
+            title: meta.title,
+            description: meta.description,
+            images: meta.openGraph.images?.[0]?.url,
+        },
     };
 }

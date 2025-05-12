@@ -1,23 +1,25 @@
 // app/layout.tsx
 import "./globals.css";
-import {NavItem} from "@/app/types/navigation";
 import strapiCache, {CacheKey} from "@/lib/strapiCache";
 import {Rajdhani} from "next/font/google";
+import React from "react";
 import {ThemeProvider} from "@/app/components/theme-provider";
-import {UtilityButtons} from "@/app/components/UtilityButtons";
 import Header from "@/app/components/Header";
 import Footer from "@/app/components/Footer";
-import {generateNavigation} from "@/lib/navigationBuilder";
-import {Toaster} from "react-hot-toast";
-import React from "react";
+import {UtilityButtons} from "@/app/components/UtilityButtons";
 
-export const dynamic = "force-static";
+// Dynamisch nur Client-Komponenten importieren
 
+// Google Font: nur die wirklich benötigten Gewichte, mit font-display swap
 const rajdhani = Rajdhani({
     subsets: ["latin"],
-    weight: ["400", "500", "600", "700"],
+    weight: ["400", "700"],  // nur normale und fett
+    display: "swap",
     variable: "--font-rajdhani",
+    preload: true, // lädt nur diese beiden Gewichte vor
 });
+
+export const dynamic = "force-static";
 
 export const metadata = {
     title: "Home | Markus Kaluza - Premium Personal Training + Team",
@@ -29,7 +31,7 @@ export const metadata = {
             "Erreiche deine Fitnessziele mit individuellem Training, Ernährungsberatung und persönlicher Betreuung.",
         type: "website",
         url: "https://www.personaltrainer-hannover.de",
-        siteName: "Deine Webseite",
+        siteName: "Personal Trainer Hannover",
         images: [
             {
                 url: "https://www.personaltrainer-hannover.de/og-image.jpg",
@@ -51,31 +53,25 @@ export const metadata = {
         apple: "/apple-touch-icon.png",
     },
     manifest: "/site.webmanifest",
-    robots: {
-        index: true,
-        follow: true,
-    },
+    robots: {index: true, follow: true},
     alternates: {
         canonical: "https://www.personaltrainer-hannover.de",
-        languages: {
-            de: "https://www.personaltrainer-hannover.de",
-            en: "https://www.personaltrainer-hannover.de/en",
-        },
+        languages: {de: "/", en: "/en"},
     },
 };
 
 export default async function RootLayout({children}: { children: React.ReactNode }) {
+    // Preload-Strapi-Daten einmal
     await strapiCache.preload();
     const allArticles = await strapiCache.fetchData("articles", CacheKey.Articles);
     const allCategories = await strapiCache.fetchData("categories", CacheKey.Categories);
 
-    const {serviceNav, blogNav} = generateNavigation({
+    const {serviceNav, blogNav} = (await import("@/lib/navigationBuilder")).generateNavigation({
         categories: allCategories,
         articles: allArticles,
     });
 
-    // Wichtig: Übergebe die Untermenüs über "children"
-    const navItems: NavItem[] = [
+    const navItems = [
         {name: "Home", href: "/#home"},
         {name: "Kontakt", href: "/#contact"},
         {name: "Leistungen", href: "/service", children: serviceNav},
@@ -83,29 +79,11 @@ export default async function RootLayout({children}: { children: React.ReactNode
     ];
 
     return (
-        <html lang="de" className={rajdhani.className}>
+        <html lang="de" className={`${rajdhani.className}`}>
         <body>
         <ThemeProvider>
             <Header navItems={navItems}/>
-
-            {/* Hier das Main-Element */}
-            <main>
-                {children}
-            </main>
-
-            <Toaster
-                position="top-right"
-                toastOptions={{
-                    style: {
-                        background: "var(--background)",
-                        color: "var(--foreground)",
-                        border: "1px solid var(--border-thin-color)",
-                        padding: "0.75rem 1rem",
-                        borderRadius: "0.5rem",
-                    },
-                }}
-            />
-
+            <main className="min-h-screen"> {children} </main>
             <Footer/>
             <UtilityButtons/>
         </ThemeProvider>

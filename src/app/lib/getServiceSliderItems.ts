@@ -51,7 +51,7 @@ export function getServiceSliderItems(
                 group: cat.name,
                 name: art.title,
                 description: limitWords(rawDesc, 10),
-                image_url: art.featured_image?.url ?? "",
+                img: art.featured_image,
                 link: `/service/${cat.slug}/${art.slug}`,
             });
         }

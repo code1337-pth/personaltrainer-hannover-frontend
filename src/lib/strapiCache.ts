@@ -1,5 +1,5 @@
 // src/lib/strapiCache.ts
-import {transformHtmlContent, transformMediaUrl} from "@/lib/utils/transformHtml";
+import {transformHtmlContent} from "@/lib/utils/transformHtml";
 import {
     Article,
     Category,
@@ -144,9 +144,6 @@ class StrapiCache {
     private transformArticles(items: Article[]): void {
         items.forEach(article => {
             if (article.content) article.content = transformHtmlContent(article.content);
-            if (article.featured_image?.url) {
-                article.featured_image.url = transformMediaUrl(article.featured_image.url);
-            }
             if (Array.isArray(article.sections)) {
                 article.sections = article.sections.map(sec => this.transformSection(sec));
             }
@@ -158,22 +155,6 @@ class StrapiCache {
             case "shared.html-content":
                 if (sec.content) sec.content = transformHtmlContent(sec.content);
                 break;
-            case "shared.content-with-image":
-                sec.image = sec.image.map(img => ({...img, url: transformMediaUrl(img.url)}));
-                break;
-            case "shared.slider":
-                sec.items = sec.items.map(it => ({...it, image_url: transformMediaUrl(it.image_url)}));
-                break;
-            case "shared.media":
-                if (sec.file) {
-                    sec.file.url = transformMediaUrl(sec.file.url);
-                    if (sec.file.formats) {
-                        Object.values(sec.file.formats).forEach(fmt => {
-                            fmt.url = transformMediaUrl(fmt.url);
-                        });
-                    }
-                }
-                break;
         }
         return sec;
     }
@@ -181,53 +162,14 @@ class StrapiCache {
     private applyMediaTransform<K extends keyof StrapiEntityMap>(key: K, items: StrapiEntityMap[K][]): void {
         items.forEach(item => {
             switch (key) {
-                case CacheKey.Categories: {
-                    const categoryItem = item as Category;
-                    const img = categoryItem.featured_image;
-                    if (img && img.url) {
-                        img.url = transformMediaUrl(img.url);
-                    }
-                    break;
-                }
-                case CacheKey.TeamMembers: {
-                    const member = item as TeamMember;
-                    const img = member.image;
-                    if (img && img.url) {
-                        img.url = transformMediaUrl(img.url);
-                    }
-                    break;
-                }
                 case CacheKey.ReasonLists: {
                     (item as ReasonList).reasons.forEach(r => {
                         if (r.html_content) r.html_content = transformHtmlContent(r.html_content);
                     });
                     break;
                 }
-                case CacheKey.Partners: {
-                    const partner = item as Partner;
-                    if (Array.isArray(partner.logo)) {
-                        partner.logo.forEach(media => this.transformMediaArray(media));
-                    }
-                    break;
-                }
-                case CacheKey.Seals: {
-                    const seal = item as Seal;
-                    if (Array.isArray(seal.image)) {
-                        seal.image.forEach(media => this.transformMediaArray(media));
-                    }
-                    break;
-                }
             }
         });
-    }
-
-    private transformMediaArray(media: { url: string; formats?: Record<string, { url: string }> }): void {
-        media.url = transformMediaUrl(media.url);
-        if (media.formats) {
-            Object.values(media.formats).forEach(fmt => {
-                fmt.url = transformMediaUrl(fmt.url);
-            });
-        }
     }
 
     /**

@@ -1,4 +1,6 @@
 // nachher in app/types/slider.ts
+import {Media} from "@/app/types/strapi";
+
 export interface CategorySliderItem {
     /** Eindeutige ID (Artikel-ID oder Kategorie-ID) */
     id: number | string;
@@ -7,6 +9,6 @@ export interface CategorySliderItem {
     /** Label, das auf der Karte steht */
     name: string;
     description?: string;
-    image_url?: string;
+    img?: Media;
     link?: string;
 }

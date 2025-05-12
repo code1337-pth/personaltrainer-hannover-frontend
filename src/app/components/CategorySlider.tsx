@@ -1,7 +1,6 @@
 "use client";
 
 import React, {useEffect, useState} from "react";
-import Image from "next/image";
 import Link from "next/link";
 import {Swiper, SwiperSlide} from "swiper/react";
 import {Navigation, Pagination} from "swiper/modules";
@@ -9,6 +8,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import {CategorySliderItem} from "@/app/types/slider";
+import FeaturedImage from "@/app/components/FeaturedImage";
 
 interface CategorySliderProps {
     title: string;
@@ -86,28 +86,24 @@ const CategorySlider = ({title, description, items}: CategorySliderProps) => {
                         {displayed.map(item => (
                             <SwiperSlide key={item.id}>
                                 <Link href={item.link ?? "#"}>
-                                    <div className="h-[450px] flex flex-col overflow-hidden rounded-lg shadow-lg">
-                                        <div className="relative w-full aspect-video">
-                                            {item.image_url && (
-                                                <Image
-                                                    src={item.image_url}
-                                                    alt={item.name}
-                                                    loading={"lazy"}
-                                                    fill
-                                                    className="object-cover object-center"
-                                                />
-                                            )}
-                                        </div>
-                                        <div className="p-4 bg-[var(--background)] flex flex-col space-y-2">
-                                            <h3 className="text-xl font-bold mb-2">{item.name}</h3>
-                                            {item.description && (
-                                                <p className="text-sm text-[var(--tag-text-color)] line-clamp-3">
-                                                    {item.description}
-                                                </p>
-                                            )}
-                                        </div>
-                                    </div>
+                                    {item.img && (
+                                        <FeaturedImage
+                                            img={item.img}
+                                            alt={item.img.alternativeText ?? item.name}
+                                            containerClassName="flex flex-col aspect-video justify-center overflow-hidden rounded-lg"
+                                            className="zoom-effect"
+                                        />
+                                    )}
+                                    <h3 className="p-4 text-xl font-bold mb-2">{item.name}</h3>
                                 </Link>
+                                <div className="bg-[var(--background)]">
+                                    {item.description && (
+                                        <p className="text-sm text-[var(--tag-text-color)]">
+                                            {item.description}
+                                        </p>
+                                    )}
+                                </div>
+
                             </SwiperSlide>
                         ))}
                     </Swiper>

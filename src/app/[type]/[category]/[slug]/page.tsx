@@ -1,7 +1,6 @@
 // src/app/[type]/[category]/[slug]/page.tsx
-import {notFound} from 'next/navigation';
+import { notFound } from 'next/navigation';
 import Script from 'next/script';
-import Image from 'next/image';
 import CategoryHeroSection from '@/app/components/CategoryHeroSection';
 import HtmlContentBlock from '@/app/components/HtmlContentBlock';
 import MarkdownContentBlock from '@/app/components/MarkdownContentBlock';
@@ -10,28 +9,33 @@ import SliderBlock from '@/app/components/SliderBlock';
 import QuoteBlock from '@/app/components/QuoteBlock';
 import MediaBlock from '@/app/components/MediaBlock';
 import ContactSectionBlock from '@/app/components/ContactSectionBlock';
-import {getStructuredData} from '@/lib/metadata';
-import StrapiCache, {CacheKey} from '@/lib/strapiCache';
-import {MediaBlockType, SectionBlock} from '@/app/types/strapi';
+import FeaturedImage from '@/app/components/FeaturedImage';
 
-type Props = {
-    params: Promise<{
-        type: 'blog' | 'service';
-        category: string;
-        slug: string;
-    }>;
+import StrapiCache, { CacheKey } from '@/lib/strapiCache';
+import { getStructuredData, generateMetadata } from '@/lib/metadata';
+import type { Media, MediaBlockType, SectionBlock, Article } from '@/app/types/strapi';
+
+// Next.js liest automatisch diesen Export für die Metadaten
+export { generateMetadata };
+
+type Params = {
+    type: 'blog' | 'service';
+    category: string;
+    slug: string;
 };
 
-export default async function ArticlePage({params}: Props) {
-    const {type, category, slug} = await params;
-    const basePath = type === 'blog' ? '/blog' : '/service';
-    const caption = type === 'blog' ? 'Blog' : 'Leistungen';
+type Props = {
+    // params kommt hier als Promise, daher awaiten
+    params: Promise<Params>;
+};
 
-    // Kategorie validieren
-    const allCategories = await StrapiCache.fetchData(
-        'categories',
-        CacheKey.Categories
-    );
+export default async function ArticlePage({ params }: Props) {
+    const { type, category, slug } = await params;
+    const basePath = type === 'blog' ? '/blog' : '/service';
+    const caption  = type === 'blog' ? 'Blog' : 'Leistungen';
+
+    // 1) Kategorie validieren
+    const allCategories = await StrapiCache.fetchData('categories', CacheKey.Categories);
     const isBlog = type === 'blog';
     const categoryObj = allCategories.find(c =>
         isBlog
@@ -40,11 +44,8 @@ export default async function ArticlePage({params}: Props) {
     );
     if (!categoryObj) return notFound();
 
-    // Artikel laden & filtern
-    const allArticles = await StrapiCache.fetchData(
-        'articles',
-        CacheKey.Articles
-    );
+    // 2) Artikel laden & filtern
+    const allArticles = await StrapiCache.fetchData<Article>('articles', CacheKey.Articles);
     const article = allArticles.find(a =>
         a.slug === slug &&
         a.category?.slug === category &&
@@ -53,35 +54,35 @@ export default async function ArticlePage({params}: Props) {
     );
     if (!article) return notFound();
 
+    // 3) JSON-LD Structured Data
     const structuredData = getStructuredData(article);
+    const img = article.featured_image as Media | undefined;
 
     return (
         <>
             <CategoryHeroSection
                 title={article.title}
                 breadcrumb={[
-                    {name: caption, href: basePath},
-                    {name: article.category?.name ?? 'Unkategorisiert', href: `${basePath}/${category}`},
-                    {name: article.title, href: ''}
+                    { name: caption, href: basePath },
+                    { name: article.category?.name ?? 'Unkategorisiert', href: `${basePath}/${category}` },
+                    { name: article.title, href: '' },
                 ]}
             />
 
-            <Script id="structured-data" type="application/ld+json" strategy="afterInteractive">
-                {JSON.stringify(structuredData)}
-            </Script>
+            <Script
+                id="structured-data"
+                type="application/ld+json"
+                strategy="afterInteractive"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+            />
 
-            <article className="blog-article container mx-auto px-4 prose">
-                {article.featured_image?.url && (
-                    <div className="flex justify-center mb-6 overflow-hidden rounded-lg">
-                        <Image
-                            src={article.featured_image.url}
-                            alt={article.title}
-                            width={800}
-                            height={500}
-                            loading={"lazy"}
-                            className="zoom-effect max-h-[500px] w-auto object-contain"
-                        />
-                    </div>
+            <article className="blog-article container mx-auto">
+                {img?.url && (
+                    <FeaturedImage
+                        img={img}
+                        alt={img.alternativeText ?? article.title}
+                        className="zoom-effect max-h-[500px] w-auto object-contain"
+                    />
                 )}
 
                 {isBlog && article.published_date && (
@@ -90,14 +91,13 @@ export default async function ArticlePage({params}: Props) {
                     </p>
                 )}
 
-                {/* Dynamic Zone */}
-                {article.sections && article.sections.length > 0 ? (
-                    article.sections.map((sec: SectionBlock, i) => {
+                {article.sections && article.sections.length > 0
+                    ? article.sections.map((sec: SectionBlock, i) => {
                         switch (sec.__component) {
                             case 'shared.html-content':
-                                return <HtmlContentBlock key={i} content={sec.content}/>;
+                                return <HtmlContentBlock key={i} content={sec.content} />;
                             case 'shared.markdown-content':
-                                return <MarkdownContentBlock key={i} content={sec.content}/>;
+                                return <MarkdownContentBlock key={i} content={sec.content} />;
                             case 'shared.content-with-image':
                                 return (
                                     <ContentWithImageBlock
@@ -108,25 +108,21 @@ export default async function ArticlePage({params}: Props) {
                                     />
                                 );
                             case 'shared.slider':
-                                return <SliderBlock key={i} items={sec.items}/>;
+                                return <SliderBlock key={i} items={sec.items} />;
                             case 'shared.quote':
-                                return <QuoteBlock key={i} quoteText={sec.text} author={sec.author}/>;
+                                return <QuoteBlock key={i} quoteText={sec.text} author={sec.author} />;
                             case 'shared.media': {
-                                const mediaSection = sec as MediaBlockType;
-                                return <MediaBlock key={i} file={mediaSection.file}/>;
+                                const m = sec as MediaBlockType;
+                                return <MediaBlock key={i} file={m.file} />;
                             }
                             case 'shared.contact-section':
-                                return <ContactSectionBlock key={i} text={sec.optional_text}/>;
+                                return <ContactSectionBlock key={i} text={sec.optional_text} />;
                             default:
                                 return null;
                         }
                     })
-                ) : (
-                    // Fallback, wenn keine Sections da sind:
-                    article.content && <HtmlContentBlock content={article.content}/>
-                )}
+                    : article.content && <HtmlContentBlock content={article.content} />}
 
-                {/* Tags */}
                 {article.tags?.length ? (
                     <div className="tags mt-8">
                         <h3 className="text-lg font-semibold mb-2">Tags:</h3>
@@ -145,7 +141,7 @@ export default async function ArticlePage({params}: Props) {
                 ) : null}
             </article>
 
-            <ContactSectionBlock/>
+            <ContactSectionBlock />
         </>
     );
 }

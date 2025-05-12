@@ -5,9 +5,8 @@
   --background: #ffffffcc;
   --foreground: #171717;
   --color-gold: #DECE58;
-  --hero-image: url('/hero.png');
-  --blog-image: url('/blog.png');
-  --hero-profile-image: url('/markus-kaluza-tp.png');
+  --hero-image: url('/hero.webp');
+  --blog-image: url('/blog.webp');
   --link-color: #171717;
 
   --button-bg-color: var(--color-gold);
@@ -62,7 +61,7 @@
 .dark {
   --background: #0a0a0ab4;
   --foreground: #ededed;
-  --hero-image: url('/hero-dark.png');
+  --hero-image: url('/hero-dark.webp');
   --link-color: #ffffff;
   --button-text-color: #212121;
   --border-thin-color: var(--color-gray-800);

@@ -53,7 +53,7 @@ export default function ContactSection({ id }: { id?: string }) {
         <section
             id={id}
             className="relative h-[960px] flex items-center justify-center bg-center bg-cover bg-no-repeat text-3xl"
-            style={{ backgroundImage: "url('/contact.jpg')" }}
+            style={{ backgroundImage: "url('/contact.webp')" }}
         >
             {/* Formular-Container */}
             <div className="relative z-10 p-8 rounded shadow max-w-lg w-full mx-4 bg-[var(--contact-bg-color)]">

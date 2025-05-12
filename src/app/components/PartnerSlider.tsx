@@ -10,6 +10,7 @@ import {Partner} from "@/app/types/strapi";
 import Link from "next/link";
 import Image from "next/image";
 import React from "react";
+import FeaturedImage from "@/app/components/FeaturedImage";
 
 interface PartnerSliderProps {
     partners: Partner[];
@@ -40,15 +41,14 @@ export default function PartnerSlider({partners}: PartnerSliderProps) {
                     <SwiperSlide key={index}>
                         <Link href={partner.link ?? "#"} target={"_blank"}  className="block mx-auto max-w-[720px] h-[550px] flex flex-col justify-between overflow-hidden rounded-lg shadow-lg p-4">
                             {/* Bild-Container immer 16:9 */}
-                            <div className="relative w-full aspect-video">
-                                <Image
-                                    src={logo.url}
-                                    alt={logo.alternativeText ?? partner.name}
-                                    loading="lazy"
-                                    fill
-                                    className="object-contain"
-                                />
-                            </div>
+                            <FeaturedImage
+                                img={logo}
+                                alt={logo.name}
+                                quality={75}
+                                fill
+                                containerClassName={"relative w-full aspect-video"}
+                                className="object-contain"
+                            />
 
                             {/* Name immer unten */}
                             <h3 className="mt-4 text-xl font-semibold text-center">

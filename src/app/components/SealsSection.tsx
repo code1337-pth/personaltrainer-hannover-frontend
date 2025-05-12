@@ -1,6 +1,7 @@
 // app/components/SealsSection.tsx
-import Image from "next/image";
 import strapiCache, {CacheKey} from "@/lib/strapiCache";
+import Link from "next/link";
+import FeaturedImage from "@/app/components/FeaturedImage";
 
 export default async function SealsSection() {
     const seals = await strapiCache.fetchData("seals", CacheKey.Seals);
@@ -24,9 +25,9 @@ export default async function SealsSection() {
                         const scaledWidth = Math.round(aspectRatio * maxHeight);
 
                         return (
-                            <a
+                            <Link
                                 key={seal.title}
-                                href={seal.link}
+                                href={seal.link ?? "/"}
                                 target="_blank"
                                 rel="noreferrer"
                                 className="
@@ -44,17 +45,18 @@ export default async function SealsSection() {
                                     className="flex items-center justify-center"
                                     style={{height: maxHeight}}
                                 >
-                                    <Image
-                                        src={img.url}
+                                    <FeaturedImage
+                                        img={img}
                                         alt={img.alternativeText ?? seal.title}
-                                        loading="lazy"
                                         width={scaledWidth}
                                         height={maxHeight}
+                                        sizes="(max-width: 640px) 134px, 175px"
+                                        quality={75}
                                         className="object-contain"
                                     />
                                 </div>
                                 <p className="mt-2 font-semibold text-sm">{seal.title}</p>
-                            </a>
+                            </Link>
                         );
                     })}
                 </div>

@@ -2,15 +2,14 @@
 'use client';
 
 import React from 'react';
-import parse, { domToReact, Element, HTMLReactParserOptions, DOMNode } from 'html-react-parser';
+import parse, {DOMNode, domToReact, Element, HTMLReactParserOptions} from 'html-react-parser';
 import Link from 'next/link';
-import Image from 'next/image';
 
 interface Props {
     html: string;
 }
 
-export default function HtmlRenderer({ html }: Props) {
+export default function HtmlRenderer({html}: Props) {
     let liCounter = 0;
 
     const options: HTMLReactParserOptions = {
@@ -25,15 +24,12 @@ export default function HtmlRenderer({ html }: Props) {
                     const alt = domNode.attribs.alt || '';
 
                     return (
-                        <Image
+                        <img
                             src={src}
                             width={width}
                             height={height}
                             alt={alt}
                             loading="lazy"
-                            decoding="async"
-                            sizes="(max-width: 600px) 100vw, 600px"
-                            style={{ maxWidth: '100%', height: 'auto' }}
                         />
                     );
                 }

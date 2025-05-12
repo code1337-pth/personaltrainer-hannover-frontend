@@ -17,10 +17,11 @@ export default function Header({navItems}: { navItems: NavItem[] }) {
                     <Link href="/#home" scroll={false}>
                         <Image
                             src="/personaltrainer-hannover-figure.svg"
-                            alt="Logo"
-                            loading={"lazy"}
+                            alt="Personaltrainer Hannover Logo"
+                            priority
                             width={65}
                             height={65}
+                            className="w-[65px] h-[65px]"
                         />
                     </Link>
                     <div className="flex flex-col items-center">

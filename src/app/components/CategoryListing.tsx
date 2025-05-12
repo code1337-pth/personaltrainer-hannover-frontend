@@ -107,7 +107,7 @@ export default function CategoryListing({
     );
 
     return (
-        <section className="container-lg mx-auto px-6 py-12">
+        <section className="container-lg  px-6 py-12">
             {/* Hero + Breadcrumb */}
             <CategoryHeroSection
                 title={`${caption} – ${name}`}
@@ -126,7 +126,7 @@ export default function CategoryListing({
 
             {/* Artikel-Grid */}
             {paginated.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] justify-items-center gap-6">
                     {paginated.map(article => (
                         <ArticleCard
                             key={article.slug}
@@ -137,7 +137,7 @@ export default function CategoryListing({
                                     (article.content
                                         ? article.content.slice(0, 100) + "…"
                                         : ""),
-                                image_url: article.featured_image?.url ?? "/default.jpg",
+                                img: article.featured_image,
                                 link: `${basePath}/${article.slug}`,
                                 published_date: article.published_date,
                             }}
@@ -146,7 +146,7 @@ export default function CategoryListing({
                 </div>
             ) : (
                 <p className="text-center py-12 text-[var(--foreground)]">
-                    Keine Artikel gefunden.
+                Keine Artikel gefunden.
                 </p>
             )}
 
