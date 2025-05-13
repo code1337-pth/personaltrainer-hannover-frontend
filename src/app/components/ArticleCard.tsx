@@ -22,6 +22,7 @@ const ArticleCard = ({item}: ArticleItemProps) => {
                             img={item.img}
                             alt={item.img.alternativeText ?? item.name}
                             className="zoom-effect object-contain aspect-video"
+                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                         />
                     )}
                 </>

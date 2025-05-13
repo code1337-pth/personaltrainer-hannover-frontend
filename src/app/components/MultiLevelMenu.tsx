@@ -98,7 +98,7 @@ const MultiLevelMenu = ({ navItems }: DesktopNavProps) => {
                     px-2
                     py-1
                     rounded-md
-                    hover:bg-[var(--alternative-bg-color)]
+                    hover:bg-[var(--link-hover-bg-color)]
                     hover:text-[var(--contact-text-color)]
                     hover:font-bold
                   "

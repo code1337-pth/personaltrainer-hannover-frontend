@@ -67,6 +67,8 @@ export default function SliderBlock({ items }: SliderBlockProps) {
                                         quality={75}
                                         containerClassName={"relative w-full aspect-video"}
                                         className="object-cover object-center"
+                                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+
                                     />
                                 )}
                                 <div className="p-4 bg-[var(--background)] flex flex-col space-y-2">

@@ -50,7 +50,7 @@ export default async function SealsSection() {
                                         alt={img.alternativeText ?? seal.title}
                                         width={scaledWidth}
                                         height={maxHeight}
-                                        sizes="(max-width: 640px) 134px, 175px"
+                                        sizes="(max-width: 640px) 134px, (max-width: 1024px) 175px, 200px"
                                         quality={75}
                                         className="object-contain"
                                     />

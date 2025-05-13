@@ -82,6 +82,8 @@ export default async function ArticlePage({ params }: Props) {
                         img={img}
                         alt={img.alternativeText ?? article.title}
                         className="zoom-effect max-h-[500px] w-auto object-contain"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 75vw, 50vw"
+
                     />
                 )}
 

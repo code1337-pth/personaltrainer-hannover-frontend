@@ -92,6 +92,7 @@ const CategorySlider = ({title, description, items}: CategorySliderProps) => {
                                             alt={item.img.alternativeText ?? item.name}
                                             containerClassName="flex flex-col aspect-video justify-center overflow-hidden rounded-lg"
                                             className="zoom-effect"
+                                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                                         />
                                     )}
                                     <h3 className="p-4 text-xl font-bold mb-2">{item.name}</h3>

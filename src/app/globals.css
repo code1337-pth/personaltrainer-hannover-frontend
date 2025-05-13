@@ -17,6 +17,8 @@
   --contact-text-color: black;
 
   --alternative-bg-color: rgba(209, 209, 209, 0.24);
+  --link-hover-bg-color: rgba(143, 143, 143, 0.24);
+
 
   --keyword-text-color: var(--foreground);
 

@@ -21,9 +21,9 @@ export default function TeamMemberCard({member}: TeamMemberCardProps) {
                     alt={member.name}
                     width={small?.width}
                     height={small?.height}
-                    sizes="(max-width: 640px) 134px, 175px"
                     quality={75}
                     className="rounded-full mx-auto transition-transform"
+                    sizes="(max-width: 640px) 134px, (max-width: 1024px) 175px, 200px"
                 />
             )}
 

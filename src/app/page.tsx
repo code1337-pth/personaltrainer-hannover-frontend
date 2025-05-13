@@ -50,7 +50,7 @@ export default async function Home() {
             <HeroSection id="home" />
             <TeamSection />
             <div className="container-lg mx-auto">
-                <div className="flex flex-col lg:flex-row gap-8 items-center justify-center m-10">
+                <div className="flex flex-col lg:flex-row gap-7 items-center justify-center m-10">
                     {/* Linke Spalte */}
                     <div className="w-full lg:w-1/2">
                         <ServicesIconsSection />

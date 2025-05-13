@@ -48,6 +48,7 @@ export default function PartnerSlider({partners}: PartnerSliderProps) {
                                 fill
                                 containerClassName={"relative w-full aspect-video"}
                                 className="object-contain"
+                                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                             />
 
                             {/* Name immer unten */}
