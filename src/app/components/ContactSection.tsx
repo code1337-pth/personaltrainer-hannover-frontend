@@ -36,16 +36,17 @@ export default function ContactSection({ id }: { id?: string }) {
         try {
             const res = await fetch('/api/contact', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),
-            })
-
-            if (!res.ok) throw new Error('Netzwerkfehler')
-            toast.success('Nachricht erfolgreich gesendet')
-            reset()
-        } catch (err) {
-            console.error("ContactForm Fehler:", err);
-            toast.error("Es ist ein Fehler aufgetreten. Bitte versuche es später noch einmal.");
+                headers: { 'Content-Type': 'application/json' },
+            });
+            if (res.ok) {
+                toast.success('Vielen Dank! Wir melden uns umgehend.');
+                reset()
+            } else {
+                toast.error('Es ist ein Fehler aufgetreten. Bitte versuche es erneut oder kontaktiere uns alternativ über WhatsApp, Social Media oder telefonisch.');;
+            }
+        } catch (e) {
+            toast.error('Es ist ein Fehler aufgetreten. Bitte versuche es erneut oder kontaktiere uns alternativ über WhatsApp, Social Media oder telefonisch.');
         }
     }
 

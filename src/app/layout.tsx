@@ -7,6 +7,7 @@ import {ThemeProvider} from "@/app/components/theme-provider";
 import Header from "@/app/components/Header";
 import Footer from "@/app/components/Footer";
 import {UtilityButtons} from "@/app/components/UtilityButtons";
+import {Toaster} from "react-hot-toast";
 
 // Dynamisch nur Client-Komponenten importieren
 
@@ -61,33 +62,64 @@ export const metadata = {
 };
 
 export default async function RootLayout({children}: { children: React.ReactNode }) {
-    // Preload-Strapi-Daten einmal
-    await strapiCache.preload();
-    const allArticles = await strapiCache.fetchData("articles", CacheKey.Articles);
-    const allCategories = await strapiCache.fetchData("categories", CacheKey.Categories);
+    try {
+        await strapiCache.preload();
+        const allArticles = await strapiCache.fetchData("articles", CacheKey.Articles);
+        const allCategories = await strapiCache.fetchData("categories", CacheKey.Categories);
 
-    const {serviceNav, blogNav} = (await import("@/lib/navigationBuilder")).generateNavigation({
-        categories: allCategories,
-        articles: allArticles,
-    });
+        const {serviceNav, blogNav} = (await import("@/lib/navigationBuilder")).generateNavigation({
+            categories: allCategories,
+            articles: allArticles,
+        });
 
-    const navItems = [
-        {name: "Home", href: "/#home"},
-        {name: "Kontakt", href: "/#contact"},
-        {name: "Leistungen", href: "/service", children: serviceNav},
-        {name: "Blog", href: "/blog", children: blogNav},
-    ];
+        const navItems = [
+            {name: "Home", href: "/#home"},
+            {name: "Kontakt", href: "/#contact"},
+            {name: "Leistungen", href: "/service", children: serviceNav},
+            {name: "Blog", href: "/blog", children: blogNav},
+        ];
 
-    return (
-        <html lang="de" className={`${rajdhani.className}`}>
-        <body>
-        <ThemeProvider>
-            <Header navItems={navItems}/>
-            <main className="min-h-screen"> {children} </main>
-            <Footer/>
-            <UtilityButtons/>
-        </ThemeProvider>
-        </body>
-        </html>
-    );
+        return (
+            <html lang="de" className={`${rajdhani.className}`}>
+            <body>
+            <ThemeProvider>
+                <Header navItems={navItems}/>
+                <main className="min-h-screen"> {children} </main>
+                <Toaster
+                    position="top-right"
+                    toastOptions={{
+                        style: {
+                            background: "var(--background)",
+                            color: "var(--foreground)",
+                            border: "1px solid var(--border-thin-color)",
+                            padding: "0.75rem 1rem",
+                            borderRadius: "0.5rem",
+                        },
+                    }}
+                />
+                <Footer/>
+                <UtilityButtons/>
+            </ThemeProvider>
+            </body>
+            </html>
+        );
+    } catch (e) {
+        if (process.env.NODE_ENV === "development") {
+            console.error("Fehler beim Laden der Daten:", e);
+        }
+        return (
+            <html lang="de" className={`${rajdhani.className}`}>
+            <body>
+            <main className="min-h-screen flex items-center justify-center text-center">
+                <div>
+                    <h1 className="text-4xl font-bold">Wartungsarbeiten</h1>
+                    <p className="mt-4 text-lg">
+                        Unsere Seite wird gerade aktualisiert. Bitte versuchen Sie es später erneut.
+                    </p>
+                </div>
+            </main>
+            </body>
+            </html>
+        );
+    }
 }
