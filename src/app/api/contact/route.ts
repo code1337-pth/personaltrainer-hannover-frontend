@@ -56,7 +56,7 @@ export async function POST(request: Request) {
             from: `Kontaktformular <${process.env.SMTP_USER}>`,
             to: process.env.CONTACT_EMAIL,
             subject: `Neue Kontaktanfrage von ${data.name}`,
-            text: `Name: ${data.name}\nEmail: ${data.email}\nTelefon: ${data.phone || '-'}\n\nNachricht gesendet via Next.js`,
+            text: `Name: ${data.name}\nEmail: ${data.email}\nTelefon: ${data.phone || '-'}\n\nNachricht gesendet via Kontaktformular`,
         })
 
         return NextResponse.json({ ok: true }, { headers: responseHeaders })
