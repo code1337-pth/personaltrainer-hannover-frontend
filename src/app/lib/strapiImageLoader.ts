@@ -6,20 +6,28 @@ const STRAPI_HOST = process.env.NEXT_PUBLIC_STRAPI_API_URL || '';
 export function strapiImageLoader(image: Media) {
     return ({width}: { width: number }) => {
         const formats = image.formats || {};
-        // Kleinste Variante zuerst
         if (formats.thumbnail && width <= formats.thumbnail.width) {
-            return `${STRAPI_HOST}${formats.thumbnail.url}`;
+            const url = `${STRAPI_HOST}${formats.thumbnail.url}`;
+            console.log("[strapiImageLoader] Thumbnail-URL:", url);
+            return url;
         }
         if (formats.small && width <= formats.small.width) {
-            return `${STRAPI_HOST}${formats.small.url}`;
+            const url = `${STRAPI_HOST}${formats.small.url}`;
+            console.log("[strapiImageLoader] Small-URL:", url);
+            return url;
         }
         if (formats.medium && width <= formats.medium.width) {
-            return `${STRAPI_HOST}${formats.medium.url}`;
+            const url = `${STRAPI_HOST}${formats.medium.url}`;
+            console.log("[strapiImageLoader] Medium-URL:", url);
+            return url;
         }
         if (formats.large && width <= formats.large.width) {
-            return `${STRAPI_HOST}${formats.large.url}`;
+            const url = `${STRAPI_HOST}${formats.large.url}`;
+            console.log("[strapiImageLoader] Large-URL:", url);
+            return url;
         }
-        // Fallback auf Original-URL (image.url enthält den Pfad)
-        return `${STRAPI_HOST}${image.url}?w=${width}`;
+        const url = `${STRAPI_HOST}${image.url}?w=${width}`;
+        console.log("[strapiImageLoader] Original-URL:", url);
+        return url;
     };
 }

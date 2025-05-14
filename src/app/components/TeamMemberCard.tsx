@@ -14,7 +14,8 @@ export default function TeamMemberCard({member}: TeamMemberCardProps) {
     const small = member.image.formats?.small;
 
     return (
-        <div className="team-member-box">
+        <div
+            className="p-6 shadow-md rounded-lg text-center  border-1 border-dashed border-[--border-thin-color] w-full max-w-xs sm:w-70 xl:w-80 duration-300 hover:-translate-y-2">
             {member.image && (
                 <FeaturedImage
                     img={member.image}

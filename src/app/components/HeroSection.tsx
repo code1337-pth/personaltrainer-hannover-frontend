@@ -23,15 +23,15 @@ export default async function HeroSection(props: HeroSectionProps) {
                     <RotatingShape/>
                 </div>
                 {/* Text: Auf kleinen Bildschirmen als zweites, auf größeren links */}
-                <div className="order-2 md:order-1 md:w-1/2 mr-20">
-                    <h1 className="h1-hero">
+                <div className="order-2 md:order-1 md:mr-20">
+                    <h1 className="mt-2 text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight">
                         <span className="text-gold">Erreiche deine Topform</span>
                         <br/>
                         <span className="black:text-white">
-              und steigere deine Lebensqualität
-            </span>
+            und steigere deine Lebensqualität
+        </span>
                     </h1>
-                    <p className="mt-6 text-lg sm:text-xl md:text-2xl max-w-xl">
+                    <p className="mt-6 text-sm sm:text-lg md:text-2xl">
                         Mit unserer ganzheitlichen Trainingsstrategie begleiten wir dich auf dem Weg zu deinem Ziel.
                         Unser erfahrenes Team erstellt für dich einen maßgeschneiderten Plan, der deine Muskulatur
                         stärkt,
@@ -39,14 +39,14 @@ export default async function HeroSection(props: HeroSectionProps) {
                         für
                         ein starkes und gesundes Leben.
                     </p>
-                    <p className="mt-4 text-lg sm:text-xl md:text-2xl max-w-xl">
+                    <p className="mt-4 text-lg sm:text-xl md:text-2xl">
                         Starte jetzt und entdecke dein volles Potenzial!
                     </p>
                     <Link href="/#contact" className="group action-button mt-6 animate-pulse">
                         <span>Termin sichern</span>
                         <span className="ml-2 transition-transform duration-300 group-hover:translate-x-1">
-              &rarr;
-            </span>
+            &rarr;
+        </span>
                     </Link>
                 </div>
             </div>

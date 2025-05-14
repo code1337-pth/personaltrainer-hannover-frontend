@@ -8,8 +8,8 @@ import ServicesIconsSection from "./components/ServicesIconsSection";
 import ServicesSection from "./components/ServicesSection";
 import TeamSection from "./components/TeamSection";
 import BlogSection from "@/app/components/BlogSection";
-import { Article } from "@/app/types/strapi";
-import strapiCache, { CacheKey } from "@/lib/strapiCache";
+import {Article} from "@/app/types/strapi";
+import strapiCache, {CacheKey} from "@/lib/strapiCache";
 import PostsSection from "@/app/components/PostsSection";
 
 export default async function Home() {
@@ -47,25 +47,25 @@ export default async function Home() {
 
     return (
         <>
-            <HeroSection id="home" />
-            <TeamSection />
+            <HeroSection id="home"/>
+            <TeamSection/>
             <div className="container-lg mx-auto">
                 <div className="flex flex-col lg:flex-row gap-7 items-center justify-center m-10">
                     {/* Linke Spalte */}
                     <div className="w-full lg:w-1/2">
-                        <ServicesIconsSection />
+                        <ServicesIconsSection/>
                     </div>
                     {/* Rechte Spalte */}
                     <div className="w-full lg:w-1/2">
-                        <ReasonsSection />
+                        <ReasonsSection/>
                     </div>
                 </div>
             </div>
-            <ContactSection id="contact" />
-            <ExperienceSection />
-            <ReviewsSection />
-            <ServicesSection />
-            <BlogSection />
+            <ContactSection id="contact"/>
+            <ExperienceSection/>
+            <ReviewsSection/>
+            <ServicesSection/>
+            <BlogSection/>
 
             {/* Neueste Blog-Beiträge */}
             <PostsSection

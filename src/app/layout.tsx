@@ -49,7 +49,12 @@ export const metadata = {
         images: ["https://www.personaltrainer-hannover.de/og-image.jpg"],
     },
     icons: {
-        icon: "/favicon-32.png",
+        icon: [
+            { url: "/favicon.svg", type: "image/svg+xml" },
+            { url: "/favicon-32.png", sizes: "32x32", type: "image/png" },
+            { url: "/favicon-192.png", sizes: "192x192", type: "image/png" },
+            { url: "/favicon-512.png", sizes: "512x512", type: "image/png" },
+        ],
         shortcut: "/favicon.ico",
         apple: "/apple-touch-icon.png",
     },
@@ -80,7 +85,7 @@ export default async function RootLayout({children}: { children: React.ReactNode
         ];
 
         return (
-            <html lang="de" className={`${rajdhani.className}`}>
+            <html lang="de" className={`${rajdhani.className} `}>
             <body>
             <ThemeProvider>
                 <Header navItems={navItems}/>

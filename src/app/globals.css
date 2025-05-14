@@ -81,10 +81,6 @@
   --hover-bg: rgba(222, 206, 88, 0.1);
 }
 
-.h1-hero {
-  @apply mt-2 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight;
-}
-
 h2 {
   font-size: var(--h2);
   line-height: 1.14;
@@ -276,9 +272,6 @@ h6 {
 }
 
 
-.h1-header {
-  @apply text-base md:text-lg font-semibold uppercase text-center text-(--foreground);
-}
 
 .action-button {
   @apply mt-8 inline-flex items-center px-10 py-4 text-lg font-semibold rounded-full shadow-md transition-colors duration-300 bg-(--button-bg-color) text-(--button-text-color);
@@ -288,13 +281,6 @@ h6 {
   @apply mt-4 w-full font-semibold py-3 rounded bg-(--button-bg-color) text-(--button-text-color) shadow;
 }
 
-.team-member-box {
-  @apply p-6 shadow-md rounded-lg text-center border-solid border-1 border-(--border-thin-color) rounded-lg w-1206 sm:w-70 xl:w-80 duration-300 hover:-translate-y-2;
-}
-
-.info-card-box {
-  @apply h-48 p-6 shadow-md rounded-lg text-center border-solid border-1 border-(--border-thin-color) rounded-xl w-1206 sm:w-70 xl:w-80 duration-300 hover:-translate-y-2 flex flex-col items-center justify-center text-center space-y-2 shadow-xl;
-}
 
 .section-border-b{
   @apply border-b-5 border-gray-500 border-dotted

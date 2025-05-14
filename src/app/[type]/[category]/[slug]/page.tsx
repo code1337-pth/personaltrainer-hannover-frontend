@@ -76,7 +76,7 @@ export default async function ArticlePage({ params }: Props) {
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
             />
 
-            <article className="blog-article container mx-auto">
+            <article className="blog-article container mx-auto px-7 sm:px-6">
                 {img?.url && (
                     <FeaturedImage
                         img={img}
