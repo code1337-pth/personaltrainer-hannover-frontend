@@ -2,8 +2,9 @@ import strapiCache, {CacheKey} from "@/lib/strapiCache";
 import React from "react";
 import TeamMemberCard from "@/app/components/TeamMemberCard";
 
+export const dynamic = "force-dynamic";
 export default async function TeamSection() {
-    const teamMembers = await strapiCache.fetchData('team-members', CacheKey.TeamMembers);
+    const teamMembers = (await strapiCache.fetchData('team-members', CacheKey.TeamMembers)).filter(member => member.active);
     // Berechne die Anzahl an Jahren seit 2001
     const currentYear = new Date().getFullYear();
     const experienceYears = currentYear - 2001;

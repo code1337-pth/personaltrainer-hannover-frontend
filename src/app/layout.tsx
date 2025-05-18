@@ -20,7 +20,7 @@ const rajdhani = Rajdhani({
     preload: true, // lädt nur diese beiden Gewichte vor
 });
 
-export const dynamic = "force-static";
+export const dynamic = "force-dynamic"; // immer dynamisch, um Cache-Invalidierung zu ermöglichen
 
 export const metadata = {
     title: "Home | Markus Kaluza - Premium Personal Training + Team",
@@ -68,7 +68,6 @@ export const metadata = {
 
 export default async function RootLayout({children}: { children: React.ReactNode }) {
     try {
-        await strapiCache.preload();
         const allArticles = await strapiCache.fetchData("articles", CacheKey.Articles);
         const allCategories = await strapiCache.fetchData("categories", CacheKey.Categories);
 

@@ -1,6 +1,6 @@
 // src/lib/metadata.ts
 import type { Metadata } from 'next';
-import StrapiCache, { CacheKey } from './strapiCache';
+import strapiCache, {CacheKey} from "@/lib/strapiCache";
 import type { Article } from '@/app/types/strapi';
 
 // Basis-URL für alle OpenGraph-/Twitter-Images
@@ -84,7 +84,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
     const { type, category, slug } = await params;
 
-    const all = await StrapiCache.fetchData<Article>('articles', CacheKey.Articles);
+    const all = await strapiCache.fetchData<Article>('articles', CacheKey.Articles);
     const article = all.find(a =>
         a.slug === slug &&
         a.category?.slug === category &&

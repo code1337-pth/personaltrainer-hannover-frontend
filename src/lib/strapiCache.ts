@@ -1,15 +1,6 @@
 // src/lib/strapiCache.ts
 import {transformHtmlContent} from "@/lib/utils/transformHtml";
-import {
-    Article,
-    Category,
-    Partner,
-    ReasonList,
-    Seal,
-    SectionBlock,
-    StrapiEntityMap,
-    TeamMember,
-} from "@/app/types/strapi";
+import {Article, ReasonList, SectionBlock, StrapiEntityMap,} from "@/app/types/strapi";
 
 export enum CacheKey {
     Articles = "articles",
@@ -42,21 +33,22 @@ class StrapiCache {
         key: K
     ): Promise<StrapiEntityMap[K][]> {
         if (this.isValid(key)) {
-            return this.cache.get(key)!.data as StrapiEntityMap[K][];
+            const cached = this.cache.get(key)!.data as StrapiEntityMap[K][];
+            console.log(`[StrapiCache] Cache HIT für ${key} (${cached.length} Einträge)`);
+            return cached;
         }
 
         let results: StrapiEntityMap[K][];
         if (key === CacheKey.Articles) {
-            // Fetch articles with deep sections and transform
             results = (await this.fetchArticles(endpoint)) as StrapiEntityMap[K][];
             this.sortByPublishedDateDesc(results as Article[]);
         } else {
-            // Generic fetch for other endpoints
             results = await this.fetchGeneric<StrapiEntityMap[K]>(endpoint);
             this.applyMediaTransform(key, results);
         }
 
         this.cache.set(key, {data: results, timestamp: Date.now()});
+        console.log(`[StrapiCache] ${key}: ${results.length} Einträge geladen und gecached.`);
         return results;
     }
 
@@ -99,6 +91,10 @@ class StrapiCache {
                 "pagination[pageSize]": PAGE_SIZE.toString(),
                 "pagination[page]": page.toString(),
             });
+            // Filter für aktive Teammitglieder nur bei team-members
+            if (endpoint === "team-members") {
+                params.append("filters[active][$eq]", "true");
+            }
             const url = `${process.env.STRAPI_API_URL}/api/${endpoint}?${params}`;
             const data = await this.fetchJson<T>(url);
             combined.push(...data);
@@ -188,12 +184,18 @@ class StrapiCache {
     }
 
     public clearCache(key?: CacheKey): void {
-        if (key) this.cache.delete(key);
-        else this.cache.clear();
+        if (key) {
+            console.log("clearing cache for", key);
+            this.cache.delete(key);
+        } else {
+            console.log("clearing all cache");
+            this.cache.clear();
+        }
     }
 
     public async preload(): Promise<void> {
-        // Lade alle Cache-Daten parallel
+        console.log("[StrapiCache] Preloading aller Strapi-Daten...");
+        const before = this.cache.size;
         const tasks: Promise<StrapiEntityMap[keyof StrapiEntityMap][]>[] = [
             this.fetchData("articles", CacheKey.Articles),
             this.fetchData("categories", CacheKey.Categories),
@@ -203,6 +205,8 @@ class StrapiCache {
             this.fetchData("seals", CacheKey.Seals),
         ];
         await Promise.all(tasks);
+        const after = this.cache.size;
+        console.log(`[StrapiCache] Preload abgeschlossen. Cache Keys: vorher ${before}, nachher ${after}`);
     }
 }
 
