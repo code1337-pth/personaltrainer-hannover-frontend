@@ -4,6 +4,7 @@
 import React from 'react';
 import parse, {DOMNode, domToReact, Element, HTMLReactParserOptions} from 'html-react-parser';
 import Link from 'next/link';
+import Image from "next/image";
 
 interface Props {
     html: string;
@@ -24,7 +25,7 @@ export default function HtmlRenderer({html}: Props) {
                     const alt = domNode.attribs.alt || '';
 
                     return (
-                        <img
+                        <Image
                             src={src}
                             width={width}
                             height={height}

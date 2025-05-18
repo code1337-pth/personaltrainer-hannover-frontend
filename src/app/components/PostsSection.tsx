@@ -1,11 +1,10 @@
 // src/app/components/PostsSection.tsx
 import ArticleCard from './ArticleCard';
-import { Article } from '@/app/types/strapi';
+import {Article} from '@/app/types/strapi';
 
 interface PostsSectionProps {
     title: string;
     caption: string;
-    hrefPrefix: string;
     articles: Article[];
     /** Baut den Link aus einem Artikel-Objekt */
     getLink?: (post: Article) => string;
@@ -14,7 +13,6 @@ interface PostsSectionProps {
 export default function PostsSection({
                                          title,
                                          caption,
-                                         hrefPrefix,
                                          articles,
                                          getLink,
                                      }: PostsSectionProps) {

@@ -105,14 +105,17 @@ export interface ContentWithImageBlock {
 // Slider Block
 export interface SliderBlock {
     __component: "shared.slider";
-    items: Array<{
-        id: string;
-        image_url: string;
-        name: string;
-        description?: string;
-        link?: string;
-    }>;
+    items: SliderItem[];
 }
+
+export interface SliderItem {
+    id: string;
+    img: Media;
+    name: string;
+    description?: string;
+    link?: string;
+}
+
 
 // Review
 export interface Review {

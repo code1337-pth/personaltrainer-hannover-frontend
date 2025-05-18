@@ -1,6 +1,6 @@
 // app/api/contact/route.ts
-import { NextResponse } from 'next/server'
-import { z } from 'zod'
+import {NextResponse} from 'next/server'
+import {z} from 'zod'
 import nodemailer from 'nodemailer'
 
 // API-Schema wiederverwenden oder separat definieren
@@ -20,7 +20,7 @@ const responseHeaders = new Headers({
 
 export async function OPTIONS() {
     // Preflight-Request beantworten
-    return new NextResponse(null, { status: 204, headers: responseHeaders })
+    return new NextResponse(null, {status: 204, headers: responseHeaders})
 }
 
 export async function POST(request: Request) {
@@ -30,8 +30,8 @@ export async function POST(request: Request) {
 
         if (origin !== allowedOrigin) {
             return NextResponse.json(
-                { ok: false, error: 'Origin nicht erlaubt' },
-                { status: 403, headers: { 'Access-Control-Allow-Origin': allowedOrigin } }
+                {ok: false, error: 'Origin nicht erlaubt'},
+                {status: 403, headers: {'Access-Control-Allow-Origin': allowedOrigin}}
             )
         }
         const json = await request.json()
@@ -39,7 +39,7 @@ export async function POST(request: Request) {
 
         // Spam-Check
         if (data.honeypot) {
-            return NextResponse.json({ ok: true }, { status: 200, headers: responseHeaders })
+            return NextResponse.json({ok: true}, {status: 200, headers: responseHeaders})
         }
 
         // SMTP-Transport per Umgebungsvariablen konfigurieren
@@ -59,8 +59,11 @@ export async function POST(request: Request) {
             text: `Name: ${data.name}\nEmail: ${data.email}\nTelefon: ${data.phone || '-'}\n\nNachricht gesendet via Kontaktformular`,
         })
 
-        return NextResponse.json({ ok: true }, { headers: responseHeaders })
+        return NextResponse.json({ok: true}, {headers: responseHeaders})
     } catch (error) {
-        return NextResponse.json({ ok: false, error: 'Serverfehler' }, { status: 500, headers: responseHeaders })
+        if (process.env.NODE_ENV === "development") {
+            console.error(error);
+        }
+        return NextResponse.json({ok: false, error: 'Serverfehler'}, {status: 500, headers: responseHeaders})
     }
 }

@@ -6,7 +6,7 @@ interface ArticleItemProps {
     item: {
         name: string;
         description: string;
-        img: Media;
+        img?: Media;
         link: string;
         published_date?: string;
     };

@@ -71,7 +71,6 @@ export default async function Home() {
             <PostsSection
                 title="Neueste Blog-Beiträge"
                 caption="Unsere frischesten Artikel und Tipps"
-                hrefPrefix="/blog"
                 articles={blogPosts}
                 getLink={(post) => `/blog/${post.category?.slug}/${post.slug}`}
             />
@@ -80,7 +79,6 @@ export default async function Home() {
             <PostsSection
                 title="Ausgewählte Beiträge"
                 caption="Entdecke weitere spannende Artikel"
-                hrefPrefix="/blog"
                 articles={randomPosts}
                 getLink={(post) => `/blog/${post.category?.slug}/${post.slug}`}
             />
@@ -89,7 +87,6 @@ export default async function Home() {
             <PostsSection
                 title="Aktuelle News"
                 caption="Bleib auf dem Laufenden mit den letzten Meldungen"
-                hrefPrefix="/news"
                 articles={newsPosts}
             />
         </>

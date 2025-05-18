@@ -22,6 +22,8 @@ interface CacheEntry<T> {
 
 class StrapiCache {
     private cache = new Map<CacheKey, CacheEntry<unknown>>();
+    private isPreloaded = false;
+    private lastPreloadFailed = false;
 
     private isValid(key: CacheKey): boolean {
         const entry = this.cache.get(key);
@@ -195,18 +197,27 @@ class StrapiCache {
 
     public async preload(): Promise<void> {
         console.log("[StrapiCache] Preloading aller Strapi-Daten...");
-        const before = this.cache.size;
-        const tasks: Promise<StrapiEntityMap[keyof StrapiEntityMap][]>[] = [
-            this.fetchData("articles", CacheKey.Articles),
-            this.fetchData("categories", CacheKey.Categories),
-            this.fetchData("team-members", CacheKey.TeamMembers),
-            this.fetchData("reason-lists", CacheKey.ReasonLists),
-            this.fetchData("partners", CacheKey.Partners),
-            this.fetchData("seals", CacheKey.Seals),
-        ];
-        await Promise.all(tasks);
-        const after = this.cache.size;
-        console.log(`[StrapiCache] Preload abgeschlossen. Cache Keys: vorher ${before}, nachher ${after}`);
+        try {
+            // ... wie gehabt ...
+            const tasks: Promise<StrapiEntityMap[keyof StrapiEntityMap][]>[] = [
+                this.fetchData("articles", CacheKey.Articles),
+                this.fetchData("categories", CacheKey.Categories),
+                this.fetchData("team-members", CacheKey.TeamMembers),
+                this.fetchData("reason-lists", CacheKey.ReasonLists),
+                this.fetchData("partners", CacheKey.Partners),
+                this.fetchData("seals", CacheKey.Seals),
+            ];
+            await Promise.all(tasks);
+            this.isPreloaded = true;
+            this.lastPreloadFailed = false;
+        } catch (e) {
+            this.lastPreloadFailed = true;
+            throw e;
+        }
+    }
+
+    public needsPreload(): boolean {
+        return !this.isPreloaded || this.lastPreloadFailed;
     }
 }
 

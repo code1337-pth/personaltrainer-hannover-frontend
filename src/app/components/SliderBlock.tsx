@@ -1,30 +1,22 @@
 // src/app/components/SliderBlock.tsx
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, {useEffect, useState} from "react";
 import Link from "next/link";
-import Image from "next/image";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination } from "swiper/modules";
+import {Swiper, SwiperSlide} from "swiper/react";
+import {Navigation, Pagination} from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import FeaturedImage from "@/app/components/FeaturedImage";
-import {Media} from "@/app/types/strapi";
+import {SliderItem} from "@/app/types/strapi";
 
-export interface SliderItem {
-    id: string;
-    img: Media;
-    name: string;
-    description?: string;
-    link?: string;
-}
 
 export interface SliderBlockProps {
     items: SliderItem[];
 }
 
-export default function SliderBlock({ items }: SliderBlockProps) {
+export default function SliderBlock({items}: SliderBlockProps) {
     const [showNav, setShowNav] = useState(false);
 
     const getSpv = () => {
@@ -48,13 +40,13 @@ export default function SliderBlock({ items }: SliderBlockProps) {
                 modules={[Navigation, Pagination]}
                 spaceBetween={24}
                 breakpoints={{
-                    0: { slidesPerView: 1 },
-                    640: { slidesPerView: 2 },
-                    768: { slidesPerView: 3 },
-                    1024: { slidesPerView: 4 },
+                    0: {slidesPerView: 1},
+                    640: {slidesPerView: 2},
+                    768: {slidesPerView: 3},
+                    1024: {slidesPerView: 4},
                 }}
                 navigation={showNav}
-                pagination={{ clickable: true }}
+                pagination={{clickable: true}}
             >
                 {items.map((item) => (
                     <SwiperSlide key={item.id}>

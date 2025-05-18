@@ -84,7 +84,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
     const { type, category, slug } = await params;
 
-    const all = await strapiCache.fetchData<Article>('articles', CacheKey.Articles);
+    const all = await strapiCache.fetchData('articles', CacheKey.Articles);
     const article = all.find(a =>
         a.slug === slug &&
         a.category?.slug === category &&

@@ -8,7 +8,6 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import {Partner} from "@/app/types/strapi";
 import Link from "next/link";
-import Image from "next/image";
 import React from "react";
 import FeaturedImage from "@/app/components/FeaturedImage";
 
@@ -39,7 +38,8 @@ export default function PartnerSlider({partners}: PartnerSliderProps) {
 
                 return (
                     <SwiperSlide key={index}>
-                        <Link href={partner.link ?? "#"} target={"_blank"}  className="block mx-auto max-w-[720px] h-[550px] flex flex-col justify-between overflow-hidden rounded-lg shadow-lg p-4">
+                        <Link href={partner.link ?? "#"} target={"_blank"}
+                              className="block mx-auto max-w-[720px] h-[550px] flex flex-col justify-between overflow-hidden rounded-lg shadow-lg p-4">
                             {/* Bild-Container immer 16:9 */}
                             <FeaturedImage
                                 img={logo}

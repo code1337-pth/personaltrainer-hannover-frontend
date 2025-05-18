@@ -1,9 +1,9 @@
 // src/app/components/FeaturedImage.tsx
 'use client';
 
-import Image, { ImageLoaderProps } from 'next/image';
-import { Media } from '@/app/types/strapi';
-import { strapiImageLoader } from '@/app/lib/strapiImageLoader';
+import Image, {ImageLoaderProps} from 'next/image';
+import {Media} from '@/app/types/strapi';
+import {strapiImageLoader} from '@/app/lib/strapiImageLoader';
 
 interface FeaturedImageProps {
     img: Media;
@@ -37,7 +37,7 @@ export default function FeaturedImage({
                                           className = '',
                                           containerClassName = ''
                                       }: FeaturedImageProps) {
-    const loader = ({ width: w }: ImageLoaderProps) => strapiImageLoader(img)({ width: w });
+    const loader = ({width: w}: ImageLoaderProps) => strapiImageLoader(img)({width: w});
 
     // Wrapper-Klassen je nach Modus
     const containerClass = containerClassName
@@ -52,9 +52,6 @@ export default function FeaturedImage({
         : fill
             ? 'object-cover object-center'
             : 'zoom-effect max-h-[500px] w-auto object-contain';
-
-    // Default sizes, kann überschrieben werden
-    const defaultSizes = '(max-width: 640px) 100vw, (max-width: 1024px) 75vw, 50vw';
 
     return (
         <div className={containerClass}>

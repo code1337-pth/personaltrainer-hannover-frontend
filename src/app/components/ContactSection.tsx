@@ -2,11 +2,11 @@
 'use client'
 
 import React from 'react'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
-import { toast } from 'react-hot-toast'
-import { SocialIcon } from 'react-social-icons'
+import {useForm} from 'react-hook-form'
+import {zodResolver} from '@hookform/resolvers/zod'
+import {z} from 'zod'
+import {toast} from 'react-hot-toast'
+import {SocialIcon} from 'react-social-icons'
 
 // Validierungsschema mit Zod
 const contactSchema = z.object({
@@ -46,6 +46,9 @@ export default function ContactSection({ id }: { id?: string }) {
                 toast.error('Es ist ein Fehler aufgetreten. Bitte versuche es erneut oder kontaktiere uns alternativ über WhatsApp, Social Media oder telefonisch.');;
             }
         } catch (e) {
+            if (process.env.NODE_ENV === "development") {
+                console.error(e);
+            }
             toast.error('Es ist ein Fehler aufgetreten. Bitte versuche es erneut oder kontaktiere uns alternativ über WhatsApp, Social Media oder telefonisch.');
         }
     }

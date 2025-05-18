@@ -4,6 +4,11 @@ import strapiCache from "@/lib/strapiCache";
 export async function register() {
     if (process.env.NEXT_RUNTIME === "nodejs") {
         console.log("nodejs runtime detected, preloading strapi cache");
-        await strapiCache.preload();
+        try{
+            await strapiCache.preload();
+        }
+        catch (e) {
+            console.error("Fehler bei der Kommunikation mit dem Backend:", e);
+        }
     }
 }

@@ -111,6 +111,17 @@ export default async function RootLayout({children}: { children: React.ReactNode
         if (process.env.NODE_ENV === "development") {
             console.error("Fehler beim Laden der Daten:", e);
         }
+        // Nur erneut preladen, wenn nötig (z.B. nach vorherigem Fehler)
+        if (strapiCache.needsPreload && typeof strapiCache.needsPreload === "function" && strapiCache.needsPreload()) {
+            try {
+                await strapiCache.preload();
+            } catch (err) {
+                if (process.env.NODE_ENV === "development") {
+                    console.error("Erneuter Preload-Versuch fehlgeschlagen:", err);
+                }
+            }
+        }
+
         return (
             <html lang="de" className={`${rajdhani.className}`}>
             <body>
@@ -118,7 +129,8 @@ export default async function RootLayout({children}: { children: React.ReactNode
                 <div>
                     <h1 className="text-4xl font-bold">Wartungsarbeiten</h1>
                     <p className="mt-4 text-lg">
-                        Unsere Seite wird gerade aktualisiert. Bitte versuchen Sie es später erneut.
+                        Unsere Seite ist vorübergehend nicht erreichbar.<br />
+                        Bitte lade die Seite in ein paar Sekunden erneut.
                     </p>
                 </div>
             </main>
