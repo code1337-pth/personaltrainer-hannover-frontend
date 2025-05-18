@@ -392,16 +392,23 @@ const serviceRedirects = [
     // weitere Service-Redirects hier…
 ];
 
+const isProd = process.env.NODE_ENV === 'production';
 
 const nextConfig: NextConfig = {
     images: {
         remotePatterns: [
-            {
-                protocol: "http",
-                hostname: "192.168.178.100",
-                port: "1337",
-                pathname: "/uploads/**",
-            },
+            isProd
+                ? {
+                    protocol: "https",
+                    hostname: "api.personaltrainer-hannover.de",
+                    pathname: "/uploads/**",
+                }
+                : {
+                    protocol: "http",
+                    hostname: "192.168.178.100",
+                    port: "1337",
+                    pathname: "/uploads/**",
+                }
         ],
     },
     async redirects() {
