@@ -9,6 +9,8 @@ import Footer from "@/app/components/Footer";
 import {UtilityButtons} from "@/app/components/UtilityButtons";
 import {Toaster} from "react-hot-toast";
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.personaltrainer-hannover.de";
+
 // Dynamisch nur Client-Komponenten importieren
 
 // Google Font: nur die wirklich benötigten Gewichte, mit font-display swap
@@ -31,11 +33,11 @@ export const metadata = {
         description:
             "Erreiche deine Fitnessziele mit individuellem Training, Ernährungsberatung und persönlicher Betreuung.",
         type: "website",
-        url: "https://www.personaltrainer-hannover.de",
+        url: siteUrl,
         siteName: "Personal Trainer Hannover",
         images: [
             {
-                url: "https://www.personaltrainer-hannover.de/og-image.jpg",
+                url: siteUrl + "/og-image.jpg",
                 width: 1200,
                 height: 630,
                 alt: "Fitness Personal Trainer",
@@ -46,14 +48,14 @@ export const metadata = {
         card: "summary_large_image",
         title: "Home | Markus Kaluza - Premium Personal Training + Team",
         description: "Individuelles Personal Training für deine Fitnessziele.",
-        images: ["https://www.personaltrainer-hannover.de/og-image.jpg"],
+        images: [siteUrl + "/og-image.jpg"],
     },
     icons: {
         icon: [
-            { url: "/favicon.svg", type: "image/svg+xml" },
-            { url: "/favicon-32.png", sizes: "32x32", type: "image/png" },
-            { url: "/favicon-192.png", sizes: "192x192", type: "image/png" },
-            { url: "/favicon-512.png", sizes: "512x512", type: "image/png" },
+            {url: "/favicon.svg", type: "image/svg+xml"},
+            {url: "/favicon-32.png", sizes: "32x32", type: "image/png"},
+            {url: "/favicon-192.png", sizes: "192x192", type: "image/png"},
+            {url: "/favicon-512.png", sizes: "512x512", type: "image/png"},
         ],
         shortcut: "/favicon.ico",
         apple: "/apple-touch-icon.png",
@@ -61,8 +63,8 @@ export const metadata = {
     manifest: "/site.webmanifest",
     robots: {index: true, follow: true},
     alternates: {
-        canonical: "https://www.personaltrainer-hannover.de",
-        languages: {de: "/", en: "/en"},
+        canonical: siteUrl,
+        languages: {de: siteUrl + "/"},
     },
 };
 
@@ -129,7 +131,7 @@ export default async function RootLayout({children}: { children: React.ReactNode
                 <div>
                     <h1 className="text-4xl font-bold">Wartungsarbeiten</h1>
                     <p className="mt-4 text-lg">
-                        Unsere Seite ist vorübergehend nicht erreichbar.<br />
+                        Unsere Seite ist vorübergehend nicht erreichbar.<br/>
                         Bitte lade die Seite in ein paar Sekunden erneut.
                     </p>
                 </div>

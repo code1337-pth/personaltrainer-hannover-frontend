@@ -2,7 +2,7 @@
 import CategoryHeroSection from "@/app/components/CategoryHeroSection";
 
 export const metadata = {
-    title: "Widerrufsbelehrung | Personal Training Kaluza + Team",
+    title: "Widerrufsbelehrung | Markus Kaluza - Premium Personal Training + Team",
     description: "Informationen zum Widerrufsrecht für Kunden von Personal Training Kaluza + Team",
 };
 
@@ -20,7 +20,8 @@ export default function WithdrawalPage() {
                 <section>
                     <h2>Widerrufsrecht</h2>
                     <p>
-                        Sie haben das Recht, binnen vierzehn Tagen ohne Angabe von Gründen ggf. abgeschlossene Verträge zu widerrufen.
+                        Sie haben das Recht, binnen vierzehn Tagen ohne Angabe von Gründen ggf. abgeschlossene Verträge
+                        zu widerrufen.
                     </p>
                     <p>Die Widerrufsfrist beträgt vierzehn Tage ab dem Tag des Vertragsabschlusses.</p>
                 </section>

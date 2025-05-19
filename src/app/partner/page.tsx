@@ -5,7 +5,7 @@ import React from "react";
 import PartnerSlider from "@/app/components/PartnerSlider";
 
 export const metadata = {
-    title: "Partner",
+    title: "Partner | Markus Kaluza - Premium Personal Training + Team",
     description: "Partner von Markus - Kaluza Premium Personal Training + Team",
 };
 

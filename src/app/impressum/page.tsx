@@ -2,7 +2,7 @@
 import CategoryHeroSection from "@/app/components/CategoryHeroSection";
 
 export const metadata = {
-    title: "Impressum",
+    title: "Impressum | Markus Kaluza - Premium Personal Training + Team",
     description: "Impressum und rechtliche Angaben gemäß § 5 TMG",
 };
 

@@ -1,12 +1,17 @@
 // src/app/[type]/[category]/page.tsx
 import {notFound} from "next/navigation";
 import CategoryListing, {CategoryType} from "@/app/components/CategoryListing";
+import {generateMetadata} from '@/lib/metadata';
 import StrapiCache, {CacheKey} from "@/lib/strapiCache";
 
 type Props = {
     params: Promise<{ type: "blog" | "service"; category: string }>;
     searchParams: Promise<{ query?: string; page?: string }>;
 };
+
+// Next.js liest automatisch diesen Export für die Metadaten
+export {generateMetadata};
+
 
 export default async function DynamicCategoryPage({
                                                       params,

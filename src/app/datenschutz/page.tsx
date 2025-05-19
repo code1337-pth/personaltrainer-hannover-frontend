@@ -2,7 +2,7 @@
 import CategoryHeroSection from "@/app/components/CategoryHeroSection";
 
 export const metadata = {
-    title: "Datenschutzerklärung | Personal Training Kaluza + Team",
+    title: "Datenschutzerklärung | Markus Kaluza - Premium Personal Training + Team",
     description: "Datenschutzerklärung für Personal Training Kaluza + Team",
 };
 

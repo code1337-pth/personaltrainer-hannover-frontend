@@ -85,7 +85,7 @@ const CategorySlider = ({title, description, items}: CategorySliderProps) => {
                     >
                         {displayed.map(item => (
                             <SwiperSlide key={item.id}>
-                                <Link hrefLang="de" href={item.link ?? "#"}>
+                                <Link href={item.link ?? "#"}>
                                     {item.img && (
                                         <FeaturedImage
                                             img={item.img}

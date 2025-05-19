@@ -2,6 +2,11 @@
 import CategoryHeroSection from "../components/CategoryHeroSection";
 import ServicesSection from "@/app/components/ServicesSection";
 
+export const metadata = {
+    title: "Leistungen | Markus Kaluza - Premium Personal Training + Team",
+    description: "Übersicht aller Leistungen von Markus Kaluza und Team.",
+};
+
 export default async function ServicePage() {
     return (
         <>
