@@ -15,7 +15,6 @@ export default function ReasonsSlider({reasons}: { reasons: Reason[] }) {
     return (
         <Swiper
             modules={[Navigation, Pagination]}
-            virtual={true}
             spaceBetween={20}
             slidesPerView={1}
             navigation
@@ -23,7 +22,7 @@ export default function ReasonsSlider({reasons}: { reasons: Reason[] }) {
         >
             <>
                 {reasons.map((reason, index) => (
-                    <SwiperSlide key={reason.id} virtualIndex={index}>
+                    <SwiperSlide key={reason.id}>
                         <div className="pl-15 pr-15 xl:pl-30 xl:pr-30 rounded-lg pb-20">
                             <div className="text-3xl font-bold text-center">
                                 <span>Grund - {index + 1}</span>
