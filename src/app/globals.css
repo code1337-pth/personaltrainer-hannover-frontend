@@ -10,7 +10,7 @@
   --link-color: #171717;
 
   --button-bg-color: var(--color-gold);
-  --button-text-color: #0a0a0a;
+  --button-text-color: #ffffff;
   --border-thin-color: var(--color-gray-300);
 
   --contact-bg-color: var(--background);
@@ -61,11 +61,11 @@
 
 
 .dark {
-  --background: #0a0a0ab4;
+  --background: rgba(10, 10, 10, 0.59);
   --foreground: #ededed;
   --hero-image: url('/hero-dark.webp');
   --link-color: #ffffff;
-  --button-text-color: #212121;
+  --button-text-color: #ececec;
   --border-thin-color: var(--color-gray-800);
 
   --contact-bg-color: var(--background);
