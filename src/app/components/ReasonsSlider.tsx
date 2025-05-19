@@ -1,10 +1,11 @@
+"use client";
+
 import {Swiper, SwiperSlide} from "swiper/react";
-import {Navigation, Pagination, Virtual} from "swiper/modules";
+import {Navigation, Pagination} from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import {Reason} from "@/app/types/strapi";
-import React from "react";
 
 export default function ReasonsSlider({reasons}: { reasons: Reason[] }) {
     if (!reasons || reasons.length === 0) {
@@ -13,15 +14,15 @@ export default function ReasonsSlider({reasons}: { reasons: Reason[] }) {
 
     return (
         <Swiper
-            modules={[Navigation, Pagination, Virtual]}
-            virtual
+            modules={[Navigation, Pagination]}
+            virtual={true}
             spaceBetween={20}
             slidesPerView={1}
             navigation
             pagination={{type: "fraction"}}
         >
-            {React.Children.toArray(
-                reasons.map((reason, index) => (
+            <>
+                {reasons.map((reason, index) => (
                     <SwiperSlide key={reason.id} virtualIndex={index}>
                         <div className="pl-15 pr-15 xl:pl-30 xl:pr-30 rounded-lg pb-20">
                             <div className="text-3xl font-bold text-center">
@@ -41,8 +42,8 @@ export default function ReasonsSlider({reasons}: { reasons: Reason[] }) {
                             </div>
                         </div>
                     </SwiperSlide>
-                ))
-            )}
+                ))}
+            </>
         </Swiper>
-    )
+    );
 }
