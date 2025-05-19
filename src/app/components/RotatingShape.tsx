@@ -14,7 +14,7 @@ const RotatingShape = () => {
                     className="absolute inset-0 w-full h-full object-contain hidden lg:flex [animation:spin_30s_linear_infinite]"
                 />
                 <Image
-                    src="/markus-kaluza-tp.avif"
+                    src="/markus-kaluza-tp.webp"
                     alt="Markus Kaluza - Personal Trainer"
                     fill
                     sizes="(max-width: 400px) 70vw, 380px"
