@@ -105,8 +105,13 @@ export default function ContactSection({ id }: { id?: string }) {
                         <label htmlFor="message" className="block text-sm font-medium mb-1">Nachricht</label>
                         <textarea
                             id="message"
-                            {...register('message')}
+                            {...register('message', {
+                                required: 'Bitte gib eine Nachricht ein.',
+                                maxLength: { value: 2000, message: 'Maximal 2000 Zeichen erlaubt.' },
+                                validate: value => !/<[^>]*>?/gm.test(value) || 'Kein HTML erlaubt.'
+                            })}
                             placeholder="Deine Nachricht"
+                            maxLength={2000}
                             className="w-full p-3 rounded focus:outline-none h-32 resize-none"
                         />
                         {errors.message && <p className="text-red-600 text-sm mt-1">{errors.message.message}</p>}

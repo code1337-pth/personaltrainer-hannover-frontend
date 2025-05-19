@@ -3,11 +3,12 @@ import {NextResponse} from 'next/server'
 import {z} from 'zod'
 import nodemailer from 'nodemailer'
 
-// API-Schema wiederverwenden oder separat definieren
+// API-Schema inkl. message-Feld und Längenbegrenzung
 const contactSchemaApi = z.object({
-    name: z.string().min(1),
+    name: z.string().min(1).max(100),
     email: z.string().email(),
     phone: z.string().optional(),
+    message: z.string().min(1).max(2000), // max. 2000 Zeichen
     honeypot: z.string().optional(),
 })
 
@@ -42,6 +43,17 @@ export async function POST(request: Request) {
             return NextResponse.json({ok: true}, {status: 200, headers: responseHeaders})
         }
 
+        // Einfache Sanitization: keine HTML-Tags erlauben
+        const sanitizedMessage = data.message.replace(/<[^>]*>?/gm, '').trim()
+
+        // Links blockieren
+        if (/https?:\/\//i.test(sanitizedMessage)) {
+            return NextResponse.json(
+                {ok: false, error: 'Links sind nicht erlaubt.'},
+                {status: 400, headers: responseHeaders}
+            )
+        }
+
         // SMTP-Transport per Umgebungsvariablen konfigurieren
         const transporter = nodemailer.createTransport({
             host: process.env.SMTP_HOST,
@@ -56,7 +68,7 @@ export async function POST(request: Request) {
             from: `Kontaktformular <${process.env.SMTP_USER}>`,
             to: process.env.CONTACT_EMAIL,
             subject: `Neue Kontaktanfrage von ${data.name}`,
-            text: `Name: ${data.name}\nEmail: ${data.email}\nTelefon: ${data.phone || '-'}\n\nNachricht gesendet via Kontaktformular`,
+            text: `Name: ${data.name}\nEmail: ${data.email}\nTelefon: ${data.phone || '-'}\n\nNachricht:\n${sanitizedMessage}`,
         })
 
         return NextResponse.json({ok: true}, {headers: responseHeaders})
