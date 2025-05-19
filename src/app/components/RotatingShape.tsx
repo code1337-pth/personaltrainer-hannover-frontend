@@ -2,8 +2,6 @@ import React from "react";
 import Image from "next/image";
 
 const RotatingShape = () => {
-    const BLUR_DARK = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVQI12NgYAAAAAUAAWgmWQ0AAAAASUVORK5CYII=";
-
     return (
         <section className="relative flex items-center justify-center">
             <div className="relative w-80 h-80 sm:w-100 sm:h-100 lg:w-[500px] lg:h-[500px] mt-20 sm:mt-0">
