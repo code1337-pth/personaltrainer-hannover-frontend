@@ -24,7 +24,6 @@ const RotatingShape = () => {
                     quality={50}
                     placeholder='blur'
                     blurDataURL={BLUR_DARK}
-                    loading={"eager"}
                     className="absolute inset-0 m-auto rounded-full object-cover border border-gray-800 border-dashed w-48 h-48 md:w-80 md:h-80 lg:w-[400px] lg:h-[400px]"
                 />
             </div>
