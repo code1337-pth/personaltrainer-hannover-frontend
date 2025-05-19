@@ -60,7 +60,7 @@ export default function ContactSection({ id }: { id?: string }) {
             style={{ backgroundImage: "url('/contact.webp')" }}
         >
             {/* Formular-Container */}
-            <div className="relative z-10 p-4 sm:p-8 rounded shadow max-w-lg w-full mx-4 bg-[var(--contact-bg-color)]">
+            <div className="relative z-10 m-5 p-5 sm:p-9 rounded-2xl max-w-lg w-full bg-[var(--contact-bg-color)]">
                 <h2 className="text-3xl font-bold mb-4">Starte dein Training jetzt</h2>
                 <p className="mb-6">Sichere dir dein unverbindliches Erstgespräch – wir melden uns umgehend.</p>
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-2">
