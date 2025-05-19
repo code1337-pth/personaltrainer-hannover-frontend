@@ -22,23 +22,21 @@ export default function ReasonsSlider({reasons}: { reasons: Reason[] }) {
         >
             <>
                 {reasons.map((reason, index) => (
-                    <SwiperSlide key={reason.id}>
-                        <div className="pl-15 pr-15 xl:pl-30 xl:pr-30 rounded-lg pb-20">
-                            <div className="text-3xl font-bold text-center">
-                                <span>Grund - {index + 1}</span>
-                            </div>
-                            <p className="text-lg mt-6">{reason.html_content}</p>
-                            <div
-                                className="uppercase text-right text-sm text-[var(--keyword-text-color)] flex flex-wrap gap-2 justify-end mt-4">
-                                {reason.tags?.map((tag, tagIndex) => (
-                                    <strong
-                                        key={tagIndex}
-                                        className="bg-[var(--tag-color)] px-3 py-1 rounded-full text-xs"
-                                    >
-                                        {tag}
-                                    </strong>
-                                ))}
-                            </div>
+                    <SwiperSlide key={reason.id} className="pl-15 pr-15 xl:pl-30 xl:pr-30 rounded-lg pb-20">
+                        <div className="text-3xl font-bold text-center">
+                            <span>Grund - {index + 1}</span>
+                        </div>
+                        <p className="text-lg mt-6">{reason.html_content}</p>
+                        <div
+                            className="uppercase text-right text-sm text-[var(--keyword-text-color)] flex flex-wrap gap-2 justify-end mt-4">
+                            {reason.tags?.map((tag, tagIndex) => (
+                                <strong
+                                    key={tagIndex}
+                                    className="bg-[var(--tag-color)] px-3 py-1 rounded-full text-xs"
+                                >
+                                    {tag}
+                                </strong>
+                            ))}
                         </div>
                     </SwiperSlide>
                 ))}
