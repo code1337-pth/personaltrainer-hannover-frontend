@@ -5,7 +5,7 @@ const SECRET = process.env.CACHE_REFRESH_SECRET;
 
 export async function POST(req: NextRequest) {
     if (req.headers.get("authorization") !== `Bearer ${SECRET}`) {
-        return NextResponse.json({ error: "Unauthorized " + SECRET }, { status: 401 });
+        return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     strapiCache.clearCache()
