@@ -31,22 +31,22 @@ const Footer = () => {
             <h4 className="text-lg font-semibold mb-4">Unternehmen</h4>
             <ul className="space-y-2 text-sm ">
               <li>
-                <Link hreflang="de" href="/#home" className="hover:text-[var(--color-gold)]">Über uns</Link>
+                <Link hrefLang="de" href="/#home" className="hover:text-[var(--color-gold)]">Über uns</Link>
               </li>
               <li>
-                <Link hreflang="de" href="/#team" className="hover:text-[var(--color-gold)]">Team</Link>
+                <Link hrefLang="de" href="/#team" className="hover:text-[var(--color-gold)]">Team</Link>
               </li>
               <li>
-                <Link hreflang="de" href="/service" className="hover:text-[var(--color-gold)]">Leistungen</Link>
+                <Link hrefLang="de" href="/service" className="hover:text-[var(--color-gold)]">Leistungen</Link>
               </li>
               <li>
-                <Link hreflang="de" href="/blog" className="hover:text-[var(--color-gold)]">Blog</Link>
+                <Link hrefLang="de" href="/blog" className="hover:text-[var(--color-gold)]">Blog</Link>
               </li>
               <li>
-                <Link hreflang="de" href="/partner" className="hover:text-[var(--color-gold)]">Partner</Link>
+                <Link hrefLang="de" href="/partner" className="hover:text-[var(--color-gold)]">Partner</Link>
               </li>
               <li>
-                <Link hreflang="de" href="/#contact" className="hover:text-[var(--color-gold)]">Kontakt</Link>
+                <Link hrefLang="de" href="/#contact" className="hover:text-[var(--color-gold)]">Kontakt</Link>
               </li>
             </ul>
           </div>
@@ -56,16 +56,16 @@ const Footer = () => {
             <h4 className="text-lg font-semibold mb-4">Rechtliches</h4>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link hreflang="de" href="/impressum" className="hover:text-[var(--color-gold)]">Impressum</Link>
+                <Link hrefLang="de" href="/impressum" className="hover:text-[var(--color-gold)]">Impressum</Link>
               </li>
               <li>
-                <Link hreflang="de" href="/datenschutz" className="hover:text-[var(--color-gold)]">Datenschutz</Link>
+                <Link hrefLang="de" href="/datenschutz" className="hover:text-[var(--color-gold)]">Datenschutz</Link>
               </li>
               <li>
-                <Link hreflang="de" href="/agb" className="hover:text-[var(--color-gold)]">AGB</Link>
+                <Link hrefLang="de" href="/agb" className="hover:text-[var(--color-gold)]">AGB</Link>
               </li>
               <li>
-                <Link hreflang="de" href="/widerruf" className="hover:text-[var(--color-gold)]">Widerruf</Link>
+                <Link hrefLang="de" href="/widerruf" className="hover:text-[var(--color-gold)]">Widerruf</Link>
               </li>
             </ul>
           </div>

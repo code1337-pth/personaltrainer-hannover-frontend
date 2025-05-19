@@ -14,7 +14,7 @@ export default function Header({navItems}: { navItems: NavItem[] }) {
         <header className="py-2 fixed top-0 left-0 w-full z-30">
             <div className="lg:max-w-screen-xl mx-auto px-4 flex items-center justify-between">
                 <div className="flex items-center space-x-4">
-                    <Link hreflang="de" href="/#home" scroll={false}>
+                    <Link hrefLang="de" href="/#home" scroll={false}>
                         <Image
                             src="/personaltrainer-hannover-figure.svg"
                             alt="Personaltrainer Hannover Logo"

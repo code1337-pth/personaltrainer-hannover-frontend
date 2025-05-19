@@ -24,7 +24,7 @@ const CategoryHeroSection: React.FC<CategoryHeroSectionProps> = ({
                     {breadcrumb.map((item, index) => (
                         <span key={index}>
               {item.href ? (
-                  <Link hreflang="de" href={item.href} className="underline">
+                  <Link hrefLang="de" href={item.href} className="underline">
                       {item.name}
                   </Link>
               ) : (

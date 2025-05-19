@@ -10,7 +10,7 @@ const Breadcrumb = ({ paths }: BreadcrumbProps) => {
       {paths.map((path, index) => (
         <span key={index}>
           {path.link ? (
-            <Link hreflang="de" href={path.link} className="hover:text-[var(--color-gold)]">
+            <Link hrefLang="de" href={path.link} className="hover:text-[var(--color-gold)]">
               {path.name}
             </Link>
           ) : (

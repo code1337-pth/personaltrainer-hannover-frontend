@@ -50,7 +50,7 @@ export default function SliderBlock({items}: SliderBlockProps) {
             >
                 {items.map((item) => (
                     <SwiperSlide key={item.id}>
-                        <Link hreflang="de" href={item.link ?? "#"} className="block h-full group">
+                        <Link hrefLang="de" href={item.link ?? "#"} className="block h-full group">
                             <div className="h-[450px] flex flex-col overflow-hidden rounded-lg shadow-lg">
                                 {item.img && (
                                     <FeaturedImage

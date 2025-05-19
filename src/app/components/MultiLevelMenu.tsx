@@ -142,7 +142,7 @@ const MultiLevelMenu = ({ navItems }: DesktopNavProps) => {
               onMouseLeave={handleMouseLeaveAtLevel}
             >
               <div className="flex items-center space-x-2 cursor-pointer hover:text-[var(--color-gold)] transition-all duration-300">
-                <Link hreflang="de" href={item.href}>{item.name}</Link>
+                <Link hrefLang="de" href={item.href}>{item.name}</Link>
                 {item.children && (
                   <ChevronDown
                     size={16}

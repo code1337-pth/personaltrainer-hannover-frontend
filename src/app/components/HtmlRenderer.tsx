@@ -38,7 +38,7 @@ export default function HtmlRenderer({html}: Props) {
                 // Interne Links als <Link>
                 if (domNode.name === 'a' && domNode.attribs.href && domNode.attribs.href.startsWith('/')) {
                     const href = domNode.attribs.href;
-                    return <Link hreflang="de" href={href}>{domToReact(domNode.children as DOMNode[], options)}</Link>;
+                    return <Link hrefLang="de" href={href}>{domToReact(domNode.children as DOMNode[], options)}</Link>;
                 }
 
                 // Externe Links absichern

@@ -37,7 +37,7 @@ export function transformHtmlContent(html: string): string {
         /<a\b([^>]*)href\s*=\s*"([^"]+)"([^>]*)>(.*?)<\/a>/gi,
         (_match, pre, href, post, inner) => {
             if (href.startsWith('/')) {
-                return `<Link hreflang="de" href="${href}"${pre}${post}>${inner}</Link>`;
+                return `<Link hrefLang="de" href="${href}"${pre}${post}>${inner}</Link>`;
             } else {
                 const hasTarget = /target=/.test(pre + post);
                 const hasRel = /rel=/.test(pre + post);

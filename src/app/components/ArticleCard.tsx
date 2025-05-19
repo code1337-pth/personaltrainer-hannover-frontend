@@ -15,7 +15,7 @@ interface ArticleItemProps {
 const ArticleCard = ({item}: ArticleItemProps) => {
     return (
         <div className="p-2 border-1 border-solid border-(--border-thin-color) shadow-xl rounded-lg  flex flex-col ">
-            <Link hreflang="de" href={item.link}>
+            <Link hrefLang="de" href={item.link}>
                 <>
                     {item.img?.url && (
                         <FeaturedImage
