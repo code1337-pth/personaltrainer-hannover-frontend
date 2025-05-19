@@ -8,7 +8,7 @@ const RotatingShape = () => {
         <section className="relative flex items-center justify-center">
             <div className="relative w-80 h-80 sm:w-100 sm:h-100 lg:w-[500px] lg:h-[500px] mt-20 sm:mt-0">
                 <Image
-                    src="/hero-profile-shape.webp"
+                    src="/hero-profile-shape.avif"
                     alt="Rotierendes Shape"
                     fill
                     sizes="(max-width: 661px) 80vw, 500px"
@@ -16,15 +16,13 @@ const RotatingShape = () => {
                     className="absolute inset-0 w-full h-full object-contain hidden lg:flex [animation:spin_30s_linear_infinite]"
                 />
                 <Image
-                    src="/markus-kaluza-tp.webp"
+                    src="/markus-kaluza-tp.avif"
                     alt="Markus Kaluza - Personal Trainer"
                     fill
-                    sizes="(max-width: 426px) 80vw, 400px"
+                    sizes="(max-width: 400px) 70vw, 380px"
                     priority={true}
                     quality={50}
-                    placeholder='blur'
-                    blurDataURL={BLUR_DARK}
-                    className="absolute inset-0 m-auto rounded-full object-cover border border-gray-800 border-dashed w-48 h-48 md:w-80 md:h-80 lg:w-[400px] lg:h-[400px]"
+                    className="absolute inset-0 m-auto rounded-full object-cover border border-gray-800 border-dashed w-48 h-48 md:w-80 md:h-80 lg:w-[380px] lg:h-[380px]"
                 />
             </div>
         </section>
