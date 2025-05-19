@@ -9,7 +9,7 @@ const RotatingShape = () => {
                     src="/hero-profile-shape.webp"
                     alt="Rotierendes Shape"
                     fill
-                    sizes="(max-width: 1024px) 80vw, 500px"
+                    sizes="(max-width: 661px) 80vw, 500px"
                     loading="lazy"
                     className="absolute inset-0 w-full h-full object-contain hidden lg:flex [animation:spin_30s_linear_infinite]"
                 />
@@ -17,8 +17,8 @@ const RotatingShape = () => {
                     src="/markus-kaluza-tp.webp"
                     alt="Person"
                     fill
-                    sizes="(max-width: 1024px) 80vw, 400px"
-                    loading="eager"
+                    sizes="(max-width: 426px) 80vw, 400px"
+                    priority
                     className="absolute inset-0 m-auto rounded-full object-cover border border-gray-800 border-dashed w-48 h-48 md:w-80 md:h-80 lg:w-[400px] lg:h-[400px]"
                 />
             </div>
