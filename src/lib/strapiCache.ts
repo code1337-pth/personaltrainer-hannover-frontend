@@ -36,7 +36,9 @@ class StrapiCache {
     ): Promise<StrapiEntityMap[K][]> {
         if (this.isValid(key)) {
             const cached = this.cache.get(key)!.data as StrapiEntityMap[K][];
-            console.log(`[StrapiCache] Cache HIT für ${key} (${cached.length} Einträge)`);
+            if (process.env.NODE_ENV === "development") {
+                console.log(`[StrapiCache] Cache HIT für ${key} (${cached.length} Einträge)`);
+            }
             return cached;
         }
 
@@ -50,7 +52,10 @@ class StrapiCache {
         }
 
         this.cache.set(key, {data: results, timestamp: Date.now()});
-        console.log(`[StrapiCache] ${key}: ${results.length} Einträge geladen und gecached.`);
+        if (process.env.NODE_ENV === "development") {
+            console.log(`[StrapiCache] ${key}: ${results.length} Einträge geladen und gecached.`);
+        }
+
         return results;
     }
 

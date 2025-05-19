@@ -11,9 +11,6 @@ export const metadata = {
 
 export default async function PartnerPage() {
     const partners = await strapiCache.fetchData(CacheKey.Partners, CacheKey.Partners);
-    console.log("fixed image?", partners[0].logo[0])
-    console.log("fixed image?", partners[0].logo[0]["url"])
-    console.log("fixed image?", partners[0].logo[0].url)
     return (
         <>
             {/* Hero-Block als Header */}

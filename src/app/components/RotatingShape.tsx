@@ -2,6 +2,8 @@ import React from "react";
 import Image from "next/image";
 
 const RotatingShape = () => {
+    const BLUR_DARK = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVQI12NgYAAAAAUAAWgmWQ0AAAAASUVORK5CYII=";
+
     return (
         <section className="relative flex items-center justify-center">
             <div className="relative w-80 h-80 sm:w-100 sm:h-100 lg:w-[500px] lg:h-[500px] mt-20 sm:mt-0">
@@ -20,6 +22,8 @@ const RotatingShape = () => {
                     sizes="(max-width: 426px) 80vw, 400px"
                     priority={true}
                     quality={50}
+                    placeholder='blur'
+                    blurDataURL={BLUR_DARK}
                     loading={"eager"}
                     className="absolute inset-0 m-auto rounded-full object-cover border border-gray-800 border-dashed w-48 h-48 md:w-80 md:h-80 lg:w-[400px] lg:h-[400px]"
                 />
