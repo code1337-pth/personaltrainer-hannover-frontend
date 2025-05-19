@@ -4,7 +4,7 @@ const fetch = global.fetch || require('node-fetch')
 // Umgebungsvariablen prüfen
 ;['SITE_URL', 'STRAPI_API_URL', 'STRAPI_TOKEN'].forEach(k => {
     if (!process.env[k]) {
-        throw new Error(`❌ Bitte ${k} in .env.local definieren!`)
+        throw new Error(`❌ Bitte ${k} in .env definieren!`)
     }
 })
 
