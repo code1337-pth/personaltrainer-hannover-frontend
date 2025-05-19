@@ -15,10 +15,12 @@ const RotatingShape = () => {
                 />
                 <Image
                     src="/markus-kaluza-tp.webp"
-                    alt="Person"
+                    alt="Markus Kaluza - Personal Trainer"
                     fill
                     sizes="(max-width: 426px) 80vw, 400px"
-                    priority
+                    priority={true}
+                    quality={50}
+                    loading={"eager"}
                     className="absolute inset-0 m-auto rounded-full object-cover border border-gray-800 border-dashed w-48 h-48 md:w-80 md:h-80 lg:w-[400px] lg:h-[400px]"
                 />
             </div>
