@@ -90,7 +90,7 @@ export default function TermsPage() {
                         Personenbezogene Daten des Klienten werden nur zum Zwecke der
                         Vertragserfüllung gespeichert und nicht an Dritte weitergegeben.
                         Weitere Informationen entnehmen Sie unserer
-                        <Link href={"/datenschutz"} className="underline">Datenschutzerklärung</Link>.
+                        <Link hreflang="de" href={"/datenschutz"} className="underline">Datenschutzerklärung</Link>.
                     </p>
                 </section>
 

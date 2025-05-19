@@ -18,7 +18,7 @@ const RotatingShape = () => {
                     alt="Person"
                     fill
                     sizes="(max-width: 1024px) 80vw, 400px"
-                    loading="lazy"
+                    loading="eager"
                     className="absolute inset-0 m-auto rounded-full object-cover border border-gray-800 border-dashed w-48 h-48 md:w-80 md:h-80 lg:w-[400px] lg:h-[400px]"
                 />
             </div>

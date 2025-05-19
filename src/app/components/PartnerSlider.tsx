@@ -38,7 +38,7 @@ export default function PartnerSlider({partners}: PartnerSliderProps) {
 
                 return (
                     <SwiperSlide key={index}>
-                        <Link href={partner.link ?? "#"} target={"_blank"}
+                        <Link hreflang="de" href={partner.link ?? "#"} target={"_blank"}
                               className="block mx-auto max-w-[720px] h-[550px] flex flex-col justify-between overflow-hidden rounded-lg shadow-lg p-4">
                             {/* Bild-Container immer 16:9 */}
                             <FeaturedImage
