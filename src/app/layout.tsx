@@ -79,7 +79,7 @@ export default async function RootLayout({children}: { children: React.ReactNode
         });
 
         const navItems = [
-            {name: "Home", href: "/#home"},
+            {name: "Home", href: "/"},
             {name: "Kontakt", href: "/#contact"},
             {name: "Leistungen", href: "/service", children: serviceNav},
             {name: "Blog", href: "/blog", children: blogNav},

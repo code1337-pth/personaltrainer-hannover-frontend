@@ -31,7 +31,7 @@ const Footer = () => {
             <h4 className="text-lg font-semibold mb-4">Unternehmen</h4>
             <ul className="space-y-2 text-sm ">
               <li>
-                <Link href="/#home" className="hover:text-[var(--color-gold)]">Über uns</Link>
+                <Link href="/" className="hover:text-[var(--color-gold)]">Über uns</Link>
               </li>
               <li>
                 <Link href="/#team" className="hover:text-[var(--color-gold)]">Team</Link>
