@@ -13,6 +13,15 @@ const RotatingShape = () => {
                     loading="lazy"
                     className="absolute inset-0 w-full h-full object-contain hidden lg:flex [animation:spin_30s_linear_infinite]"
                 />
+                <Image
+                    src="/markus-kaluza-tp.webp"
+                    alt="Markus Kaluza - Personal Trainer"
+                    fill
+                    sizes="(max-width: 400px) 70vw, 380px"
+                    priority={true}
+                    quality={50}
+                    className="absolute inset-0 m-auto rounded-full object-cover border border-gray-800 border-dashed w-48 h-48 md:w-80 md:h-80 lg:w-[380px] lg:h-[380px]"
+                />
             </div>
         </section>
     );
