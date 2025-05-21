@@ -340,13 +340,13 @@ header {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-#contact-section {
+#contact {
   background-image: var(--contact-image, url('/contact.webp'));
   /* weitere Styles */
 }
 
 @media (max-width: 640px) {
-  #contact-section {
+  #contact{
     --contact-image: url('/contact-small.webp');
   }
 }
