@@ -1,4 +1,6 @@
 // src/app/page.tsx
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://personaltrainer-hannover.de";
+
 import ContactSection from "./components/ContactSection";
 import ExperienceSection from "./components/ExperienceSection";
 import HeroSection from "./components/HeroSection";
@@ -88,6 +90,27 @@ export default async function Home() {
                 title="Aktuelle News"
                 caption="Bleib auf dem Laufenden mit den letzten Meldungen"
                 articles={newsPosts}
+            />
+            {/* Unternehmensdaten */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                    __html: JSON.stringify({
+                        "@context": "https://schema.org",
+                        "@type": "LocalBusiness",
+                        "name": "Markus Kaluza - Premium Personal Training + Team",
+                        "image": `${siteUrl}/personaltrainer-hannover-figure.svg`,
+                        "address": {
+                            "@type": "PostalAddress",
+                            "streetAddress": "Hannoversche Str. 82",
+                            "addressLocality": "Isernhagen",
+                            "postalCode": "30916 ",
+                            "addressCountry": "DE"
+                        },
+                        "telephone": "+491744010440",
+                        "url": siteUrl
+                    })
+                }}
             />
         </>
     );

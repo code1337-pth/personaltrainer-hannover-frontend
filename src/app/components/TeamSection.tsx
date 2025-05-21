@@ -9,6 +9,17 @@ export default async function TeamSection() {
     const currentYear = new Date().getFullYear();
     const experienceYears = currentYear - 2001;
 
+    // Strukturiertes Daten-Array für alle Teammitglieder
+    const teamJsonLd = teamMembers.map(member => ({
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": member.name,
+        "jobTitle": member.roles?.map(r => r.name).join(", "),
+        "image": member.image?.url ? member.image.url : undefined,
+        "sameAs": member.social?.map(s => s.url),
+        "url": process.env.NEXT_PUBLIC_SITE_URL || "https://personaltrainer-hannover.de"
+    }));
+
     return (
         <section id="team" className="container-lg text-lg mx-auto px-6 py-12 text-center">
             <h2 className="text-4xl font-bold">Unser Team</h2>
@@ -52,6 +63,13 @@ export default async function TeamSection() {
                     <TeamMemberCard member={member} key={index}/>
                 ))}
             </div>
+            {/* Strukturierte Daten für alle Teammitglieder */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                    __html: JSON.stringify(teamJsonLd)
+                }}
+            />
         </section>
     );
 }
