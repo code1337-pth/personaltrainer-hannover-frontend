@@ -47,29 +47,11 @@ export default function CategoryListing({
             {page > 1 ? (
                 <Link
                     href={`${basePath}?query=${encodeURIComponent(query)}&page=${page - 1}`}
-                    className="
-            px-4 py-2
-            bg-[var(--alternative-bg-color)]
-            text-[var(--foreground)]
-            border border-[var(--border-thin-color)]
-            rounded-md
-            hover:bg-[var(--hover-bg)]
-            transition
-          "
-                >
+                    className="px-4 py-2 bg-[var(--button-bg-color)] text-[var(--button-text-color)] rounded hover:font-bold" scroll={false}>
                     Vorherige
                 </Link>
             ) : (
-                <span
-                    className="
-            px-4 py-2
-            text-[var(--foreground)]
-            opacity-50
-            rounded-md
-          "
-                >
-          Vorherige
-        </span>
+                <span className="px-4 py-2 bg-[var(--button-bg-color)] text-[var(--button-text-color)] rounded hover:font-bold">Vorherige</span>
             )}
 
             <span className="text-[var(--foreground)]">
@@ -79,29 +61,11 @@ export default function CategoryListing({
             {page < totalPages ? (
                 <Link
                     href={`${basePath}?query=${encodeURIComponent(query)}&page=${page + 1}`}
-                    className="
-            px-4 py-2
-            bg-[var(--alternative-bg-color)]
-            text-[var(--foreground)]
-            border border-[var(--border-thin-color)]
-            rounded-md
-            hover:bg-[var(--hover-bg)]
-            transition
-          "
-                >
+                    className="px-4 py-2 bg-[var(--button-bg-color)] text-[var(--button-text-color)] rounded hover:font-bold" scroll={false}>
                     Nächste
                 </Link>
             ) : (
-                <span
-                    className="
-            px-4 py-2
-            text-[var(--foreground)]
-            opacity-50
-            rounded-md
-          "
-                >
-          Nächste
-        </span>
+                <span className="px-4 py-2 bg-[var(--button-bg-color)] text-[var(--button-text-color)] rounded hover:font-bold">Nächste</span>
             )}
         </div>
     );

@@ -38,7 +38,7 @@ const SearchInput = ({ defaultQuery, basePath }: SearchInputProps) => {
             />
             <button
                 type="submit"
-                className="absolute right-2 top-2 text-sm text-[var(--color-gold)]"
+                className="absolute right-2 top-1/2 -translate-y-1/2 min-w-[52px] min-h-[52px] px-4 p-2  rounded focus:outline-none focus:ring-2 focus:ring-[var(--color-gold)]"
             >
                 Suchen
             </button>

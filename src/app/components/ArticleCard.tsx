@@ -33,7 +33,7 @@ const ArticleCard = ({item}: ArticleItemProps) => {
                 </p>
             )}
             <div className="p-3">
-                <h3 className="text-lg font-semibold mb-4 ">{item.name}</h3>
+                <h2 className="font-semibold mb-4 !text-3xl">{item.name}</h2>
                 <p>{item.description}</p>
             </div>
             <Link
