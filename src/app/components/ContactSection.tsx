@@ -56,7 +56,7 @@ export default function ContactSection({id}: { id?: string }) {
 
     return (
         <section
-            id="contact-section"
+            id={id}
             className="relative h-[960px] flex items-center justify-center bg-center bg-cover bg-no-repeat text-3xl"
         >
             {/* Formular-Container */}
