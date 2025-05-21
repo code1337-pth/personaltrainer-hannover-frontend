@@ -67,7 +67,7 @@ export const metadata = {
         languages: {de: siteUrl + "/"},
     },
     verification: {
-        google: 'googlecc0bbac3746cb799'
+        google: 'bQUkqk1kKtBIUsbu4xVNx9NfbK8Q'
     }
 };
 
