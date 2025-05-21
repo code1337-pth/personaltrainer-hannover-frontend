@@ -1,6 +1,8 @@
 import strapiCache, {CacheKey} from "@/lib/strapiCache";
 import React from "react";
 import TeamMemberCard from "@/app/components/TeamMemberCard";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://personaltrainer-hannover.de";
+
 
 export const dynamic = "force-dynamic";
 export default async function TeamSection() {
@@ -15,9 +17,13 @@ export default async function TeamSection() {
         "@type": "Person",
         "name": member.name,
         "jobTitle": member.roles?.map(r => r.name).join(", "),
-        "image": member.image?.url ? member.image.url : undefined,
+        "image": member.image?.url
+            ? member.image.url.startsWith("http")
+                ? member.image.url
+                : siteUrl + member.image.url
+            : undefined,
         "sameAs": member.social?.map(s => s.url),
-        "url": process.env.NEXT_PUBLIC_SITE_URL || "https://personaltrainer-hannover.de"
+        "url": siteUrl
     }));
 
     return (
