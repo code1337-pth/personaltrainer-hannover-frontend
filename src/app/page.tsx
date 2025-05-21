@@ -30,22 +30,22 @@ export default async function Home() {
     //         return dateB - dateA;
     //     })
     //     .slice(0, 3);
-    //
-    // // 4) Die 3 neuesten Blog-Beiträge (ohne News)
-    // const blogPosts = published
-    //     .filter(a => a.category?.slug !== 'news' && a.blog_article != false)
-    //     .sort((a, b) => {
-    //         const dateA = new Date(a.published_date ?? a.publishedAt ?? a.createdAt!).getTime();
-    //         const dateB = new Date(b.published_date ?? b.publishedAt ?? b.createdAt!).getTime();
-    //         return dateB - dateA;
-    //     })
-    //     .slice(0, 3);
+
+    // 4) Die 3 neuesten Blog-Beiträge (ohne News)
+    const blogPosts = published
+        .filter(a => a.category?.slug !== 'news' && a.blog_article != false)
+        .sort((a, b) => {
+            const dateA = new Date(a.published_date ?? a.publishedAt ?? a.createdAt!).getTime();
+            const dateB = new Date(b.published_date ?? b.publishedAt ?? b.createdAt!).getTime();
+            return dateB - dateA;
+        })
+        .slice(0, 3);
 
     // 5) Drei zufällige Blog-Beiträge (ohne News)
-    const blogPool = published.filter(a => a.category?.slug !== 'news' && a.blog_article != false);
-    const randomPosts = blogPool
-        .sort(() => 0.5 - Math.random()) // Shuffle
-        .slice(0, 3);
+    // const blogPool = published.filter(a => a.category?.slug !== 'news' && a.blog_article != false);
+    // const randomPosts = blogPool
+    //     .sort(() => 0.5 - Math.random()) // Shuffle
+    //     .slice(0, 3);
 
     return (
         <>
@@ -70,20 +70,20 @@ export default async function Home() {
             <BlogSection/>
 
             {/* Neueste Blog-Beiträge */}
-            {/*<PostsSection*/}
-            {/*    title="Neueste Blog-Beiträge"*/}
-            {/*    caption="Unsere frischesten Artikel und Tipps"*/}
-            {/*    articles={blogPosts}*/}
-            {/*    getLink={(post) => `/blog/${post.category?.slug}/${post.slug}`}*/}
-            {/*/>*/}
-
-            {/* Zufällige Blog-Beiträge */}
             <PostsSection
-                title="Ausgewählte Beiträge"
-                caption="Entdecke weitere spannende Artikel"
-                articles={randomPosts}
+                title="Neueste Blog-Beiträge"
+                caption="Unsere frischesten Artikel und Tipps"
+                articles={blogPosts}
                 getLink={(post) => `/blog/${post.category?.slug}/${post.slug}`}
             />
+
+            {/* Zufällige Blog-Beiträge */}
+            {/*<PostsSection*/}
+            {/*    title="Ausgewählte Beiträge"*/}
+            {/*    caption="Entdecke weitere spannende Artikel"*/}
+            {/*    articles={randomPosts}*/}
+            {/*    getLink={(post) => `/blog/${post.category?.slug}/${post.slug}`}*/}
+            {/*/>*/}
 
             {/* Aktuelle News */}
             {/*<PostsSection*/}
