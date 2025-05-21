@@ -4,9 +4,7 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://personaltrainer-han
 import ContactSection from "./components/ContactSection";
 import ExperienceSection from "./components/ExperienceSection";
 import HeroSection from "./components/HeroSection";
-import ReasonsSection from "./components/ReasonSection";
 import ReviewsSection from "./components/ReviewsSection";
-import ServicesIconsSection from "./components/ServicesIconsSection";
 import ServicesSection from "./components/ServicesSection";
 import TeamSection from "./components/TeamSection";
 import BlogSection from "@/app/components/BlogSection";
