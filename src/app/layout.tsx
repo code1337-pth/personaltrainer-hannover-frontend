@@ -66,6 +66,9 @@ export const metadata = {
         canonical: siteUrl,
         languages: {de: siteUrl + "/"},
     },
+    verification: {
+        google: 'googlecc0bbac3746cb799'
+    }
 };
 
 export default async function RootLayout({children}: { children: React.ReactNode }) {
