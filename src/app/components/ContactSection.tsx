@@ -19,12 +19,12 @@ const contactSchema = z.object({
 
 type ContactFormData = z.infer<typeof contactSchema>
 
-export default function ContactSection({ id }: { id?: string }) {
+export default function ContactSection({id}: { id?: string }) {
     const {
         register,
         handleSubmit,
         reset,
-        formState: { errors, isSubmitting }
+        formState: {errors, isSubmitting}
     } = useForm<ContactFormData>({
         resolver: zodResolver(contactSchema),
     })
@@ -37,13 +37,14 @@ export default function ContactSection({ id }: { id?: string }) {
             const res = await fetch('/api/contact', {
                 method: 'POST',
                 body: JSON.stringify(data),
-                headers: { 'Content-Type': 'application/json' },
+                headers: {'Content-Type': 'application/json'},
             });
             if (res.ok) {
                 toast.success('Vielen Dank! Wir melden uns umgehend.');
                 reset()
             } else {
-                toast.error('Es ist ein Fehler aufgetreten. Bitte versuche es erneut oder kontaktiere uns alternativ über WhatsApp, Social Media oder telefonisch.');;
+                toast.error('Es ist ein Fehler aufgetreten. Bitte versuche es erneut oder kontaktiere uns alternativ über WhatsApp, Social Media oder telefonisch.');
+                ;
             }
         } catch (e) {
             if (process.env.NODE_ENV === "development") {
@@ -55,9 +56,8 @@ export default function ContactSection({ id }: { id?: string }) {
 
     return (
         <section
-            id={id}
+            id="contact-section"
             className="relative h-[960px] flex items-center justify-center bg-center bg-cover bg-no-repeat text-3xl"
-            style={{ backgroundImage: "url('/contact.webp')" }}
         >
             {/* Formular-Container */}
             <div className="relative z-10 m-5 p-5 sm:p-9 rounded-2xl max-w-lg w-full bg-[var(--contact-bg-color)]">
@@ -65,7 +65,7 @@ export default function ContactSection({ id }: { id?: string }) {
                 <p className="mb-6">Sichere dir dein unverbindliches Erstgespräch – wir melden uns umgehend.</p>
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-2">
                     {/* Honeypot-Feld unsichtbar */}
-                    <input type="text" {...register('honeypot')} className="hidden" />
+                    <input type="text" {...register('honeypot')} className="hidden"/>
 
                     <div>
                         <label htmlFor="name" className="block text-sm font-medium mb-1">Name</label>
@@ -107,7 +107,7 @@ export default function ContactSection({ id }: { id?: string }) {
                             id="message"
                             {...register('message', {
                                 required: 'Bitte gib eine Nachricht ein.',
-                                maxLength: { value: 2000, message: 'Maximal 2000 Zeichen erlaubt.' },
+                                maxLength: {value: 2000, message: 'Maximal 2000 Zeichen erlaubt.'},
                                 validate: value => !/<[^>]*>?/gm.test(value) || 'Kein HTML erlaubt.'
                             })}
                             placeholder="Deine Nachricht"

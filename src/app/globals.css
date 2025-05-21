@@ -15,6 +15,7 @@
 
   --contact-bg-color: var(--background);
   --contact-text-color: black;
+  --contact-image: url('/contact.webp');
 
   --alternative-bg-color: rgba(209, 209, 209, 0.24);
   --link-hover-bg-color: rgba(143, 143, 143, 0.24);
@@ -337,4 +338,15 @@ header {
   color: var(--foreground);
   padding: 1rem rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#contact-section {
+  background-image: var(--contact-image, url('/contact.webp'));
+  /* weitere Styles */
+}
+
+@media (max-width: 640px) {
+  #contact-section {
+    --contact-image: url('/contact-small.webp');
+  }
 }
