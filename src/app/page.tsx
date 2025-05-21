@@ -99,7 +99,7 @@ export default async function Home() {
                         "@context": "https://schema.org",
                         "@type": "LocalBusiness",
                         "name": "Markus Kaluza - Premium Personal Training + Team",
-                        "image": `${siteUrl}/personaltrainer-hannover-figure.svg`,
+                        "image": `${siteUrl}/markus-kaluza-tp.webp`,
                         "address": {
                             "@type": "PostalAddress",
                             "streetAddress": "Hannoversche Str. 82",
