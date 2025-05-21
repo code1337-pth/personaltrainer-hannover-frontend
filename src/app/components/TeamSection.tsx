@@ -2,6 +2,7 @@ import strapiCache, {CacheKey} from "@/lib/strapiCache";
 import React from "react";
 import TeamMemberCard from "@/app/components/TeamMemberCard";
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://personaltrainer-hannover.de";
+const strapiUrl = process.env.NEXT_PUBLIC_STRAPI_API_URL || "https://deine-strapi-url.de";
 
 
 export const dynamic = "force-dynamic";
@@ -20,7 +21,7 @@ export default async function TeamSection() {
         "image": member.image?.url
             ? member.image.url.startsWith("http")
                 ? member.image.url
-                : siteUrl + member.image.url
+                : strapiUrl + member.image.url
             : undefined,
         "sameAs": member.social?.map(s => s.url),
         "url": siteUrl
