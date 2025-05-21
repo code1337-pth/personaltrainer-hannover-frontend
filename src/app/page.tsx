@@ -70,12 +70,12 @@ export default async function Home() {
             <BlogSection/>
 
             {/* Neueste Blog-Beiträge */}
-            <PostsSection
-                title="Neueste Blog-Beiträge"
-                caption="Unsere frischesten Artikel und Tipps"
-                articles={blogPosts}
-                getLink={(post) => `/blog/${post.category?.slug}/${post.slug}`}
-            />
+            {/*<PostsSection*/}
+            {/*    title="Neueste Blog-Beiträge"*/}
+            {/*    caption="Unsere frischesten Artikel und Tipps"*/}
+            {/*    articles={blogPosts}*/}
+            {/*    getLink={(post) => `/blog/${post.category?.slug}/${post.slug}`}*/}
+            {/*/>*/}
 
             {/* Zufällige Blog-Beiträge */}
             <PostsSection
@@ -86,11 +86,11 @@ export default async function Home() {
             />
 
             {/* Aktuelle News */}
-            <PostsSection
-                title="Aktuelle News"
-                caption="Bleib auf dem Laufenden mit den letzten Meldungen"
-                articles={newsPosts}
-            />
+            {/*<PostsSection*/}
+            {/*    title="Aktuelle News"*/}
+            {/*    caption="Bleib auf dem Laufenden mit den letzten Meldungen"*/}
+            {/*    articles={newsPosts}*/}
+            {/*/>*/}
             {/* Unternehmensdaten */}
             <script
                 type="application/ld+json"
