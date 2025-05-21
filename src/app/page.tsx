@@ -22,24 +22,24 @@ export default async function Home() {
     const published = (allArticles as Article[]).filter(a => a.status === 'published');
 
     // 3) Die 3 neuesten News (category.slug === 'news')
-    const newsPosts = published
-        .filter(a => a.category?.slug === 'news')
-        .sort((a, b) => {
-            const dateA = new Date(a.published_date ?? a.publishedAt ?? a.createdAt!).getTime();
-            const dateB = new Date(b.published_date ?? b.publishedAt ?? b.createdAt!).getTime();
-            return dateB - dateA;
-        })
-        .slice(0, 3);
-
-    // 4) Die 3 neuesten Blog-Beiträge (ohne News)
-    const blogPosts = published
-        .filter(a => a.category?.slug !== 'news' && a.blog_article != false)
-        .sort((a, b) => {
-            const dateA = new Date(a.published_date ?? a.publishedAt ?? a.createdAt!).getTime();
-            const dateB = new Date(b.published_date ?? b.publishedAt ?? b.createdAt!).getTime();
-            return dateB - dateA;
-        })
-        .slice(0, 3);
+    // const newsPosts = published
+    //     .filter(a => a.category?.slug === 'news')
+    //     .sort((a, b) => {
+    //         const dateA = new Date(a.published_date ?? a.publishedAt ?? a.createdAt!).getTime();
+    //         const dateB = new Date(b.published_date ?? b.publishedAt ?? b.createdAt!).getTime();
+    //         return dateB - dateA;
+    //     })
+    //     .slice(0, 3);
+    //
+    // // 4) Die 3 neuesten Blog-Beiträge (ohne News)
+    // const blogPosts = published
+    //     .filter(a => a.category?.slug !== 'news' && a.blog_article != false)
+    //     .sort((a, b) => {
+    //         const dateA = new Date(a.published_date ?? a.publishedAt ?? a.createdAt!).getTime();
+    //         const dateB = new Date(b.published_date ?? b.publishedAt ?? b.createdAt!).getTime();
+    //         return dateB - dateA;
+    //     })
+    //     .slice(0, 3);
 
     // 5) Drei zufällige Blog-Beiträge (ohne News)
     const blogPool = published.filter(a => a.category?.slug !== 'news' && a.blog_article != false);
