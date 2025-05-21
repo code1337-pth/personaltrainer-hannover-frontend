@@ -65,9 +65,6 @@ export const metadata = {
     alternates: {
         canonical: siteUrl,
         languages: {de: siteUrl + "/"},
-    },
-    verification: {
-        google: 'bQUkqk1kKtBIUsbu4xVNx9NfbK8Q'
     }
 };
 
