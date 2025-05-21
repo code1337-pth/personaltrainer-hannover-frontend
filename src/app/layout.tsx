@@ -106,6 +106,22 @@ export default async function RootLayout({children}: { children: React.ReactNode
                 <Footer/>
                 <UtilityButtons/>
             </ThemeProvider>
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                    __html: JSON.stringify({
+                        "@context": "https://schema.org",
+                        "@type": "WebSite",
+                        "name": "Markus Kaluza - Premium Personal Training + Team",
+                        "url": siteUrl,
+                        "potentialAction": {
+                            "@type": "ContactAction",
+                            "target": `${siteUrl}/#contact`,
+                            "name": "Kontakt aufnehmen"
+                        }
+                    })
+                }}
+            />
             </body>
             </html>
         );
