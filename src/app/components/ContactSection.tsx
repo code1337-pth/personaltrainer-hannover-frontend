@@ -14,7 +14,7 @@ const contactSchema = z.object({
     email: z.string().email('Ungültige E-Mail-Adresse'),
     phone: z.string().min(1, 'Telefonnummer ist erforderlich'),
     message: z.string().min(1, 'Nachricht ist erforderlich'),
-    honeypot: z.string().optional(),
+    subject: z.string().optional(),
 })
 
 type ContactFormData = z.infer<typeof contactSchema>
@@ -31,7 +31,7 @@ export default function ContactSection({id}: { id?: string }) {
 
     const onSubmit = async (data: ContactFormData) => {
         // Honeypot-Feld gegen Spam
-        if (data.honeypot) return
+        if (data.subject) return
 
         try {
             const res = await fetch('/api/contact', {
@@ -65,7 +65,7 @@ export default function ContactSection({id}: { id?: string }) {
                 <p className="mb-6">Sichere dir dein unverbindliches Erstgespräch – wir melden uns umgehend.</p>
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-2">
                     {/* Honeypot-Feld unsichtbar */}
-                    <input type="text" {...register('honeypot')} className="hidden"/>
+                    <input type="text" {...register('subject')} className="hidden"/>
 
                     <div>
                         <label htmlFor="name" className="block text-sm font-medium mb-1">Name</label>

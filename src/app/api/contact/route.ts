@@ -2,14 +2,20 @@
 import {NextResponse} from 'next/server'
 import {z} from 'zod'
 import nodemailer from 'nodemailer'
+import {RateLimiterMemory} from 'rate-limiter-flexible'
 
-// API-Schema inkl. message-Feld und Längenbegrenzung
+// Rate-Limiter: 3 Anfragen pro 60 Minuten pro IP
+const rateLimiter = new RateLimiterMemory({
+    points: 3,
+    duration: 60 * 60, // 60 Minuten
+})
+
 const contactSchemaApi = z.object({
     name: z.string().min(1).max(100),
     email: z.string().email(),
     phone: z.string().optional(),
-    message: z.string().min(1).max(2000), // max. 2000 Zeichen
-    honeypot: z.string().optional(),
+    message: z.string().min(1).max(2000),
+    subject: z.string().optional(),
 })
 
 const allowedOrigin = process.env.SITE_URL || 'http://localhost:3000'
@@ -20,15 +26,25 @@ const responseHeaders = new Headers({
 })
 
 export async function OPTIONS() {
-    // Preflight-Request beantworten
     return new NextResponse(null, {status: 204, headers: responseHeaders})
 }
 
 export async function POST(request: Request) {
     try {
-        const origin = request.headers.get('origin')
-        const allowedOrigin = process.env.SITE_URL || 'http://localhost:3000'
+        // IP aus Header (ggf. anpassen, je nach Hosting)
+        const ip = request.headers.get('x-forwarded-for') || 'unknown'
 
+        // Rate-Limit prüfen
+        try {
+            await rateLimiter.consume(ip)
+        } catch {
+            return NextResponse.json(
+                {ok: false, error: 'Zu viele Anfragen. Bitte warte eine Stunde.'},
+                {status: 429, headers: responseHeaders}
+            )
+        }
+
+        const origin = request.headers.get('origin')
         if (origin !== allowedOrigin) {
             return NextResponse.json(
                 {ok: false, error: 'Origin nicht erlaubt'},
@@ -38,8 +54,8 @@ export async function POST(request: Request) {
         const json = await request.json()
         const data = contactSchemaApi.parse(json)
 
-        // Spam-Check
-        if (data.honeypot) {
+        // Spam-Check, subject = honeypot
+        if (data.subject) {
             return NextResponse.json({ok: true}, {status: 200, headers: responseHeaders})
         }
 
