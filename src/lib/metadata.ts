@@ -22,19 +22,19 @@ export interface ArticleMetadata {
 }
 
 /** SEO-/OG-Grunddaten aus dem Artikel holen */
-export function getArticleMetadata(article: Article): ArticleMetadata {
+export function getArticleMetadata(article: Article, canonicalUrl: string): ArticleMetadata {
     const imageUrl = article.featured_image?.url;
     return {
         title: article.seo?.metaTitle || article.title,
         description: article.seo?.metaDescription || '',
         keywords: article.seo?.metaKeywords?.join(', ') || '',
         alternates: {
-            canonical: article.seo?.canonicalUrl || '',
+            canonical: canonicalUrl,
         },
         openGraph: {
             title: article.seo?.metaTitle || article.title,
             description: article.seo?.metaDescription || '',
-            url: article.seo?.canonicalUrl || '',
+            url: canonicalUrl,
             images: imageUrl ? [{ url: imageUrl, alt: article.title }] : undefined,
         },
     };
@@ -93,7 +93,10 @@ export async function generateMetadata({
     );
     if (!article) return {};
 
-    const meta = getArticleMetadata(article);
+    // Dynamische Canonical-URL bauen
+    const canonicalUrl = `${metadataBase.origin}/${type}/${category}/${slug}`;
+
+    const meta = getArticleMetadata(article, canonicalUrl);
     return {
         metadataBase,
         title: meta.title,
