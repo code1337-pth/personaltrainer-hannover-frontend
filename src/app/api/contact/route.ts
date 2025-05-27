@@ -69,6 +69,7 @@ export async function POST(request: Request) {
                 {status: 400, headers: responseHeaders}
             )
         }
+        console.log(process.env.SMTP_PASS)
 
         // SMTP-Transport per Umgebungsvariablen konfigurieren
         const transporter = nodemailer.createTransport({
