@@ -32,12 +32,10 @@ export default async function HeroSection(props: HeroSectionProps) {
         </span>
                     </h1>
                     <p className="mt-6 text-sm sm:text-lg md:text-2xl">
-                        Mit unserer ganzheitlichen Trainingsstrategie begleiten wir dich auf dem Weg zu deinem Ziel.
-                        Unser erfahrenes Team erstellt für dich einen maßgeschneiderten Plan, der deine Muskulatur
-                        stärkt,
-                        deine Leistungsfähigkeit steigert und dir ein neues, beschwerdefreies Körpergefühl verleiht –
-                        für
-                        ein starkes und gesundes Leben.
+                        Mit unserer ganzheitlichen Trainingsstrategie begleiten wir dich auf dem Weg zu deinem Ziel. Das
+                        erfahrene Team von Markus Kaluza - Premium Personal Training in Hannover erstellt für dich einen
+                        maßgeschneiderten Plan, der deine Muskulatur stärkt, deine Leistungsfähigkeit steigert und dich
+                        körperlich sowie mental optimal auf ein langes, gesundes und beschwerdefreies Leben vorbereitet.
                     </p>
                     <p className="mt-4 text-lg sm:text-xl md:text-2xl">
                         Starte jetzt und entdecke dein volles Potenzial!
