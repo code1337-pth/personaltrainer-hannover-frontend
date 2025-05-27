@@ -92,9 +92,8 @@ export async function POST(request: Request) {
 
         return NextResponse.json({ok: true}, {headers: responseHeaders})
     } catch (error) {
-        if (process.env.NODE_ENV === "development") {
-            console.error(error);
-        }
+        console.error(error);
+
         return NextResponse.json({ok: false, error: 'Serverfehler'}, {status: 500, headers: responseHeaders})
     }
 }
